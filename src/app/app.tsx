@@ -1,11 +1,14 @@
-import { BrowserRouter } from 'react-router-dom';
-import { AppLayout } from './app-layout/app-layout';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Home } from './pages/home';
+import { LesSalles } from './pages/les-salles';
 
 export const App = () => {
   return (
     <BrowserRouter>
-      <Home />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/les-salles" element={<LesSalles />} />
+      </Routes>
     </BrowserRouter>
   );
 };

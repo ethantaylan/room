@@ -3,7 +3,7 @@ import { Footer } from './footer/footer';
 import { Header } from './header/header';
 
 export interface AppLayoutProps {
-  children: React.ReactElement;
+  children: React.ReactNode;
 }
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {

@@ -1,6 +1,5 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "playground-nx",
   "affected": {
     "defaultBase": "master"
   },

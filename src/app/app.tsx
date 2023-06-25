@@ -1,4 +1,11 @@
+import { BrowserRouter } from 'react-router-dom';
+import { AppLayout } from './app-layout/app-layout';
+import { Home } from './pages/home';
 
-export function App() {
-  return <h1 className="bg-sky-500">Hello world</h1>;
-}
+export const App = () => {
+  return (
+    <BrowserRouter>
+      <Home />
+    </BrowserRouter>
+  );
+};

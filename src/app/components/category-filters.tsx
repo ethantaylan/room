@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import { Fragment, useState } from 'react';
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import {
@@ -21,55 +7,30 @@ import {
   PlusIcon,
   Squares2X2Icon
 } from '@heroicons/react/20/solid';
+import { Select } from './select';
+import { RangeSlider } from './range-slider';
+import { DatePicker } from './date-picker';
 
 const sortOptions = [
-  { name: 'Most Popular', href: '#', current: true },
-  { name: 'Best Rating', href: '#', current: false },
-  { name: 'Newest', href: '#', current: false },
-  { name: 'Price: Low to High', href: '#', current: false },
-  { name: 'Price: High to Low', href: '#', current: false }
+  { name: 'Populaires', href: '#', current: true },
+  { name: 'Mieux notées', href: '#', current: false },
+  { name: 'Récentes', href: '#', current: false },
+  { name: 'Prix: croissant', href: '#', current: false },
+  { name: 'Prix: décroissant', href: '#', current: false }
 ];
 const subCategories = [
-  { name: 'Totes', href: '#' },
-  { name: 'Backpacks', href: '#' },
-  { name: 'Travel Bags', href: '#' },
-  { name: 'Hip Bags', href: '#' },
-  { name: 'Laptop Sleeves', href: '#' }
+  { name: 'Réunion', href: '#' },
+  { name: 'Bureau', href: '#' },
+  { name: 'Formation', href: '#' }
 ];
 const filters = [
   {
-    id: 'color',
-    name: 'Color',
+    id: 'ville',
+    name: 'Ville',
     options: [
-      { value: 'white', label: 'White', checked: false },
-      { value: 'beige', label: 'Beige', checked: false },
-      { value: 'blue', label: 'Blue', checked: true },
-      { value: 'brown', label: 'Brown', checked: false },
-      { value: 'green', label: 'Green', checked: false },
-      { value: 'purple', label: 'Purple', checked: false }
-    ]
-  },
-  {
-    id: 'category',
-    name: 'Category',
-    options: [
-      { value: 'new-arrivals', label: 'New Arrivals', checked: false },
-      { value: 'sale', label: 'Sale', checked: false },
-      { value: 'travel', label: 'Travel', checked: true },
-      { value: 'organization', label: 'Organization', checked: false },
-      { value: 'accessories', label: 'Accessories', checked: false }
-    ]
-  },
-  {
-    id: 'size',
-    name: 'Size',
-    options: [
-      { value: '2l', label: '2L', checked: false },
-      { value: '6l', label: '6L', checked: false },
-      { value: '12l', label: '12L', checked: false },
-      { value: '18l', label: '18L', checked: false },
-      { value: '20l', label: '20L', checked: false },
-      { value: '40l', label: '40L', checked: true }
+      { value: 'Paris', label: 'Paris', checked: false },
+      { value: 'Lyon', label: 'Lyon', checked: false },
+      { value: 'Marseille', label: 'Marseille', checked: true }
     ]
   }
 ];
@@ -210,10 +171,10 @@ export const CategoryFilters: React.FC<CategoryFiltersProps> = ({
           </Dialog>
         </Transition.Root>
 
-        <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <main className="mx-auto max-w-7xl">
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-24">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900">
-              New Arrivals
+              Nos salles
             </h1>
 
             <div className="flex items-center">
@@ -284,7 +245,6 @@ export const CategoryFilters: React.FC<CategoryFiltersProps> = ({
             <h2 id="products-heading" className="sr-only">
               Products
             </h2>
-
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
               <form className="hidden lg:block">
@@ -296,7 +256,6 @@ export const CategoryFilters: React.FC<CategoryFiltersProps> = ({
                     </li>
                   ))}
                 </ul>
-
                 {filters.map(section => (
                   <Disclosure
                     as="div"
@@ -354,12 +313,12 @@ export const CategoryFilters: React.FC<CategoryFiltersProps> = ({
                     )}
                   </Disclosure>
                 ))}
+                <Select className="border-b border-gray-200 py-6" />
+                <RangeSlider className="py-6" />
+                <label className="flex py-2">Période</label> <DatePicker />
               </form>
-
               {/* Product grid */}
-              <div className="lg:col-span-3">
-                <h1>{children}</h1>
-              </div>
+              <div className="lg:col-span-3">{children}</div>
             </div>
           </section>
         </main>

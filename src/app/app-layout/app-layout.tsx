@@ -8,10 +8,10 @@ export interface AppLayoutProps {
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   return (
-    <React.Fragment>
+    <div className='mx-auto sm:px-6 lg:px-8 max-w-7xl'>
       <Header />
       {children}
       <Footer />
-    </React.Fragment>
+    </div>
   );
 };

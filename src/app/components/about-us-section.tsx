@@ -1,4 +1,5 @@
 import React from 'react';
+import { NewsletterSection } from './newsletter-section';
 
 export const AboutUsSection: React.FC = () => {
   return (
@@ -38,15 +39,43 @@ export const AboutUsSection: React.FC = () => {
           <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
             <div className="mt-10 lg:mt-0">
               <span className="text-primary mb-2 block text-lg font-semibold">
-                Why Choose Us
+                Pourquoi nous ?
               </span>
               <h2 className="text-dark mb-8 text-3xl font-bold sm:text-4xl">
-                Make your customers happy by giving services.
+              Notre objéctif: La réussite de votre meeting.
               </h2>
               <p className="text-body-color mb-8 text-base">
-                It is a long established fact that a reader will be distracted
-                by the readable content of a page when looking at its layout.
-                The point of using Lorem Ipsum is that it has a more-or-less.
+                Chez ROOM, nous comprenons l'importance d'un espace inspirant et
+                fonctionnel pour des réunions réussies. Nous nous efforçons de
+                vous offrir des salles de réunion de qualité supérieure qui
+                répondent à vos besoins professionnels et stimulent la
+                productivité de votre équipe.
+              </p>
+              <br />
+              <p className="text-body-color mb-8 text-base">
+                Notre équipe expérimentée se consacre à fournir un service
+                impeccable, en veillant à ce que chaque détail soit pris en
+                compte pour rendre votre expérience chez ROOM inoubliable. Que
+                vous ayez besoin d'une salle de réunion pour une petite réunion
+                d'équipe, une présentation importante ou une séance de
+                formation, nous avons l'espace idéal pour vous.
+              </p>
+              <br />
+              <p className="text-body-color mb-8 text-base">
+                Ce qui distingue ROOM des autres entreprises de location de
+                salles de réunion, c'est notre engagement envers la qualité.
+                Chacune de nos salles est conçue avec soin, offrant un
+                environnement moderne, confortable et équipé des dernières
+                technologies. De plus, nous veillons à ce que nos espaces soient
+                constamment entretenus pour répondre aux normes les plus élevées
+                de propreté et de fonctionnalité.
+              </p>
+              <br />
+              <p className="text-body-color mb-8 text-base">
+                Découvrez dès maintenant nos salles de réunion exceptionnelles
+                et réservez votre espace chez ROOM. Nous sommes impatients de
+                vous accueillir et de vous offrir une expérience de location de
+                salle de réunion incomparable.
               </p>
               <a
                 href="/#"

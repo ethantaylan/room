@@ -8,11 +8,11 @@ const links = [
 const stats = [
   { name: 'Salles disponibles', value: '20+' },
   { name: 'Clients satisfaits', value: '500+' },
-  { name: "Heures d'utilisation", value: "24/7" },
+  { name: "Heures d'utilisation", value: '24/7' },
   { name: 'Support client', value: '24/7' }
 ];
 
-export const Section = () => {
+export const LesSallesSection = () => {
   return (
     <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32">
       <img

@@ -1,15 +1,15 @@
 import React from 'react';
 import { CategoryFilters } from '../components/category-filters';
-import { ProductCard } from '../components/product-card';
 import { AppLayout } from '../app-layout/app-layout';
-import { LesSallesSection } from '../components/hero-section';
+import { LesSallesSection } from '../components/les-salles-section';
+import { GetSalles } from '../services/salles';
 
 export const LesSalles: React.FC = () => {
   return (
     <AppLayout>
       <LesSallesSection />
       <CategoryFilters>
-        <ProductCard />
+        <GetSalles />
       </CategoryFilters>
     </AppLayout>
   );

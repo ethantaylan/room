@@ -10,7 +10,6 @@ export const BannerSection: React.FC = () => {
         src={BannerImg}
         alt="Women with smartphone and pen in a meeting room"
       />
-      <GetCommandes />
     </div>
   );
 };

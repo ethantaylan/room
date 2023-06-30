@@ -1,24 +1,33 @@
-export class Avis {
+export interface AvisResponse {
   id_avis: number;
-  id_membre: number | null;
-  id_salle: number | null;
+  id_membre: number;
+  id_salle: number;
   commentaire: string;
-  note: number | null;
-  date_enregistrement: string | null;
+  note: string;
+  date_enregistrement: string;
+}
 
-  constructor(
-    id_avis: number,
-    id_membre: number | null,
-    id_salle: number | null,
-    commentaire: string,
-    note: number | null,
-    date_enregistrement: string | null
-  ) {
-    this.id_avis = id_avis;
-    this.id_membre = id_membre;
-    this.id_salle = id_salle;
+export class Avis {
+  idAvis: number;
+  idMembre: number | null;
+  idSalle: number | null;
+  commentaire: string;
+  note: string | null;
+  dateEnregistrement: string | null;
+
+  constructor({
+    id_avis,
+    id_membre,
+    id_salle,
+    commentaire,
+    note,
+    date_enregistrement
+  }: AvisResponse) {
+    this.idAvis = id_avis;
+    this.idMembre = id_membre;
+    this.idSalle = id_salle;
     this.commentaire = commentaire;
     this.note = note;
-    this.date_enregistrement = date_enregistrement;
+    this.dateEnregistrement = date_enregistrement;
   }
 }

@@ -21,24 +21,24 @@ const posts = [
     title: "Les avantages d'une salle de réunion moderne",
     href: '#',
     description:
-      'Découvrez comment une salle de réunion moderne peut stimuler la créativité, favoriser la collaboration et améliorer l\'expérience de vos réunions professionnelles.',
+      "Découvrez comment une salle de réunion moderne peut stimuler la créativité, favoriser la collaboration et améliorer l'expérience de vos réunions professionnelles.",
     date: 'Avr 12, 2023',
     datetime: '2023-04-12',
     category: { title: 'Salle de réunion', href: '#' },
     author: {
       name: 'Alexandre Dupont',
-      role: 'Architecte d\'intérieur',
+      role: "Architecte d'intérieur",
       href: '#',
       imageUrl:
-        'https://images.pexels.com/photos/415326/pexels-photo-415326.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
+        'https://images.pexels.com/photos/415326/pexels-photo-415326.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    }
   },
   {
     id: 3,
     title: 'Optimisez vos réunions avec la technologie',
     href: '#',
     description:
-      'Découvrez comment l\'utilisation de la technologie lors de vos réunions peut améliorer l\'efficacité, la collaboration et l\'engagement des participants. Explorez les outils et les solutions adaptés à vos besoins.',
+      "Découvrez comment l'utilisation de la technologie lors de vos réunions peut améliorer l'efficacité, la collaboration et l'engagement des participants. Explorez les outils et les solutions adaptés à vos besoins.",
     date: 'Mai 5, 2023',
     datetime: '2023-05-05',
     category: { title: 'Technologie', href: '#' },
@@ -47,9 +47,9 @@ const posts = [
       role: 'Expert en solutions technologiques',
       href: '#',
       imageUrl:
-        'https://images.pexels.com/photos/1685114/pexels-photo-1685114.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
-    },
-  },
+        'https://images.pexels.com/photos/1685114/pexels-photo-1685114.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    }
+  }
 ];
 
 export const BlogSection: React.FC = () => {
@@ -97,7 +97,7 @@ export const BlogSection: React.FC = () => {
                 <img
                   src={post.author.imageUrl}
                   alt=""
-                  className="h-10 w-10 rounded-full object-cover bg-gray-50"
+                  className="h-10 w-10 rounded-full bg-gray-50 object-cover"
                 />
                 <div className="text-sm leading-6">
                   <p className="font-semibold text-gray-900">

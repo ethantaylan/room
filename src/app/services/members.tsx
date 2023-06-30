@@ -36,7 +36,7 @@ export class Members {
 
 export const GetMembers: React.FC = () => {
   const { isLoading, error, data } = useQuery('membres', () =>
-    fetch('http://localhost/membres.php').then(res => res.json())
+    fetch('http://localhost:8888/membres.php').then(res => res.json())
   );
 
   if (isLoading) return 'Loading...';

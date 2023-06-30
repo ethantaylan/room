@@ -13,16 +13,17 @@ const footerData = [
   {
     sectionTitle: 'Réseaux sociaux',
     links: [
-      { title: 'Follow us', link: 'https://github.com/themesberg/flowbite' },
-      { title: 'Github', link: 'https://discord.gg/4eeurUVvTy' }
+      { title: 'LinkedIn', link: '/' },
+      { title: 'Instagram', link: '/' },
+      { title: 'Facebook', link: '/' }
     ]
   },
   {
     sectionTitle: 'Aide',
     links: [
-      { title: 'Legal', link: '#' },
-      { title: 'Privacy Policy', link: '#' },
-      { title: 'Terms & Conditions', link: '#' }
+      { title: 'Support 24/7', link: '#' },
+      { title: 'Email', link: '#' },
+      { title: '+ 001 01 01 01 01', link: '#' }
     ]
   }
 ];
@@ -50,7 +51,11 @@ export const Footer: React.FC = () => {
                 <ul className="text-gray-600 dark:text-gray-400">
                   {section.links.map((link, linkIndex) => (
                     <li className="mb-4" key={linkIndex}>
-                      <NavLink to={link.link} onClick={toTop} className="hover:underline">
+                      <NavLink
+                        to={link.link}
+                        onClick={toTop}
+                        className="hover:underline"
+                      >
                         {link.title}
                       </NavLink>
                     </li>

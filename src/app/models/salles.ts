@@ -1,5 +1,5 @@
 export class Salles {
-  idSalle: number;
+  id_salle: number;
   titre: string;
   description: string;
   photo: string | null;
@@ -11,7 +11,7 @@ export class Salles {
   categorie: 'réunion' | 'bureau' | 'formation';
 
   constructor(
-    idSalle: number,
+    id_salle: number,
     titre: string,
     description: string,
     photo: string | null,
@@ -22,7 +22,7 @@ export class Salles {
     capacite: number,
     categorie: 'réunion' | 'bureau' | 'formation'
   ) {
-    this.idSalle = idSalle;
+    this.id_salle = id_salle;
     this.titre = titre;
     this.description = description;
     this.photo = photo;

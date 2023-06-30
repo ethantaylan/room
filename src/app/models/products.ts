@@ -1,6 +1,6 @@
 export class Product {
     idProduit: number;
-    idSalle: number;
+    id_salle: number;
     dateArrivee: string;
     dateDepart: string;
     prix: number;
@@ -15,7 +15,7 @@ export class Product {
       etat: string
     ) {
       this.idProduit = id_produit;
-      this.idSalle = id_salle;
+      this.id_salle = id_salle;
       this.dateArrivee = date_arrivee;
       this.dateDepart = date_depart;
       this.prix = prix;

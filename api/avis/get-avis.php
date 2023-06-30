@@ -43,27 +43,5 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         echo "No avis found.";
     }
 } 
-// elseif ($_SERVER["REQUEST_METHOD"] === "POST") {
-//     // Retrieve the data from the POST request
-//     $id_membre = $_POST["id_membre"];
-//     $id_avis = $_POST["id_avis"];
-//     $id_salle = $_POST["id_salle"];
-//     $commentaire = $_POST["commentaire"];
-//     $note = $_POST["note"];
-//     $date_enregistrement = $_POST["date_enregistrement"];
-
-//     // Insert the new avis into the database
-//     $sql = "INSERT INTO avis (id_membre, id_salle, commentaire, note, date_enregistrement)
-//             VALUES ($id_membre, $id_salle, '$commentaire', $note, '$date_enregistrement')";
-
-//     if ($conn->query($sql) === TRUE) {
-//         echo "New avis added successfully.";
-//     } else {
-//         echo "Error adding avis: " . $conn->error;
-//         echo ("Request Method: " . $_SERVER["REQUEST_METHOD"]);
-//         echo ("SQL Query: " . $sql);
-//     }
-// }
-
 // Close the database connection
 $conn->close();

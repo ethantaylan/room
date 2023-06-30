@@ -1,10 +1,10 @@
 import { useQuery } from 'react-query';
 
 export class Members {
-  idMembre: number;
+  id_membre: number;
   pseudo: string;
   civilite: string;
-  dateEnregistrement: string;
+  date_enregistrement: string;
   email: string;
   mdp: string;
   nom: string;
@@ -22,10 +22,10 @@ export class Members {
     prenom: string,
     statut: string
   ) {
-    this.idMembre = id_membre;
+    this.id_membre = id_membre;
     this.pseudo = pseudo;
     this.civilite = civilite;
-    this.dateEnregistrement = date_enregistrement;
+    this.date_enregistrement = date_enregistrement;
     this.email = email;
     this.mdp = mdp;
     this.nom = nom;

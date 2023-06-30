@@ -1,19 +1,31 @@
 import React from 'react';
 import { useAxios } from '../hooks/use-axios';
-import { getAvisAxios, postAvis } from '../services/avis';
+import { deleteAvis, getAvis, postAvis } from '../services/avis';
+import { Avis } from '../models/avis';
 
 export const PostAvis: React.FC = () => {
   const [comment, setComment] = React.useState<string>();
-
-  const getAvis = useAxios(getAvisAxios());
-  console.log(getAvis.response);
+  const [idAvis, setIdAvis] = React.useState<number>();
 
   const postAvisFetch = useAxios(
     postAvis(comment || '', '2016-06-15 14:35:00', 4, 1, 1, 4),
     false
   );
 
-  console.log(comment);
+  const getAvisFetch = useAxios<Avis[]>(getAvis(), true);
+  const deleteAvisFetch = useAxios<Avis>(deleteAvis(idAvis || 0), false);
+
+  const handleDeleteAvis = (idAvis: number) => {
+    setIdAvis(idAvis); // Set the id_avis before executing the delete request
+    deleteAvisFetch.executeFetch();
+  };
+
+  React.useEffect(() => {
+    getAvisFetch.executeFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [postAvisFetch.response]);
+
+  console.log(getAvisFetch.response);
 
   return (
     <div className="mb-96">
@@ -28,11 +40,26 @@ export const PostAvis: React.FC = () => {
       <button
         onClick={() => {
           postAvisFetch.executeFetch();
-          getAvis.executeFetch();
         }}
       >
         send avis
       </button>
+      {getAvisFetch.response && getAvisFetch.response.length > 0
+        ? getAvisFetch.response.map((avis: Avis, index: number) => (
+            <div className="flex" key={index}>
+              <h1 className="me-3">{avis.commentaire}</h1>
+              <button
+                onClick={() => {
+                  handleDeleteAvis(avis.id_avis);
+                  console.log('clicked');
+                }}
+                className="text-red-600"
+              >
+                delete avis
+              </button>
+            </div>
+          ))
+        : []}
     </div>
   );
 };

@@ -1,27 +1,34 @@
 import { AxiosRequestConfig } from 'axios';
 
-export const getAvisAxios = (): AxiosRequestConfig => ({
-  url: 'http://localhost:8888/avis.php',
+export const getAvis = (): AxiosRequestConfig => ({
+  url: 'http://localhost/avis/get-avis.php',
   method: 'GET'
 });
 
 export const postAvis = (
   comment: string,
   date: string,
-  idAvis: number,
-  idMembre: number,
-  idSalle: number,
+  id_avis: number,
+  id_membre: number,
+  id_salle: number,
   note: number
 ): AxiosRequestConfig => ({
-  url: 'http://localhost:8888/post-avis.php',
+  url: 'http://localhost/avis/post-avis.php',
   method: 'POST',
   data: {
-    id_membre: idMembre,
-    id_avis: idAvis,
-    id_salle: idSalle,
+    id_membre: id_membre,
+    id_avis: id_avis,
+    id_salle: id_salle,
     commentaire: comment,
     note: note,
     date_enregistrement: date
   }
 });
 
+export const deleteAvis = (id: number): AxiosRequestConfig => ({
+  url: 'http://localhost/avis/delete-avis.php',
+  method: 'DELETE',
+  data: {
+    id_avis: id
+  }
+});

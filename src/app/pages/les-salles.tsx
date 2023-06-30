@@ -1,7 +1,7 @@
 import React from 'react';
-import { CategoryFilters } from '../components/category-filters';
+import { CategoryFilters } from '../components/les-salles/category-filters';
 import { AppLayout } from '../app-layout/app-layout';
-import { LesSallesSection } from '../components/les-salles-section';
+import { LesSallesSection } from '../components/les-salles/les-salles-section';
 import { GetSalles } from '../services/salles';
 
 export const LesSalles: React.FC = () => {

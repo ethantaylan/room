@@ -1,6 +1,6 @@
 import React from 'react';
 import BannerImg from '../../assets/banner.jpg';
-import { GetCommandes } from '../services/commandes';
+import { GetCommandes } from '../../services/commandes';
 
 export const BannerSection: React.FC = () => {
   return (

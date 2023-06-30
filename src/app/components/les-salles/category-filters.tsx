@@ -7,7 +7,7 @@ import {
   PlusIcon,
   Squares2X2Icon
 } from '@heroicons/react/20/solid';
-import { Select } from './select';
+import { Select } from '../generic-components/select';
 import { RangeSlider } from './range-slider';
 import { DatePicker } from './date-picker';
 

@@ -22,14 +22,12 @@ export class Commande {
 
 export const GetCommandes: React.FC = () => {
   const { isLoading, error, data } = useQuery('commandes', () =>
-    fetch('http://localhost/commandes.php').then(res => res.json())
+    fetch('http://localhost:8888/commandes/commandes.php').then(res => res.json())
   );
 
   if (isLoading) return <div>Loading...</div>;
 
   if (error) return <div>An error has occurred</div>;
-
-  console.log(data);
 
   return (
     <ul>

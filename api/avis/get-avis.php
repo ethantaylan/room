@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         // Display the results in JSON format
         echo json_encode($avis);
     } else {
-        echo "No avis found.";
+        echo json_encode([]);        
     }
 } 
 // Close the database connection

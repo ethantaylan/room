@@ -1,6 +1,6 @@
 <?php
 
-header("Access-Control-Allow-Origin: http://localhost:4200");
+header("Access-Control-Allow-Origin: http://localhost:8888:4200");
 // Connexion à la base de données
 $servername = "localhost";
 $username = "root";

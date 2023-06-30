@@ -3,7 +3,7 @@ import { Salles } from '../models/salles';
 
 export const GetSalles: React.FC = () => {
   const { isLoading, error, data } = useQuery('salles', () =>
-    fetch('http://localhost:8888/salles.php').then(res => res.json())
+    fetch('http://localhost:8888/salles/salles.php').then(res => res.json())
   );
 
   if (isLoading) return 'Loading...';

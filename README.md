@@ -6,7 +6,7 @@
 
 ## Development server
 
-Run `nx serve playground-nx` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+Run `nx serve playground-nx` for a dev server. Navigate to http://localhost:8888:4200/. The app will automatically reload if you change any of the source files.
 
 ## Understand this workspace
 

@@ -33,15 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
     if (isset($requestData['id_avis'])) {
         $id_avis = $requestData['id_avis'];
 
-        // Prepare and execute the SQL statement
-        $stmt = $conn->prepare("DELETE FROM avis WHERE id_avis = id_avis");
-        $stmt->bind_param("i", $id_avis);
-        $stmt->execute();
-
-        // Check the affected rows to determine if the deletion was successful
-        if ($stmt->affected_rows > 0) {
+        $sql = "DELETE FROM avis WHERE id_avis = $id_avis";
+        
+        if ($conn->query($sql) === TRUE) {
             // Return a success message
-            echo json_encode(array("message" => "Avis deleted successfully"));
+            echo json_encode(array("message" => "Avis deleted successfully"), 204);
         } else {
             // Return an error message if the avis does not exist
             echo json_encode(array("message" => "Avis not found"));

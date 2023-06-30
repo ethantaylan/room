@@ -17,15 +17,16 @@ export const PostAvis: React.FC = () => {
 
   const handleDeleteAvis = (idAvis: number) => {
     setIdAvis(idAvis); // Set the id_avis before executing the delete request
-    deleteAvisFetch.executeFetch();
   };
+
+  React.useEffect(() => {
+    idAvis && deleteAvisFetch.executeFetch();
+  }, [idAvis]);
 
   React.useEffect(() => {
     getAvisFetch.executeFetch();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [postAvisFetch.response]);
-
-  console.log(getAvisFetch.response);
+  }, [deleteAvisFetch.response, postAvisFetch.response]);
 
   return (
     <div className="mb-96">
@@ -44,22 +45,19 @@ export const PostAvis: React.FC = () => {
       >
         send avis
       </button>
-      {getAvisFetch.response && getAvisFetch.response.length > 0
-        ? getAvisFetch.response.map((avis: Avis, index: number) => (
-            <div className="flex" key={index}>
-              <h1 className="me-3">{avis.commentaire}</h1>
-              <button
-                onClick={() => {
-                  handleDeleteAvis(avis.id_avis);
-                  console.log('clicked');
-                }}
-                className="text-red-600"
-              >
-                delete avis
-              </button>
-            </div>
-          ))
-        : []}
+      {getAvisFetch.response?.map((avis: Avis, index: number) => (
+        <div className="flex" key={index}>
+          <h1 className="me-3">{avis.commentaire}</h1>
+          <button
+            onClick={() => {
+              handleDeleteAvis(avis.id_avis);
+            }}
+            className="text-red-600"
+          >
+            delete avis
+          </button>
+        </div>
+      ))}
     </div>
   );
 };

@@ -2,14 +2,12 @@ import { useQuery } from 'react-query';
 
 export const GetProducts: React.FC = () => {
   const { isLoading, error, data } = useQuery('products', () =>
-    fetch('http://localhost/products.php').then(res => res.json())
+    fetch('http://localhost:8888/products/products.php').then(res => res.json())
   );
 
   if (isLoading) return 'Loading...';
 
   if (error) return 'An error has occurred';
-
-  console.log(data);
 
   return (
     <ul>

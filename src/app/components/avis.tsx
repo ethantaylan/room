@@ -22,6 +22,7 @@ export const PostAvis: React.FC = () => {
 
   React.useEffect(() => {
     idAvis && deleteAvisFetch.executeFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [idAvis]);
 
   React.useEffect(() => {
@@ -47,6 +48,7 @@ export const PostAvis: React.FC = () => {
       <button
         onClick={() => {
           postAvisFetch.executeFetch();
+          setComment('')
         }}
       >
         send avis

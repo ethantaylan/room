@@ -1,18 +1,27 @@
-import { useQuery } from 'react-query';
+import React from 'react';
+import { useAxios } from '../hooks/use-axios';
+import { Produit } from '../models/products';
 
 export const GetProducts: React.FC = () => {
-  const { isLoading, error, data } = useQuery('products', () =>
-    fetch('http://localhost:8888/products/products.php').then(res => res.json())
-  );
+  const [products, setProducts] = React.useState<Produit[]>([]);
+  const getProducts = useAxios<[]>({
+    url: 'http://localhost:8888/products/get_products.php',
+    method: 'GET'
+  });
 
-  if (isLoading) return 'Loading...';
+  React.useEffect(() => {
+    getProducts.response &&
+      setProducts(getProducts.response.map(produit => new Produit(produit)));
+  }, [getProducts.response]);
 
-  if (error) return 'An error has occurred';
+  if (getProducts.loading) return 'Loading...';
+
+  if (getProducts.error) return 'An error has occurred';
 
   return (
     <ul>
-      {data.map((product: any, index: number) => (
-        <li key={index}>{product.date_arrivee}</li>
+      {products.map((product: Produit, index: number) => (
+        <li key={index}>{product.dateArrivee}</li>
       ))}
     </ul>
   );

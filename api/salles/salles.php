@@ -1,6 +1,12 @@
 <?php
 
-header("Access-Control-Allow-Origin: http://localhost:8888:4200");
+header("Access-Control-Allow-Origin: *");
+
+// Allow the specific headers required for the request
+header("Access-Control-Allow-Headers: Content-Type");
+
+// Allow the specific HTTP methods required for the request
+header("Access-Control-Allow-Methods: POST, GET");
 
 // Connexion à la base de données
 $servername = "localhost";

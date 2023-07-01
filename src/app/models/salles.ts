@@ -1,3 +1,18 @@
+type Categorie = 'réunion' | 'bureau' | 'formation';
+
+export interface SalleResponse {
+  id_salle: number;
+  titre: string;
+  description: string;
+  photo: string;
+  pays: string;
+  ville: string;
+  adresse: string;
+  cp: number;
+  capacite: number;
+  categorie: Categorie;
+}
+
 export class Salles {
   id_salle: number;
   titre: string;
@@ -8,20 +23,20 @@ export class Salles {
   adresse: string;
   cp: number;
   capacite: number;
-  categorie: 'réunion' | 'bureau' | 'formation';
+  categorie: Categorie;
 
-  constructor(
-    id_salle: number,
-    titre: string,
-    description: string,
-    photo: string | null,
-    pays: string,
-    ville: string,
-    adresse: string,
-    cp: number,
-    capacite: number,
-    categorie: 'réunion' | 'bureau' | 'formation'
-  ) {
+  constructor({
+    id_salle,
+    titre,
+    description,
+    photo,
+    pays,
+    ville,
+    adresse,
+    cp,
+    capacite,
+    categorie
+  }: SalleResponse) {
     this.id_salle = id_salle;
     this.titre = titre;
     this.description = description;

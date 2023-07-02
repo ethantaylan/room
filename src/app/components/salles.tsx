@@ -2,6 +2,7 @@ import React from 'react';
 import { useAxios } from '../hooks/use-axios';
 import { Salle, SalleResponse } from '../models/salles';
 import { getSalles } from '../services/salles/index';
+import { NavLink } from 'react-router-dom';
 
 export const Salles: React.FC = () => {
   const [salles, setSalles] = React.useState<Salle[]>([]);
@@ -32,10 +33,12 @@ export const Salles: React.FC = () => {
                 <div className="w-full">
                   <div className="flex w-full justify-between">
                     <h3 className="text-sm text-gray-700">
-                      <a href={'/'}>
+                      {/* MODAL TO SHOW THE PRODUCT HERE */}
+
+                      <NavLink to={'/les-salles'}>
                         <span aria-hidden="true" className="absolute inset-0" />
                         {salle.titre}
-                      </a>
+                      </NavLink>
                     </h3>
                     <p className="whitespace-nowrap text-sm font-medium text-gray-900">
                       {salle.titre}

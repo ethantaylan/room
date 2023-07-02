@@ -1,8 +1,10 @@
+import { NavLink } from 'react-router-dom';
+
 const links = [
-  { name: 'Nos salles', href: '#' },
-  { name: 'Services supplémentaires', href: '#' },
-  { name: 'Témoignages clients', href: '#' },
-  { name: 'Contactez-nous', href: '#' }
+  { name: 'Nos salles', href: '/les-salles' },
+  { name: 'Services supplémentaires', href: '/' },
+  { name: 'Témoignages clients', href: '/qui-sommes-nous' },
+  { name: 'Contactez-nous', href: '/contact' }
 ];
 
 const stats = [
@@ -34,9 +36,9 @@ export const LesSallesSection = () => {
         <div className="mx-auto mt-10 max-w-2xl lg:mx-0 lg:max-w-none">
           <div className="grid grid-cols-1 gap-x-8 gap-y-6 text-base font-semibold leading-7 text-white sm:grid-cols-2 md:flex lg:gap-x-10">
             {links.map(link => (
-              <a key={link.name} href={link.href}>
+              <NavLink key={link.name} to={link.href}>
                 {link.name} <span aria-hidden="true">&rarr;</span>
-              </a>
+              </NavLink>
             ))}
           </div>
           <dl className="mt-16 grid grid-cols-1 gap-8 sm:mt-20 sm:grid-cols-2 lg:grid-cols-4">

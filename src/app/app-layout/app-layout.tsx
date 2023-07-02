@@ -8,7 +8,7 @@ export interface AppLayoutProps {
 
 export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   return (
-    <div className='mx-auto sm:px-6 lg:px-8 max-w-7xl'>
+    <div className="mx-auto h-full max-w-7xl sm:px-6 lg:px-8">
       <Header />
       {children}
       <Footer />

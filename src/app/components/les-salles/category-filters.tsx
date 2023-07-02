@@ -10,6 +10,7 @@ import {
 import { Select } from '../generic-components/select';
 import { RangeSlider } from './range-slider';
 import { DatePicker } from './date-picker';
+import { NavLink } from 'react-router-dom';
 
 const sortOptions = [
   { name: 'Populaires', href: '#', current: true },
@@ -100,9 +101,12 @@ export const CategoryFilters: React.FC<CategoryFiltersProps> = ({
                     <ul className="px-2 py-3 font-medium text-gray-900">
                       {subCategories.map(category => (
                         <li key={category.name}>
-                          <a href={category.href} className="block px-2 py-3">
+                          <NavLink
+                            to={category.href}
+                            className="block px-2 py-3"
+                          >
                             {category.name}
-                          </a>
+                          </NavLink>
                         </li>
                       ))}
                     </ul>
@@ -252,7 +256,7 @@ export const CategoryFilters: React.FC<CategoryFiltersProps> = ({
                 <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories.map(category => (
                     <li key={category.name}>
-                      <a href={category.href}>{category.name}</a>
+                      <NavLink to={category.href}>{category.name}</NavLink>
                     </li>
                   ))}
                 </ul>

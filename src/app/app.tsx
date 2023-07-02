@@ -9,6 +9,7 @@ export const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/accueil" element={<Home />} />
         <Route path="/les-salles" element={<LesSalles />} />
         <Route path="/qui-sommes-nous" element={<AboutUs />} />

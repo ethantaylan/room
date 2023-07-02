@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.5
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jun 30, 2023 at 04:31 PM
--- Server version: 5.7.24
--- PHP Version: 7.4.1
+-- Hôte : localhost:8889
+-- Généré le : dim. 02 juil. 2023 à 09:32
+-- Version du serveur : 5.7.39
+-- Version de PHP : 7.4.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -19,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `salles`
+-- Base de données : `salles`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `avis`
+-- Structure de la table `avis`
 --
 
 CREATE TABLE `avis` (
@@ -40,7 +39,7 @@ CREATE TABLE `avis` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `commandes`
+-- Structure de la table `commandes`
 --
 
 CREATE TABLE `commandes` (
@@ -51,7 +50,7 @@ CREATE TABLE `commandes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `commandes`
+-- Déchargement des données de la table `commandes`
 --
 
 INSERT INTO `commandes` (`id_commande`, `id_membre`, `id_produit`, `date_enregistrement`) VALUES
@@ -62,7 +61,7 @@ INSERT INTO `commandes` (`id_commande`, `id_membre`, `id_produit`, `date_enregis
 -- --------------------------------------------------------
 
 --
--- Table structure for table `membres`
+-- Structure de la table `membres`
 --
 
 CREATE TABLE `membres` (
@@ -78,7 +77,7 @@ CREATE TABLE `membres` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `membres`
+-- Déchargement des données de la table `membres`
 --
 
 INSERT INTO `membres` (`id_membre`, `pseudo`, `mdp`, `nom`, `prenom`, `email`, `civilite`, `statut`, `date_enregistrement`) VALUES
@@ -89,32 +88,31 @@ INSERT INTO `membres` (`id_membre`, `pseudo`, `mdp`, `nom`, `prenom`, `email`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `produits`
+-- Structure de la table `produits`
 --
 
 CREATE TABLE `produits` (
   `id_produit` int(3) NOT NULL,
-  `id_salle` int(3) DEFAULT NULL,
   `date_arrivee` datetime DEFAULT NULL,
   `date_depart` datetime DEFAULT NULL,
+  `prix` int(3) DEFAULT NULL,
   `etat` enum('libre','reservation') DEFAULT NULL,
-  `prix` int(3) NOT NULL,
-  `id_prix` int(11) DEFAULT NULL
+  `id_salle` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `produits`
+-- Déchargement des données de la table `produits`
 --
 
-INSERT INTO `produits` (`id_produit`, `id_salle`, `date_arrivee`, `date_depart`, `etat`, `prix`, `id_prix`) VALUES
-(1, NULL, '2016-11-22 09:00:00', '2016-11-27 09:00:00', 'libre', 700, 0),
-(2, NULL, '2016-11-29 09:00:00', '2016-12-03 19:00:00', 'libre', 1200, 0),
-(3, NULL, '2016-11-29 09:00:00', '2016-12-03 19:00:00', 'libre', 880, 0);
+INSERT INTO `produits` (`id_produit`, `date_arrivee`, `date_depart`, `prix`, `etat`, `id_salle`) VALUES
+(1, '2016-11-22 09:00:00', '2016-11-27 09:00:00', 1200, 'libre', 1),
+(2, '2016-11-29 09:00:00', '2016-12-03 19:00:00', 990, 'libre', 2),
+(3, '2016-11-29 09:00:00', '2016-12-03 19:00:00', 880, 'libre', 3);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `salles`
+-- Structure de la table `salles`
 --
 
 CREATE TABLE `salles` (
@@ -127,26 +125,24 @@ CREATE TABLE `salles` (
   `adresse` varchar(50) DEFAULT NULL,
   `cp` int(5) DEFAULT NULL,
   `capacite` int(3) DEFAULT NULL,
-  `categorie` enum('réunion','bureau','formation') DEFAULT NULL,
-  `prix` int(3) NOT NULL,
-  `id_prix` int(11) DEFAULT NULL
+  `categorie` enum('réunion','bureau','formation') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `salles`
+-- Déchargement des données de la table `salles`
 --
 
-INSERT INTO `salles` (`id_salle`, `titre`, `description`, `photo`, `pays`, `ville`, `adresse`, `cp`, `capacite`, `categorie`, `prix`, `id_prix`) VALUES
-(1, 'Cézanne', 'Cette salle sera parfaite pour vos réunions d\'entreprise', 'https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'France', 'Paris', '30 rue mademoiselle', 75015, 30, 'réunion', 0, 0),
-(2, 'Mozart ', 'Cette salle vous permettra de recevoir vos collaborateurs en petit comité', 'https://images.pexels.com/photos/2976970/pexels-photo-2976970.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'France', 'Paris', '17 rue de turbigo', 75002, 5, 'réunion', 0, 0),
-(3, 'Picasso', 'Cette salle vous permettra de travailler au calme', 'https://images.pexels.com/photos/260928/pexels-photo-260928.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1', 'France', 'Paris', '28 quai claude bernard lyon', 69007, 2, 'bureau', 0, 0);
+INSERT INTO `salles` (`id_salle`, `titre`, `description`, `photo`, `pays`, `ville`, `adresse`, `cp`, `capacite`, `categorie`) VALUES
+(1, 'Cézanne', 'Cette salle sera parfaite pour vos réunions d\'entreprise', 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 'France', 'Paris', '30 rue mademoiselle', 75015, 30, 'réunion'),
+(2, 'Mozart ', 'Cette salle vous permettra de recevoir vos collaborateurs en petit comité', 'https://images.pexels.com/photos/416320/pexels-photo-416320.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 'France', 'Paris', '17 rue de turbigo', 75002, 5, 'réunion'),
+(3, 'Picasso', 'Cette salle vous permettra de travailler au calme', 'https://images.pexels.com/photos/8761540/pexels-photo-8761540.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 'France', 'Paris', '28 quai claude bernard lyon', 69007, 2, 'bureau');
 
 --
--- Indexes for dumped tables
+-- Index pour les tables déchargées
 --
 
 --
--- Indexes for table `avis`
+-- Index pour la table `avis`
 --
 ALTER TABLE `avis`
   ADD PRIMARY KEY (`id_avis`),
@@ -154,83 +150,90 @@ ALTER TABLE `avis`
   ADD KEY `id_salle` (`id_salle`);
 
 --
--- Indexes for table `commandes`
+-- Index pour la table `commandes`
 --
 ALTER TABLE `commandes`
   ADD PRIMARY KEY (`id_commande`),
   ADD KEY `id_membre` (`id_membre`);
 
 --
--- Indexes for table `membres`
+-- Index pour la table `membres`
 --
 ALTER TABLE `membres`
   ADD PRIMARY KEY (`id_membre`);
 
 --
--- Indexes for table `produits`
+-- Index pour la table `produits`
 --
 ALTER TABLE `produits`
-  ADD PRIMARY KEY (`id_produit`);
+  ADD PRIMARY KEY (`id_produit`),
+  ADD KEY `id_salle` (`id_salle`);
 
 --
--- Indexes for table `salles`
+-- Index pour la table `salles`
 --
 ALTER TABLE `salles`
   ADD PRIMARY KEY (`id_salle`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT for table `avis`
+-- AUTO_INCREMENT pour la table `avis`
 --
 ALTER TABLE `avis`
-  MODIFY `id_avis` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_avis` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `commandes`
+-- AUTO_INCREMENT pour la table `commandes`
 --
 ALTER TABLE `commandes`
   MODIFY `id_commande` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `membres`
+-- AUTO_INCREMENT pour la table `membres`
 --
 ALTER TABLE `membres`
   MODIFY `id_membre` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `produits`
+-- AUTO_INCREMENT pour la table `produits`
 --
 ALTER TABLE `produits`
   MODIFY `id_produit` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT for table `salles`
+-- AUTO_INCREMENT pour la table `salles`
 --
 ALTER TABLE `salles`
   MODIFY `id_salle` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- Constraints for dumped tables
+-- Contraintes pour les tables déchargées
 --
 
 --
--- Constraints for table `avis`
+-- Contraintes pour la table `avis`
 --
 ALTER TABLE `avis`
   ADD CONSTRAINT `avis_ibfk_1` FOREIGN KEY (`id_membre`) REFERENCES `membres` (`id_membre`),
   ADD CONSTRAINT `avis_ibfk_2` FOREIGN KEY (`id_salle`) REFERENCES `salles` (`id_salle`);
 
 --
--- Constraints for table `commandes`
+-- Contraintes pour la table `commandes`
 --
 ALTER TABLE `commandes`
   ADD CONSTRAINT `commandes_ibfk_1` FOREIGN KEY (`id_membre`) REFERENCES `membres` (`id_membre`);
 
 --
--- Constraints for table `salles`
+-- Contraintes pour la table `produits`
+--
+ALTER TABLE `produits`
+  ADD CONSTRAINT `produits_ibfk_1` FOREIGN KEY (`id_salle`) REFERENCES `salles` (`id_salle`);
+
+--
+-- Contraintes pour la table `salles`
 --
 ALTER TABLE `salles`
   ADD CONSTRAINT `salles_ibfk_1` FOREIGN KEY (`id_salle`) REFERENCES `produits` (`id_produit`);

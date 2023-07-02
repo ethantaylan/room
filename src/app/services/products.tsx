@@ -1,22 +1,22 @@
 import React from 'react';
 import { useAxios } from '../hooks/use-axios';
 import { Produit } from '../models/products';
+import { getProducts } from './products/index';
 
-export const GetProducts: React.FC = () => {
+export const Products: React.FC = () => {
   const [products, setProducts] = React.useState<Produit[]>([]);
-  const getProducts = useAxios<[]>({
-    url: 'http://localhost:8888/products/get_products.php',
-    method: 'GET'
-  });
+
+  const getProductsFetch = useAxios<[]>(getProducts())
+
 
   React.useEffect(() => {
-    getProducts.response &&
-      setProducts(getProducts.response.map(produit => new Produit(produit)));
-  }, [getProducts.response]);
+    getProductsFetch.response &&
+      setProducts(getProductsFetch.response.map(produit => new Produit(produit)));
+  }, [getProductsFetch.response]);
 
-  if (getProducts.loading) return 'Loading...';
+  if (getProductsFetch.loading) return 'Loading...';
 
-  if (getProducts.error) return 'An error has occurred';
+  if (getProductsFetch.error) return 'An error has occurred';
 
   return (
     <ul>

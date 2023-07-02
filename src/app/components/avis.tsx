@@ -48,7 +48,7 @@ export const PostAvis: React.FC = () => {
       <button
         onClick={() => {
           postAvisFetch.executeFetch();
-          setComment('')
+          setComment('');
         }}
       >
         send avis

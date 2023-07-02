@@ -13,8 +13,8 @@ export interface SalleResponse {
   categorie: Categorie;
 }
 
-export class Salles {
-  id_salle: number;
+export class Salle {
+  idSalle: number;
   titre: string;
   description: string;
   photo: string | null;
@@ -37,7 +37,7 @@ export class Salles {
     capacite,
     categorie
   }: SalleResponse) {
-    this.id_salle = id_salle;
+    this.idSalle = id_salle;
     this.titre = titre;
     this.description = description;
     this.photo = photo;

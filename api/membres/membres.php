@@ -1,6 +1,13 @@
 <?php
 
-header("Access-Control-Allow-Origin: http://localhost:8888:4200");
+header("Access-Control-Allow-Origin: *");
+
+// Allow the specific headers required for the request
+header("Access-Control-Allow-Headers: Content-Type");
+
+// Allow the specific HTTP methods required for the request
+header("Access-Control-Allow-Methods: DELETE");
+
 // Connexion à la base de données
 $servername = "localhost";
 $username = "root";
@@ -34,27 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     } else {
         echo "Aucun membre trouvé.";
     }
-} elseif ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Récupération des données de la requête POST
-    $pseudo = $_POST["pseudo"];
-    $mdp = $_POST["mdp"];
-    $nom = $_POST["nom"];
-    $prenom = $_POST["prenom"];
-    $email = $_POST["email"];
-    $civilite = $_POST["civilite"];
-    $statut = $_POST["statut"];
-    $date_enregistrement = date("Y-m-d H:i:s");
-
-    // Insertion du nouveau membre dans la base de données
-    $sql = "INSERT INTO membres (pseudo, mdp, nom, prenom, email, civilite, statut, date_enregistrement)
-            VALUES ('$pseudo', '$mdp', '$nom', '$prenom', '$email', '$civilite', $statut, '$date_enregistrement')";
-
-    if ($conn->query($sql) === TRUE) {
-        echo "Nouveau membre ajouté avec succès.";
-    } else {
-        echo "Erreur lors de l'ajout du membre : " . $conn->error;
-    }
-}
+} 
 
 // Fermeture de la connexion à la base de données
 $conn->close();

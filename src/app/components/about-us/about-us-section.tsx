@@ -1,5 +1,5 @@
 import React from 'react';
-import { NewsletterSection } from './newsletter-section';
+import { NavLink } from 'react-router-dom';
 
 export const AboutUsSection: React.FC = () => {
   return (
@@ -38,11 +38,11 @@ export const AboutUsSection: React.FC = () => {
           </div>
           <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
             <div className="mt-10 lg:mt-0">
-              <span className="text-primary mb-2 block text-lg font-semibold">
+              <span className="text-indigo-600 mb-2 block text-lg font-semibold">
                 Pourquoi nous ?
               </span>
               <h2 className="text-dark mb-8 text-3xl font-bold sm:text-4xl">
-              Notre objéctif: La réussite de votre meeting.
+                Notre objéctif: La réussite de votre meeting.
               </h2>
               <p className="text-body-color mb-8 text-base">
                 Chez ROOM, nous comprenons l'importance d'un espace inspirant et
@@ -77,12 +77,12 @@ export const AboutUsSection: React.FC = () => {
                 vous accueillir et de vous offrir une expérience de location de
                 salle de réunion incomparable.
               </p>
-              <a
-                href="/#"
-                className="bg-primary inline-flex items-center justify-center rounded-lg px-10 py-4 text-center text-base font-normal text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
+              <NavLink
+                to="/les-salles"
+                className="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-5 py-2 text-center text-base font-normal text-white hover:bg-opacity-90 lg:px-8 xl:px-10"
               >
-                Get Started
-              </a>
+                Découvrir nos salles
+              </NavLink>
             </div>
           </div>
         </div>

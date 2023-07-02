@@ -46,7 +46,7 @@ export const Salles: React.FC = () => {
                   </div>
                   <div className="flex w-full justify-between">
                     <p className="mt-1 text-sm text-gray-500">{salle.ville}</p>
-                    <p className="pe-3 text-sm text-blue-600">Voir</p>
+                    <p className="pe-3 text-sm text-indigo-600">Voir</p>
                   </div>
                 </div>
               </div>

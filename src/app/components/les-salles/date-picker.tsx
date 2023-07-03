@@ -8,7 +8,6 @@ export const DatePicker: React.FC = () => {
   });
 
   const handleValueChange = (newValue: any) => {
-    console.log('newValue:', newValue);
     setValue(newValue);
   };
 

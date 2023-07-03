@@ -3,26 +3,29 @@ import React, {
   Dispatch,
   PropsWithChildren,
   useContext,
-  useReducer,
+  useReducer
 } from 'react';
+import { Member } from '../models/members';
 
 export interface GlobalContext {
-  darkMode: boolean;
+  member: Member | null;
 }
 
 const initialState: GlobalContext = {
-  darkMode: true,
+  member: null
 };
 
 const reducer = (state: GlobalContext, action: any): GlobalContext => {
   switch (action.type) {
-    case 'DARK':
+    case 'CONNECTED':
       return {
-        darkMode: true,
+        ...state,
+        member: new Member(action.payload)
       };
-    case 'LIGHT':
+    case 'NOT CONNECTED':
       return {
-        darkMode: false,
+        ...state,
+        member: null
       };
     default:
       return state;
@@ -36,7 +39,7 @@ export const DispatchContext = createContext<Dispatch<any> | undefined>(
 );
 
 export const GlobalContextProvider: React.FC<PropsWithChildren> = ({
-  children,
+  children
 }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   return (

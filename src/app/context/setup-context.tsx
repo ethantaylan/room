@@ -1,4 +1,3 @@
-import React from 'react';
 import { useGlobalContext, useGlobalDispatch } from './context';
 
 export const SetupContext = () => {

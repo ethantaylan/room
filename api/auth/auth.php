@@ -29,11 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $result = $conn->query($sql);
 
         if ($result->num_rows > 0) {
-            // Generate a random token
-            $token = bin2hex(random_bytes(16));
-
-            // Update the member's token in the database
-            $updateSql = "UPDATE membres SET token = '$token' WHERE pseudo = '$pseudo'";
+            $updateSql = "UPDATE membres WHERE pseudo = '$pseudo'";
             $conn->query($updateSql);
 
             // Fetch the user's data
@@ -41,12 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $userResult = $conn->query($userSql);
             $user = $userResult->fetch_assoc();
 
-            // Return the token and user data as a response
-            echo json_encode(['token' => $token, 'user' => $user]);
-
-            // Store the token in the localStorage
-            echo "<script>localStorage.setItem('token', '$token');</script>";
+            echo json_encode($user);
         } else {
+            http_response_code(401);
             echo json_encode(['error' => 'Invalid credentials']);
         }
     } else {
@@ -57,4 +50,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 $conn->close();
-?>

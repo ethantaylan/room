@@ -34,12 +34,14 @@ export function useAxios<T = unknown>(
     try {
       const { data, status } = await axios.request({
         ...requestConfig,
-        signal: controller.signal,
+        signal: controller.signal
       });
       setResponse(data);
       setStatus(status);
     } catch (e) {
-      setError(e as AxiosError);
+      const error = e as AxiosError;
+      setError(error);
+      setStatus(error?.response?.status || null);
     } finally {
       setLoading(false);
     }
@@ -62,6 +64,6 @@ export function useAxios<T = unknown>(
     abortController,
     executeFetch,
     clear,
-    status,
+    status
   };
 }

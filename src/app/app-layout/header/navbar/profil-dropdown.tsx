@@ -1,33 +1,47 @@
-import { Menu, Transition } from '@headlessui/react';
+import { Disclosure, Menu, Transition } from '@headlessui/react';
 import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
-import { Auth } from 'src/app/components/auth';
-import { useAxios } from 'src/app/hooks/use-axios';
-import { getMembers } from 'src/app/services/members';
+import { AuthModal } from 'src/app/components/auth/auth-modal';
+import { useGlobalContext } from 'src/app/context/context';
+import { Bars3Icon, UserIcon, XMarkIcon } from '@heroicons/react/24/solid';
 
 export const ProfilDropdown: React.FC = () => {
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
   }
 
-  const { response } = useAxios(getMembers());
+  const { member } = useGlobalContext();
 
-  console.log(response);
+  const [authModal, setAuthModal] = React.useState<boolean>(false);
+
+  const formattedAvatar = `${member?.prenom
+    .charAt(0)
+    .toUpperCase()}${member?.nom.charAt(0).toUpperCase()}`;
 
   return (
     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
       <Menu as="div" className="relative ml-3">
-        <div>
-          <Menu.Button className="flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-slate-400">
-            <span className="sr-only">Open user menu</span>
-            <img
-              className="h-8 w-8 rounded-full"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt=""
-            />
-          </Menu.Button>
-        </div>
-        <Auth />
+        {member?.idMembre ? (
+          <div className="flex items-center justify-center">
+            <div className="rounded-full bg-indigo-200 p-1 font-bold text-indigo-400">
+              {formattedAvatar}
+            </div>
+          </div>
+        ) : (
+          <button
+            className="p-1"
+            onClick={() => setAuthModal(true)}
+          >
+            <UserIcon className="w-5 text-slate-400 hover:text-slate-500" />
+          </button>
+        )}
+        <AuthModal
+          isModal={authModal}
+          onClose={() => setAuthModal(false)}
+          onSignIn={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+        />
         <Transition
           as={Fragment}
           enter="transition ease-out duration-100"

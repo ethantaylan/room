@@ -17,8 +17,6 @@ export const Commandes: React.FC = () => {
       );
   }, [getCommandesFetch.response]);
 
-  console.log(commandes[0]?.dateEnregistrement);
-
   return (
     <ul>
       {commandes.map((commande: Commande, index: number) => (

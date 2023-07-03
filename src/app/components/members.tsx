@@ -15,8 +15,6 @@ export const Members: React.FC = () => {
       );
   }, [getMembersFetch.response]);
 
-  console.log(members);
-
   return (
     <ul>
       {members.map((member: Member, index: number) => (

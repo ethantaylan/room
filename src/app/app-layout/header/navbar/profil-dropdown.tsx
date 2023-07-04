@@ -1,9 +1,13 @@
-import { Disclosure, Menu, Transition } from '@headlessui/react';
-import React, { Fragment } from 'react';
+import React from 'react';
+import { Menu, Transition } from '@headlessui/react';
 import { NavLink } from 'react-router-dom';
 import { AuthModal } from 'src/app/components/auth/auth-modal';
 import { useGlobalContext } from 'src/app/context/context';
-import { Bars3Icon, UserIcon, XMarkIcon } from '@heroicons/react/24/solid';
+import { UserIcon } from '@heroicons/react/24/solid';
+import {
+  Dropdown,
+  ItemsProps
+} from 'src/app/components/generic-components/dropdown';
 
 export const ProfilDropdown: React.FC = () => {
   function classNames(...classes: string[]) {
@@ -18,20 +22,33 @@ export const ProfilDropdown: React.FC = () => {
     .charAt(0)
     .toUpperCase()}${member?.nom.charAt(0).toUpperCase()}`;
 
+  const DropdownItems: ItemsProps[] = [
+    { href: '/profil', title: 'Profil' },
+    { href: '/vos-reservations', title: 'Vos réservations' },
+    { href: '/se-deconnecter', title: 'Se déconnecter' }
+  ];
+
+  React.useEffect(() => {
+    if (member && member?.statut === '2') {
+      DropdownItems.push({ href: '/administration', title: 'Administration' });
+    }
+  }, [member, DropdownItems]);
+
+  console.log(DropdownItems);
+
   return (
     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
       <Menu as="div" className="relative ml-3">
         {member?.idMembre ? (
           <div className="flex items-center justify-center">
-            <div className="rounded-full bg-indigo-200 p-1 font-bold text-indigo-400">
-              {formattedAvatar}
-            </div>
+            <Dropdown items={DropdownItems}>
+              <div className="rounded-full bg-indigo-200 p-1 font-bold text-indigo-400">
+                {formattedAvatar}
+              </div>
+            </Dropdown>
           </div>
         ) : (
-          <button
-            className="p-1"
-            onClick={() => setAuthModal(true)}
-          >
+          <button className="p-1" onClick={() => setAuthModal(true)}>
             <UserIcon className="w-5 text-slate-400 hover:text-slate-500" />
           </button>
         )}
@@ -43,7 +60,7 @@ export const ProfilDropdown: React.FC = () => {
           }}
         />
         <Transition
-          as={Fragment}
+          as={React.Fragment}
           enter="transition ease-out duration-100"
           enterFrom="transform opacity-0 scale-95"
           enterTo="transform opacity-100 scale-100"

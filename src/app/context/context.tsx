@@ -12,7 +12,7 @@ export interface GlobalContext {
 }
 
 const initialState: GlobalContext = {
-  member: null
+  member: null,
 };
 
 const reducer = (state: GlobalContext, action: any): GlobalContext => {
@@ -20,12 +20,12 @@ const reducer = (state: GlobalContext, action: any): GlobalContext => {
     case 'CONNECTED':
       return {
         ...state,
-        member: new Member(action.payload)
+        member: new Member(action.payload),
       };
-    case 'NOT CONNECTED':
+    case 'DISCONNECTED':
       return {
         ...state,
-        member: null
+        member: null,
       };
     default:
       return state;
@@ -38,10 +38,15 @@ export const DispatchContext = createContext<Dispatch<any> | undefined>(
   undefined
 );
 
+// ...
+
 export const GlobalContextProvider: React.FC<PropsWithChildren> = ({
   children
 }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+  });
+
   return (
     <StateContext.Provider value={state}>
       <DispatchContext.Provider value={dispatch}>

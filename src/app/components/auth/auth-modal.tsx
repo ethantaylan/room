@@ -5,7 +5,6 @@ import { useGlobalContext, useGlobalDispatch } from 'src/app/context/context';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { MemberResponse } from 'src/app/models/members';
 import { login } from 'src/app/services/auth';
-import { v4 as uuidv4 } from 'uuid';
 import swal from 'sweetalert';
 
 export interface ModalProps {
@@ -22,8 +21,6 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
 
   const dispatch = useGlobalDispatch();
   const { member } = useGlobalContext();
-
-  const uuid = uuidv4();
 
   const loginFetch = useAxios<MemberResponse>(login(username, password), false);
 
@@ -45,32 +42,36 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
 
     onClose();
   };
-
+  
   React.useEffect(() => {
     if (loginFetch.response) {
       dispatch({
         type: 'CONNECTED',
         payload: loginFetch.response
       });
-      swal('Good job!', 'You clicked the button!', 'success');
-    }
+      swal('Authentification réussie', '', 'success');
+    } 
   }, [loginFetch.response]);
 
   React.useEffect(() => {
     if (loginFetch.error) {
-      swal('Good job!', 'You clicked the button!', 'error');
+      swal(
+        'Erreur',
+        "Impossible de se connecter car le nom d'utilisateur et le mot de passe sont incorrects.",
+        'error'
+      );
     }
   }, [loginFetch.error]);
 
   React.useEffect(() => {
     if (member) {
-      const connectedUser = localStorage.getItem('connected user');
+      const connectedUser = localStorage.getItem('connectedUser');
       if (connectedUser !== member.email) {
-        localStorage.setItem('connected user', member.email);
+        localStorage.setItem('connectedUser', member.email);
       }
     }
   }, [member]);
-  
+
   return (
     <Transition.Root show={isModal} as={Fragment}>
       <Dialog

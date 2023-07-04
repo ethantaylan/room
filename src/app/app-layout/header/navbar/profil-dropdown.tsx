@@ -31,7 +31,7 @@ export const ProfilDropdown: React.FC = () => {
     if (member?.isAdmin()) {
       setDropdownItems([
         ...dropdownItems,
-        { href: '/administration', title: 'Administration' }
+        { href: '/gestion-des-salles', title: 'Administration' }
       ]);
     }
   }, [member]);

@@ -6,6 +6,7 @@ import { getMemberByEmail } from '../services/members';
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [email, setEmail] = React.useState<string>();
+  const [ready, setIsReady] = React.useState<boolean>(false);
 
   const dispatch = useGlobalDispatch();
   const getMemberByEmailFetch = useAxios<MemberResponse>(
@@ -19,6 +20,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         type: 'CONNECTED',
         payload: getMemberByEmailFetch.response
       });
+      setIsReady(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getMemberByEmailFetch.response]);
@@ -29,9 +31,13 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   }, []);
 
   React.useEffect(() => {
-    email && getMemberByEmailFetch.executeFetch();
+    if (email) {
+      getMemberByEmailFetch.executeFetch();
+    } else {
+      setIsReady(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email]);
 
-  return children;
+  return ready ? children : <></>;
 };

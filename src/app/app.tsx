@@ -6,10 +6,10 @@ import { Contact } from './pages/contact';
 import { NotFound } from './pages/notFound';
 import { GlobalContextProvider } from './context/context';
 import { AuthProvider } from './provider/auth';
-import { GestionDesSalles } from './pages/admin/gestion-des-salles';
+import { Administration } from './pages/admin/administration';
 import { Guard } from './guard/guard';
 
-export const App = () => {
+export const App: React.FC = () => {
   return (
     <BrowserRouter>
       <GlobalContextProvider>
@@ -27,11 +27,10 @@ export const App = () => {
               path="/gestion-des-salles"
               element={
                 <Guard>
-                  <GestionDesSalles />
+                  <Administration />
                 </Guard>
               }
             />
-            {/* Add more admin-only routes here */}
           </Routes>
         </AuthProvider>
       </GlobalContextProvider>

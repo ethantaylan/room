@@ -1,9 +1,15 @@
-import { Disclosure  } from '@headlessui/react';
+import { Disclosure } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { NavLink } from 'react-router-dom';
 import { ProfilDropdown } from './profil-dropdown';
 
-const navigation = [
+export interface Navigation {
+  name: string;
+  href: string;
+  current: boolean;
+}
+
+const navigation: Navigation[] = [
   { name: 'Accueil', href: '/accueil', current: true },
   { name: 'Nos salles', href: '/les-salles', current: false },
   { name: 'Qui sommes-nous', href: '/qui-sommes-nous', current: false },

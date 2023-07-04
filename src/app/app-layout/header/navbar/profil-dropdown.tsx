@@ -10,38 +10,38 @@ import {
 } from 'src/app/components/generic-components/dropdown';
 
 export const ProfilDropdown: React.FC = () => {
+  const [dropdownItems, setDropdownItems] = React.useState<ItemsProps[]>([
+    { href: '/profil', title: 'Profil' },
+    { href: '/vos-reservations', title: 'Vos réservations' },
+    { href: '/se-deconnecter', title: 'Se déconnecter' }
+  ]);
+  const [authModal, setAuthModal] = React.useState<boolean>(false);
+
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
   }
 
   const { member } = useGlobalContext();
 
-  const [authModal, setAuthModal] = React.useState<boolean>(false);
-
   const formattedAvatar = `${member?.prenom
     .charAt(0)
     .toUpperCase()}${member?.nom.charAt(0).toUpperCase()}`;
 
-  const DropdownItems: ItemsProps[] = [
-    { href: '/profil', title: 'Profil' },
-    { href: '/vos-reservations', title: 'Vos réservations' },
-    { href: '/se-deconnecter', title: 'Se déconnecter' }
-  ];
-
   React.useEffect(() => {
-    if (member && member?.statut === '2') {
-      DropdownItems.push({ href: '/administration', title: 'Administration' });
+    if (member?.isAdmin()) {
+      setDropdownItems([
+        ...dropdownItems,
+        { href: '/administration', title: 'Administration' }
+      ]);
     }
-  }, [member, DropdownItems]);
-
-  console.log(DropdownItems);
+  }, [member]);
 
   return (
     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
       <Menu as="div" className="relative ml-3">
         {member?.idMembre ? (
           <div className="flex items-center justify-center">
-            <Dropdown items={DropdownItems}>
+            <Dropdown items={dropdownItems}>
               <div className="rounded-full bg-indigo-200 p-1 font-bold text-indigo-400">
                 {formattedAvatar}
               </div>

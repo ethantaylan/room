@@ -42,4 +42,8 @@ export class Member {
     this.prenom = prenom;
     this.statut = statut;
   }
+
+  isAdmin(): boolean {
+    return this.statut === '2';
+  }
 }

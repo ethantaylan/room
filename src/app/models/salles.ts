@@ -13,7 +13,7 @@ export interface SalleResponse {
   categorie: Categorie;
 }
 
-export class Salle {
+export class  Salle {
   idSalle: number;
   titre: string;
   description: string;

@@ -61,7 +61,7 @@ export const AdministrationNavbar: React.FC<PropsWithChildren> = ({
               (route: AdministrationRoutes, index: number) => (
                 <li
                   key={index}
-                  className="mx-2 text-slate-500 hover:text-slate-700"
+                  className="mx-2 text-slate-500 transition hover:text-slate-700"
                 >
                   <NavLink to={route.href}>{route.title}</NavLink>
                 </li>

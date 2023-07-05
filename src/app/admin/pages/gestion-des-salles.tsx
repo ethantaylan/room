@@ -1,7 +1,6 @@
-import React from 'react'
+import React from 'react';
+import { AdmininistrationSalles } from '../components/salles/administration-salles';
 
 export const GestionDesSalles: React.FC = () => {
-  return (
-    <div>GestionDesSalles</div>
-  )
-}
+  return <AdmininistrationSalles />;
+};

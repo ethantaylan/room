@@ -8,7 +8,10 @@ import { GlobalContextProvider } from './context/context';
 import { AuthProvider } from './provider/auth';
 import { Administration } from './admin/administration';
 import { Guard } from './guard/guard';
-import { administrationRoutes } from './admin/components/administration-navbar';
+import {
+  AdministrationRoutes,
+  administrationRoutes
+} from './admin/components/administration-navbar';
 
 export const App: React.FC = () => {
   return (
@@ -32,16 +35,22 @@ export const App: React.FC = () => {
                 </Guard>
               }
             />
-            {administrationRoutes.map(route => (
-              <Route
-                path={route.href}
-                element={
-                  <Guard>
-                    <Administration children={route.element} />
-                  </Guard>
-                }
-              />
-            ))}
+            {administrationRoutes.map(
+              (route: AdministrationRoutes, index: number) => (
+                <Route
+                  key={index}
+                  path={route.href}
+                  element={
+                    <Guard>
+                      <Administration
+                        children={route.element}
+                        title={route.title}
+                      />
+                    </Guard>
+                  }
+                />
+              )
+            )}
           </Routes>
         </AuthProvider>
       </GlobalContextProvider>

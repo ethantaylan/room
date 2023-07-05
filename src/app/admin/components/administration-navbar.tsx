@@ -57,11 +57,16 @@ export const AdministrationNavbar: React.FC<PropsWithChildren> = ({
 
         <div className="flex w-full flex-col">
           <ul className="flex w-full justify-around">
-            {administrationRoutes.map(route => (
-              <li className="mx-2 text-slate-500 hover:text-slate-700">
-                <NavLink to={route.href}>{route.title}</NavLink>
-              </li>
-            ))}
+            {administrationRoutes.map(
+              (route: AdministrationRoutes, index: number) => (
+                <li
+                  key={index}
+                  className="mx-2 text-slate-500 hover:text-slate-700"
+                >
+                  <NavLink to={route.href}>{route.title}</NavLink>
+                </li>
+              )
+            )}
           </ul>
         </div>
       </div>

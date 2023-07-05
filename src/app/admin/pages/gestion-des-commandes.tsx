@@ -1,8 +1,5 @@
-import React from 'react'
-import { AdministrationSecionTitle } from '../components/administration-section-title'
+import React from 'react';
 
 export const GestionDesCommandes: React.FC = () => {
-  return (
-    <AdministrationSecionTitle title='Commandes' />
-  )
-}
+  return <></>;
+};

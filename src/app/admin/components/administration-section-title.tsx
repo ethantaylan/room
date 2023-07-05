@@ -1,11 +1,11 @@
 import React from 'react';
 
-export interface AdministrationSecionTitleProps {
+export interface AdministrationSectionTitleProps {
   title: string;
 }
 
-export const AdministrationSecionTitle: React.FC<
-  AdministrationSecionTitleProps
+export const AdministrationSectionTitle: React.FC<
+  AdministrationSectionTitleProps
 > = ({ title }) => {
-  return <h1 className="p-4 text-xl">{title}</h1>;
+  return <h1 className="text-xl">{title}</h1>;
 };

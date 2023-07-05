@@ -6,8 +6,9 @@ import { Contact } from './pages/contact';
 import { NotFound } from './pages/notFound';
 import { GlobalContextProvider } from './context/context';
 import { AuthProvider } from './provider/auth';
-import { Administration } from './pages/admin/administration';
+import { Administration } from './admin/administration';
 import { Guard } from './guard/guard';
+import { administrationRoutes } from './admin/components/administration-navbar';
 
 export const App: React.FC = () => {
   return (
@@ -24,13 +25,23 @@ export const App: React.FC = () => {
 
             {/* Routes that require admin access */}
             <Route
-              path="/gestion-des-salles"
+              path="/administration"
               element={
                 <Guard>
                   <Administration />
                 </Guard>
               }
             />
+            {administrationRoutes.map(route => (
+              <Route
+                path={route.href}
+                element={
+                  <Guard>
+                    <Administration children={route.element} />
+                  </Guard>
+                }
+              />
+            ))}
           </Routes>
         </AuthProvider>
       </GlobalContextProvider>

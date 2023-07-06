@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { Salle, SalleResponse } from 'src/app/models/salles';
-import { getSalles } from 'src/app/services/salles';
+import { deleteSalleById, getSalles } from 'src/app/services/salles';
 import { AjouterUneNouvelleSalleModal } from './ajouter-une-nouvelle-salle-modal';
 
 export interface Row {
@@ -12,8 +12,11 @@ export interface Row {
 export const AdmininistrationSalles: React.FC = () => {
   const [salles, setSalles] = React.useState<Salle[]>([]);
   const [modal, setModal] = React.useState<boolean>(false);
+  const [idSalle, setIdSalle] = React.useState<number | null>(null);
 
   const getSallesFetch = useAxios<SalleResponse[]>(getSalles());
+
+  const deleteSalleFetch = useAxios<SalleResponse>(deleteSalleById(idSalle && +idSalle), false);
 
   const headers = [
     'ID',
@@ -44,6 +47,15 @@ export const AdmininistrationSalles: React.FC = () => {
     await getSallesFetch.executeFetch();
     setModal(false);
   };
+
+  const deleteSalleHandler = (idSalle: number) => {
+    setIdSalle(idSalle);
+    idSalle === idSalle && deleteSalleFetch.executeFetch();
+  };
+
+  React.useEffect(() => {
+    deleteSalleFetch.response && getSallesFetch.executeFetch();
+  }, [deleteSalleFetch.response]);
 
   return (
     <div className=" flex flex-col">
@@ -93,7 +105,9 @@ export const AdmininistrationSalles: React.FC = () => {
               <td className="border p-3">{salle.cp}</td>
               <td className="border p-3">{salle.capacite}</td>
               <td className="border p-3">{salle.categorie}</td>
-              <td className="border p-3">ACTIONS</td>
+              <td onClick={() => deleteSalleHandler(salle.idSalle)} className="border p-3">
+                ACTIONS
+              </td>
             </tr>
           ))}
         </tbody>

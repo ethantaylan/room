@@ -5,7 +5,7 @@ export const getSalles = (): AxiosRequestConfig => ({
   method: 'GET'
 });
 
-export const postSalles = (
+export const postSalle = (
   title: string,
   description: string,
   photo: string,
@@ -16,7 +16,7 @@ export const postSalles = (
   capacite: number,
   categorie: string
 ): AxiosRequestConfig => ({
-  url: 'http://localhost:8888/salles/post_salles.php',
+  url: 'http://localhost:8888/salles/post_salle.php',
   method: 'POST',
   data: {
     titre: title,
@@ -28,5 +28,13 @@ export const postSalles = (
     cp,
     capacite,
     categorie
+  }
+});
+
+export const deleteSalleById = (idSalle: number | null): AxiosRequestConfig => ({
+  url: 'http://localhost:8888/salles/delete_salle.php',
+  method: 'DELETE',
+  data: {
+    id_salle: idSalle
   }
 });

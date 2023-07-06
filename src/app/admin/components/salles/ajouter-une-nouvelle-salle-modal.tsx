@@ -3,7 +3,7 @@ import { Input } from 'src/app/components/generic-components/input';
 import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { Salle, SalleResponse } from 'src/app/models/salles';
-import { getSalles, postSalles } from 'src/app/services/salles';
+import { getSalles, postSalle } from 'src/app/services/salles';
 
 interface FormState {
   title: string;
@@ -45,8 +45,8 @@ export const AjouterUneNouvelleSalleModal: React.FC<
 
   const [formState, setFormState] = React.useState<FormState>(initialState);
 
-  const postSallesFetch = useAxios<SalleResponse>(
-    postSalles(
+  const postSalleFetch = useAxios<SalleResponse>(
+    postSalle(
       formState.title,
       formState.description,
       formState.photo,
@@ -81,8 +81,8 @@ export const AjouterUneNouvelleSalleModal: React.FC<
   ];
 
   const handleConfirm = async () => {
-    await postSallesFetch.executeFetch();
-    if (postSallesFetch.response) {
+    await postSalleFetch.executeFetch();
+    if (postSalleFetch.response) {
       // Mettre à jour les salles
       onConfirm();
     }

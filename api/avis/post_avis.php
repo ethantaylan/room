@@ -36,7 +36,7 @@ $date_enregistrement = $json["date_enregistrement"];
 
 // Insert the new avis into the database
 $sql = "INSERT INTO avis (id_membre, id_salle, commentaire, note)
-        VALUES ($id_membre, $id_salle, '$commentaire', $note)";
+        VALUES ($id_membre, $id_salle, $commentaire, $note)";
 
 if ($conn->query($sql) === TRUE) {
     echo "New avis added successfully.";

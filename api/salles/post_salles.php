@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 header("Access-Control-Allow-Origin: *");
 
@@ -8,42 +8,45 @@ header("Access-Control-Allow-Headers: Content-Type");
 // Allow the specific HTTP methods required for the request
 header("Access-Control-Allow-Methods: POST, GET");
 
+// Connection to the database
 $servername = "localhost";
 $username = "root";
 $password = "root";
 $dbname = "salles";
 
+error_reporting(E_ALL);
+
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die("Échec de la connexion à la base de données : " . $conn->connect_error);
+    die("Failed to connect to the database: " . $conn->connect_error);
 }
 
-// Définition de l'en-tête de la réponse HTTP en JSON
+// Set the HTTP response header to JSON
 header("Content-Type: application/json");
 
-if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Récupération des données de la requête POST
-    $titre = $_POST["titre"];
-    $description = $_POST["description"];
-    $photo = $_POST["photo"];
-    $pays = $_POST["pays"];
-    $ville = $_POST["ville"];
-    $adresse = $_POST["adresse"];
-    $cp = $_POST["cp"];
-    $capacite = $_POST["capacite"];
-    $categorie = $_POST["categorie"];
+$json = json_decode(file_get_contents('php://input'), true);
 
-    // Insertion de la nouvelle salle dans la base de données
-    $sql = "INSERT INTO salles (titre, description, photo, pays, ville, adresse, cp, capacite, categorie)
-            VALUES ('$titre', '$description', '$photo', '$pays', '$ville', '$adresse', $cp, $capacite, '$categorie')";
+$titre = $json["titre"];
+$description = $json["description"];
+$photo = $json["photo"];
+$pays = $json["pays"];
+$ville = $json["ville"];
+$adresse = $json["adresse"];
+$cp = $json["cp"];
+$capacite = $json["capacite"];
+$categorie = $json["categorie"];
 
-    if ($conn->query($sql) === TRUE) {
-        echo "Nouvelle salle ajoutée avec succès.";
-    } else {
-        echo "Erreur lors de l'ajout de la salle : " . $conn->error;
-    }
+
+// Insert the new avis into the database
+$sql = "INSERT INTO salles (titre, description, photo, pays, ville, adresse, cp, capacite, categorie)
+VALUES ('$titre', '$description', '$photo', '$pays', '$ville', '$adresse', $cp, $capacite, '$categorie')";
+
+if ($conn->query($sql) === true) {
+    echo "New salle added successfully.";
+} else {
+    echo "Error adding avis: " . $conn->error;
+    // You can also check the query that failed by echoing the SQL statement
+    // echo ("SQL Query: " . $sql);
 }
 
 $conn->close();
-
-?>

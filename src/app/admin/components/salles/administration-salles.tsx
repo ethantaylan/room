@@ -11,6 +11,8 @@ export interface Row {
 
 export const AdmininistrationSalles: React.FC = () => {
   const [salles, setSalles] = React.useState<Salle[]>([]);
+  const [modal, setModal] = React.useState<boolean>(false);
+
   const getSallesFetch = useAxios<SalleResponse[]>(getSalles());
 
   const headers = [
@@ -38,11 +40,23 @@ export const AdmininistrationSalles: React.FC = () => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
+  const handleConfirm = async () => {
+    await getSallesFetch.executeFetch();
+    setModal(false);
+  };
+
   return (
     <div className=" flex flex-col">
-      <AjouterUneNouvelleSalleModal />
+      <AjouterUneNouvelleSalleModal
+        onConfirm={handleConfirm}
+        onClose={() => setModal(false)}
+        modal={modal}
+      />
       <div className="flex w-full justify-end">
-        <button className="mb-3 rounded border px-4 py-2 text-black transition hover:border-black">
+        <button
+          onClick={() => setModal(true)}
+          className="mb-3 rounded border px-4 py-2 text-black transition hover:border-black"
+        >
           + Ajouter une nouvelle salle
         </button>
       </div>

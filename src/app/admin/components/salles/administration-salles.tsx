@@ -1,7 +1,9 @@
 import React from 'react';
+import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { Salle, SalleResponse } from 'src/app/models/salles';
 import { getSalles } from 'src/app/services/salles';
+import { AjouterUneNouvelleSalleModal } from './ajouter-une-nouvelle-salle-modal';
 
 export interface Row {
   header: string;
@@ -38,16 +40,19 @@ export const AdmininistrationSalles: React.FC = () => {
 
   return (
     <div className=" flex flex-col">
+      <AjouterUneNouvelleSalleModal />
       <div className="flex w-full justify-end">
-        <button className="border mb-3 text-black hover:border-black transition px-4 rounded py-2">+ Ajouter une nouvelle salle</button>
+        <button className="mb-3 rounded border px-4 py-2 text-black transition hover:border-black">
+          + Ajouter une nouvelle salle
+        </button>
       </div>
       <table>
         <thead>
-          <tr className="border text-slate-400  bg-slate-200">
+          <tr className="border bg-slate-200  text-slate-400">
             {headers.map(header => (
               <th
                 key={header}
-                className="first:rounded-tl-md last:rounded-tr-md border-gray-700 p-3 text-sm font-semibold"
+                className="border-gray-700 p-3 text-sm font-semibold first:rounded-tl-md last:rounded-tr-md"
               >
                 {capitalize(header.toLowerCase())}
               </th>

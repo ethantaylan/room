@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from 'react';
+import { Fragment, PropsWithChildren, useRef, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
@@ -9,11 +9,12 @@ export interface ModalProps {
   onClose: () => void;
 }
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal: React.FC<PropsWithChildren<ModalProps>> = ({
   title,
   description,
   isModal,
-  onClose
+  onClose,
+  children
 }) => {
   const cancelButtonRef = useRef(null);
 
@@ -50,14 +51,14 @@ export const Modal: React.FC<ModalProps> = ({
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
                 <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-                  <div className="sm:flex sm:items-start">
+                  <div className="w-full sm:flex sm:items-start">
                     <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
                       <ExclamationTriangleIcon
                         className="h-6 w-6 text-red-600"
                         aria-hidden="true"
                       />
                     </div>
-                    <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <div className="mt-3 w-full text-center sm:ml-4 sm:mt-0 sm:text-left">
                       <Dialog.Title
                         as="h3"
                         className="text-base font-semibold leading-6 text-gray-900"
@@ -66,6 +67,7 @@ export const Modal: React.FC<ModalProps> = ({
                       </Dialog.Title>
                       <div className="mt-2">
                         <p className="text-sm text-gray-500">{description}</p>
+                        {children}
                       </div>
                     </div>
                   </div>

@@ -6,7 +6,7 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: Content-Type");
 
 // Allow the specific HTTP methods required for the request
-header("Access-Control-Allow-Methods: DELETE");
+header("Access-Control-Allow-Methods: *");
 
 // Connection to the database
 $servername = "localhost";

@@ -2,6 +2,7 @@
 
 include('../api-template.php');
 
+$id = $json["id"];
 $titre = $json["titre"];
 $description = $json["description"];
 $photo = $json["photo"];
@@ -12,15 +13,13 @@ $cp = $json["cp"];
 $capacite = $json["capacite"];
 $categorie = $json["categorie"];
 
-
-// Insert the new avis into the database
-$sql = "INSERT INTO salles (titre, description, photo, pays, ville, adresse, cp, capacite, categorie)
-VALUES ('$titre', '$description', '$photo', '$pays', '$ville', '$adresse', $cp, $capacite, '$categorie')";
+// Update the salle in the database
+$sql = "UPDATE salles SET titre = '$titre', description = '$description', photo = '$photo', pays = '$pays', ville = '$ville', adresse = '$adresse', cp = $cp, capacite = $capacite, categorie = '$categorie' WHERE id = $id";
 
 if ($conn->query($sql) === true) {
-    echo "New salle added successfully.";
+    echo "Salle updated successfully.";
 } else {
-    echo "Error adding avis: " . $conn->error;
+    echo "Error updating salle: " . $conn->error;
     // You can also check the query that failed by echoing the SQL statement
     // echo ("SQL Query: " . $sql);
 }

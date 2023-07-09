@@ -2,8 +2,15 @@ import React from 'react';
 import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { Salle, SalleResponse } from 'src/app/models/salles';
-import { deleteSalleById, getSalles } from 'src/app/services/salles';
+import {
+  deleteSalleById,
+  getSalleById,
+  getSalles,
+  updateSalle
+} from 'src/app/services/salles';
 import { AjouterUneNouvelleSalleModal } from './ajouter-une-nouvelle-salle-modal';
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { UpdateSalleModal } from './update-salle-modal';
 
 export interface Row {
   header: string;
@@ -12,11 +19,32 @@ export interface Row {
 export const AdmininistrationSalles: React.FC = () => {
   const [salles, setSalles] = React.useState<Salle[]>([]);
   const [modal, setModal] = React.useState<boolean>(false);
+  const [updateSalleModal, setUpdateSalleModal] =
+    React.useState<boolean>(false);
   const [idSalle, setIdSalle] = React.useState<number | null>(null);
+  const [selectedSalle, setSelectedSalle] = React.useState<number | null>(null);
 
   const getSallesFetch = useAxios<SalleResponse[]>(getSalles());
 
-  const deleteSalleFetch = useAxios<SalleResponse>(deleteSalleById(idSalle && +idSalle), false);
+  const deleteSalleFetch = useAxios<SalleResponse>(
+    deleteSalleById(idSalle && +idSalle),
+    false
+  );
+
+  // const updateSalleFetch = useAxios<SalleResponse>(
+  //   updateSalle(selectedSalle || null),
+  //   false
+  // );
+
+  const getSalleByIdFetch = useAxios<SalleResponse>(
+    getSalleById(selectedSalle),
+    false
+  );
+
+  React.useEffect(() => {
+    getSalleByIdFetch.executeFetch();
+    console.log(getSalleByIdFetch.response);
+  }, [getSalleByIdFetch.response]);
 
   const headers = [
     'ID',
@@ -53,9 +81,18 @@ export const AdmininistrationSalles: React.FC = () => {
     idSalle === idSalle && deleteSalleFetch.executeFetch();
   };
 
+  const updateSalleHandler = (idSalle: number) => {
+    setSelectedSalle(idSalle);
+    setUpdateSalleModal(true);
+  };
+
   React.useEffect(() => {
     deleteSalleFetch.response && getSallesFetch.executeFetch();
   }, [deleteSalleFetch.response]);
+
+  React.useEffect(() => {
+    getSalleById;
+  }, []);
 
   return (
     <div className=" flex flex-col">
@@ -63,6 +100,12 @@ export const AdmininistrationSalles: React.FC = () => {
         onConfirm={handleConfirm}
         onClose={() => setModal(false)}
         modal={modal}
+      />
+      <UpdateSalleModal
+        onClose={() => setUpdateSalleModal(false)}
+        modal={updateSalleModal}
+        id={selectedSalle || null}
+        onConfirm={() => console.log('onConfirm for: updating salle fetch')}
       />
       <div className="flex w-full justify-end">
         <button
@@ -74,7 +117,7 @@ export const AdmininistrationSalles: React.FC = () => {
       </div>
       <table>
         <thead>
-          <tr className="border bg-slate-200  text-slate-400">
+          <tr className="border bg-slate-200 text-slate-400">
             {headers.map(header => (
               <th
                 key={header}
@@ -105,8 +148,22 @@ export const AdmininistrationSalles: React.FC = () => {
               <td className="border p-3">{salle.cp}</td>
               <td className="border p-3">{salle.capacite}</td>
               <td className="border p-3">{salle.categorie}</td>
-              <td onClick={() => deleteSalleHandler(salle.idSalle)} className="border p-3">
-                ACTIONS
+              <td className="border p-3">
+                <button
+                  onClick={() => deleteSalleHandler(salle.idSalle)}
+                  className="me-3 text-red-500"
+                >
+                  <TrashIcon className="h-5" />
+                </button>
+                <button
+                  onClick={() => {
+                    updateSalleHandler(salle.idSalle);
+                    console.log(salle.idSalle);
+                  }}
+                  className="text-gray-500"
+                >
+                  <PencilSquareIcon className="h-5" />
+                </button>
               </td>
             </tr>
           ))}

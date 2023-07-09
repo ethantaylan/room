@@ -2,8 +2,8 @@ import React, { useState, ChangeEvent } from 'react';
 import { Input } from 'src/app/components/generic-components/input';
 import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
-import { Salle, SalleResponse } from 'src/app/models/salles';
-import { getSalles, postSalle } from 'src/app/services/salles';
+import { SalleResponse } from 'src/app/models/salles';
+import { getSalleById, postSalle } from 'src/app/services/salles';
 
 interface FormState {
   title: string;
@@ -26,11 +26,19 @@ export interface AjouterUneNouvelleSalleModalProps {
   onConfirm: () => void;
   onClose: () => void;
   modal: boolean;
+  id: number | null;
 }
 
-export const AjouterUneNouvelleSalleModal: React.FC<
-  AjouterUneNouvelleSalleModalProps
-> = ({ onConfirm, onClose, modal }) => {
+export const UpdateSalleModal: React.FC<AjouterUneNouvelleSalleModalProps> = ({
+  onConfirm,
+  onClose,
+  modal,
+  id
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getSalleByIdFetch = useAxios(getSalleById(id), false);
+
   const initialState: FormState = {
     title: '',
     description: '',
@@ -45,20 +53,20 @@ export const AjouterUneNouvelleSalleModal: React.FC<
 
   const [formState, setFormState] = React.useState<FormState>(initialState);
 
-  const postSalleFetch = useAxios<SalleResponse>(
-    postSalle(
-      formState.title,
-      formState.description,
-      formState.photo,
-      formState.pays,
-      formState.ville,
-      formState.adresse,
-      formState.cp,
-      formState.capacite,
-      formState.categorie
-    ),
-    false
-  );
+  // const updateSalleFetch = useAxios<SalleResponse>(
+  //   postSalle(
+  //     formState.title,
+  //     formState.description,
+  //     formState.photo,
+  //     formState.pays,
+  //     formState.ville,
+  //     formState.adresse,
+  //     formState.cp,
+  //     formState.capacite,
+  //     formState.categorie
+  //   ),
+  //   false
+  // );
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -67,6 +75,24 @@ export const AjouterUneNouvelleSalleModal: React.FC<
       [name]: value
     }));
   };
+
+  React.useEffect(() => {
+    if (modal === true) {
+      getSalleByIdFetch.executeFetch();
+      console.log(getSalleByIdFetch.response, id);
+    }
+  }, [modal]);
+
+  // React.useEffect(() => {
+  //   if (id !== null) {
+  //     getSalleByIdFetch.executeFetch();
+  //     console.log(getSalleByIdFetch.response, id);
+  //   }
+  // }, [id]);
+
+  React.useEffect(() => {
+    setIsLoading(getSalleByIdFetch.loading);
+  }, [getSalleByIdFetch.loading]);
 
   const inputFields: InputField[] = [
     { label: 'Nom de la salle', name: 'title' },
@@ -80,30 +106,26 @@ export const AjouterUneNouvelleSalleModal: React.FC<
     { label: 'Catégorie', name: 'categorie' }
   ];
 
-  const handleConfirm = async () => {
-    await postSalleFetch.executeFetch();
-    if (postSalleFetch.response) {
-      // Mettre à jour les salles
-      onConfirm();
-    }
-  };
-
   return (
     <Modal
-      title="Nouvelle salle"
+      title="Update salle"
       description={''}
       isModal={modal}
       onClose={onClose}
-      onConfirm={handleConfirm}
+      onConfirm={onConfirm}
     >
-      {inputFields.map(field => (
-        <Input
-          key={field.name}
-          label={field.label}
-          name={field.name}
-          onChange={handleChange}
-        />
-      ))}
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        inputFields.map(field => (
+          <Input
+            key={field.name}
+            label={field.label}
+            name={field.name}
+            onChange={handleChange}
+          />
+        ))
+      )}
     </Modal>
   );
 };

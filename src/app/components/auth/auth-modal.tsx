@@ -6,15 +6,17 @@ import { useAxios } from 'src/app/hooks/use-axios';
 import { MemberResponse } from 'src/app/models/members';
 import { login } from 'src/app/services/auth';
 import swal from 'sweetalert';
+import { RegisterModal } from './register-modal';
 
 export interface ModalProps {
   isModal: boolean;
   onClose: () => void;
-  onSignIn: () => void;
 }
 
 export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
   const cancelButtonRef = useRef(null);
+
+  const [isRegisterModal, setIsRegisterModal] = React.useState<boolean>(false);
 
   const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
@@ -42,7 +44,7 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
 
     onClose();
   };
-  
+
   React.useEffect(() => {
     if (loginFetch.response) {
       dispatch({
@@ -50,7 +52,7 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
         payload: loginFetch.response
       });
       swal('Authentification réussie', '', 'success');
-    } 
+    }
   }, [loginFetch.response]);
 
   React.useEffect(() => {
@@ -91,7 +93,15 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
         >
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
-
+        <RegisterModal
+                      isOpen={false}
+                      onClose={function (): void {
+                        throw new Error('Function not implemented.');
+                      }}
+                      onRegister={function (): void {
+                        throw new Error('Function not implemented.');
+                      }}
+                    />
         <div className="fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
@@ -123,7 +133,7 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
                           htmlFor="email"
                           className="block text-sm font-medium leading-6 text-gray-900"
                         >
-                          Email address
+                          Pseudo x
                         </label>
                         <div className="mt-2">
                           <input
@@ -133,7 +143,7 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
                             type="text"
                             autoComplete="email"
                             required
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 ps-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
                         </div>
                       </div>
@@ -144,14 +154,14 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
                             htmlFor="password"
                             className="block text-sm font-medium leading-6 text-gray-900"
                           >
-                            Password
+                            Mot de passe
                           </label>
                           <div className="text-sm">
                             <a
                               href="#"
                               className="font-semibold text-indigo-600 hover:text-indigo-500"
                             >
-                              Forgot password?
+                              Mot de passe oublié
                             </a>
                           </div>
                         </div>
@@ -163,7 +173,7 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
                             type="password"
                             autoComplete="current-password"
                             required
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 ps-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
                         </div>
                       </div>
@@ -177,14 +187,18 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
                         </button>
                       </div>
                     </form>
-
-                    <p className="mt-10 text-center text-sm text-gray-500">
-                      Not a member?{' '}
+                    <p
+                      onClick={() => {
+                        onClose();
+                        setIsRegisterModal(true);
+                      }}
+                      className="mt-10 text-center text-sm text-gray-500"
+                    >
                       <a
                         href="#"
                         className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
                       >
-                        Start a 14 day free trial
+                        S'inscrire
                       </a>
                     </p>
                   </div>

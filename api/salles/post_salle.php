@@ -21,8 +21,6 @@ if ($conn->query($sql) === true) {
     echo "New salle added successfully.";
 } else {
     echo "Error adding avis: " . $conn->error;
-    // You can also check the query that failed by echoing the SQL statement
-    // echo ("SQL Query: " . $sql);
 }
 
 $conn->close();

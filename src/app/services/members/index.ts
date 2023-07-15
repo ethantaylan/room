@@ -12,3 +12,27 @@ export const getMemberByEmail = (email: string): AxiosRequestConfig => ({
     email
   }
 });
+
+export const postMembre = (
+  pseudo: string,
+  mdp: string,
+  nom: string,
+  prenom: string,
+  email: string,
+  civilite: string,
+  statut: number,
+  dateEnregistrement: string
+): AxiosRequestConfig => ({
+  url: 'http://localhost:8888/membres/post_membre.php',
+  method: 'POST',
+  data: {
+    pseudo: pseudo,
+    mdp: mdp,
+    nom: nom,
+    prenom: prenom,
+    email: email,
+    civilite: civilite,
+    statut: statut,
+    date_enregistrement: dateEnregistrement
+  }
+});

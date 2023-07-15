@@ -8,18 +8,15 @@ import {
   Dropdown,
   ItemsProps
 } from 'src/app/components/generic-components/dropdown';
+import swal from 'sweetalert';
 
 export const ProfilDropdown: React.FC = () => {
   const [dropdownItems, setDropdownItems] = React.useState<ItemsProps[]>([
     { href: '/profil', title: 'Profil' },
     { href: '/vos-reservations', title: 'Vos réservations' },
-    { href: '/se-deconnecter', title: 'Se déconnecter' }
+    { title: 'Se déconnecter' }
   ]);
   const [authModal, setAuthModal] = React.useState<boolean>(false);
-
-  function classNames(...classes: string[]) {
-    return classes.filter(Boolean).join(' ');
-  }
 
   const { member } = useGlobalContext();
 
@@ -29,28 +26,30 @@ export const ProfilDropdown: React.FC = () => {
 
   React.useEffect(() => {
     if (member?.isAdmin()) {
-      const newMenu = dropdownItems;
-      newMenu.splice(1, 0, {
-        href: '/administration/gestion-des-salles',
-        title: 'Administration'
-      });
-
-     member && setDropdownItems(newMenu)
-      // setDropdownItems([
-      //   ...dropdownItems,
-      // { href: '/administration/gestion-des-salles', title: 'Administration' }
-      // ]);
+      setDropdownItems([
+        ...dropdownItems,
+        { href: '/administration/gestion-des-salles', title: 'Administration' }
+      ]);
     }
   }, [member]);
 
-console.log(member)
+  const handleDisconnect = () => {
+    localStorage.removeItem('connectedUser');
+
+    if (!!localStorage.getItem('connectedUser') === false) {
+      swal('Vous avez été déconnecté', '', 'success');
+      location.reload();
+    } else {
+      swal('Erreur lors de la déconnexion', '', 'error');
+    }
+  };
 
   return (
     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
       <Menu as="div" className="relative ml-3">
         {member?.idMembre ? (
           <div className="flex items-center justify-center">
-            <Dropdown items={dropdownItems}>
+            <Dropdown onDisconnect={handleDisconnect} items={dropdownItems}>
               <div className="rounded-full bg-indigo-200 p-1 font-bold text-indigo-400">
                 {formattedAvatar}
               </div>
@@ -61,13 +60,7 @@ console.log(member)
             <UserIcon className="w-5 text-slate-400 hover:text-slate-500" />
           </button>
         )}
-        <AuthModal
-          isModal={authModal}
-          onClose={() => setAuthModal(false)}
-          onSignIn={function (): void {
-            throw new Error('Function not implemented.');
-          }}
-        />
+        <AuthModal isModal={authModal} onClose={() => setAuthModal(false)} />
         <Transition
           as={React.Fragment}
           enter="transition ease-out duration-100"
@@ -76,49 +69,7 @@ console.log(member)
           leave="transition ease-in duration-75"
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
-        >
-          <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <Menu.Item>
-              {({ active }) => (
-                <NavLink
-                  to="/"
-                  className={classNames(
-                    active ? 'bg-gray-100' : '',
-                    'block px-4 py-2 text-sm text-gray-700'
-                  )}
-                >
-                  Your Profile
-                </NavLink>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <NavLink
-                  to="/"
-                  className={classNames(
-                    active ? 'bg-gray-100' : '',
-                    'block px-4 py-2 text-sm text-gray-700'
-                  )}
-                >
-                  Settings
-                </NavLink>
-              )}
-            </Menu.Item>
-            <Menu.Item>
-              {({ active }) => (
-                <NavLink
-                  to="/"
-                  className={classNames(
-                    active ? 'bg-gray-100' : '',
-                    'block px-4 py-2 text-sm text-gray-700'
-                  )}
-                >
-                  Sign out
-                </NavLink>
-              )}
-            </Menu.Item>
-          </Menu.Items>
-        </Transition>
+        ></Transition>
       </Menu>
     </div>
   );

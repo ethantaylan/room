@@ -1,14 +1,16 @@
 <?php
 
+include('../api-template.php');
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Récupération des données de la requête POST
-    $pseudo = $_POST["pseudo"];
-    $mdp = $_POST["mdp"];
-    $nom = $_POST["nom"];
-    $prenom = $_POST["prenom"];
-    $email = $_POST["email"];
-    $civilite = $_POST["civilite"];
-    $statut = $_POST["statut"];
+    $pseudo = $json["pseudo"];
+    $mdp = $json["mdp"];
+    $nom = $json["nom"];
+    $prenom = $json["prenom"];
+    $email = $json["email"];
+    $civilite = $json["civilite"];
+    $statut = $json["statut"];
     $date_enregistrement = date("Y-m-d H:i:s");
 
     // Insertion du nouveau membre dans la base de données
@@ -23,5 +25,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 }
 
 $conn->close();
-
-?>

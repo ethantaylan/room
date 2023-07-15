@@ -7,17 +7,19 @@ function classNames(...classes: string[]) {
 }
 
 export interface ItemsProps {
-  href: string;
+  href?: string;
   title: string;
 }
 
 export interface DropdownProps {
   items: ItemsProps[];
+  onDisconnect?: () => void;
 }
 
 export const Dropdown: React.FC<PropsWithChildren<DropdownProps>> = ({
   children,
-  items
+  items,
+  onDisconnect
 }) => {
   return (
     <Menu as="div" className="relative inline-block text-left">
@@ -40,7 +42,8 @@ export const Dropdown: React.FC<PropsWithChildren<DropdownProps>> = ({
               <Menu.Item key={index}>
                 {({ active }) => (
                   <NavLink
-                    to={item.href}
+                    onClick={onDisconnect}
+                    to={item.href || ''}
                     className={classNames(
                       active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                       'block px-4 py-2 text-sm'

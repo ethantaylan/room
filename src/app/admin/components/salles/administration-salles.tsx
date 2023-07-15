@@ -1,15 +1,9 @@
+import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { Salle, SalleResponse } from 'src/app/models/salles';
-import {
-  deleteSalleById,
-  getSalleById,
-  getSalles,
-  updateSalle
-} from 'src/app/services/salles';
+import { deleteSalleById, getSalles } from 'src/app/services/salles';
 import { AjouterUneNouvelleSalleModal } from './ajouter-une-nouvelle-salle-modal';
-import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { UpdateSalleModal } from './update-salle-modal';
 
 export interface Row {
@@ -17,36 +11,7 @@ export interface Row {
 }
 
 export const AdmininistrationSalles: React.FC = () => {
-  const [salles, setSalles] = React.useState<Salle[]>([]);
-  const [modal, setModal] = React.useState<boolean>(false);
-  const [updateSalleModal, setUpdateSalleModal] =
-    React.useState<boolean>(false);
-  const [idSalle, setIdSalle] = React.useState<number | null>(null);
-  const [selectedSalle, setSelectedSalle] = React.useState<number | null>(null);
-
-  const getSallesFetch = useAxios<SalleResponse[]>(getSalles());
-
-  const deleteSalleFetch = useAxios<SalleResponse>(
-    deleteSalleById(idSalle && +idSalle),
-    false
-  );
-
-  // const updateSalleFetch = useAxios<SalleResponse>(
-  //   updateSalle(selectedSalle || null),
-  //   false
-  // );
-
-  const getSalleByIdFetch = useAxios<SalleResponse>(
-    getSalleById(selectedSalle),
-    false
-  );
-
-  React.useEffect(() => {
-    getSalleByIdFetch.executeFetch();
-    console.log(getSalleByIdFetch.response);
-  }, [getSalleByIdFetch.response]);
-
-  const headers = [
+  const headers: string[] = [
     'ID',
     'SALLE',
     'DESCRIPTION',
@@ -60,42 +25,70 @@ export const AdmininistrationSalles: React.FC = () => {
     'ACTIONS'
   ];
 
+  const [salles, setSalles] = React.useState<Salle[]>([]);
+  const [modal, setModal] = React.useState<boolean>(false);
+  const [updateSalleModal, setUpdateSalleModal] =
+    React.useState<boolean>(false);
+  const [idSalle, setIdSalle] = React.useState<number | null>(null);
+  const [selectedSalle, setSelectedSalle] = React.useState<Salle | null>(null);
+
+  const getSallesFetch = useAxios<SalleResponse[]>(getSalles());
+
+  const deleteSalleFetch = useAxios<SalleResponse>(
+    deleteSalleById(+(idSalle || 0)),
+    false
+  );
+
+  // const updateSalleFetch = useAxios<SalleResponse>(
+  //   updateSalle(selectedSalle || null),
+  //   false
+  // );
+
+  // const getSalleByIdFetch = useAxios<SalleResponse>(
+  //   getSalleById(selectedSalle),
+  //   false
+  // );
+
+  // React.useEffect(() => {
+  //   getSalleByIdFetch.executeFetch();
+  // }, []);
+
   React.useEffect(() => {
-    getSallesFetch.response &&
+    if (getSallesFetch.response) {
       setSalles(
         getSallesFetch.response?.map((s: SalleResponse) => new Salle(s))
       );
+    }
   }, [getSallesFetch.response]);
 
-  const capitalize = (str: string) => {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
-
-  const handleConfirm = async () => {
-    await getSallesFetch.executeFetch();
-    setModal(false);
-  };
-
-  const deleteSalleHandler = (idSalle: number) => {
-    setIdSalle(idSalle);
-    idSalle === idSalle && deleteSalleFetch.executeFetch();
-  };
-
-  const updateSalleHandler = (idSalle: number) => {
-    setSelectedSalle(idSalle);
-    setUpdateSalleModal(true);
-  };
+  React.useEffect(() => {
+    idSalle && deleteSalleFetch.executeFetch();
+  }, [idSalle]);
 
   React.useEffect(() => {
     deleteSalleFetch.response && getSallesFetch.executeFetch();
   }, [deleteSalleFetch.response]);
 
-  React.useEffect(() => {
-    getSalleById;
-  }, []);
+  const capitalize = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  const handleConfirm = () => {
+    getSallesFetch.executeFetch();
+    setModal(false);
+  };
+
+  const deleteSalleHandler = (id: number) => {
+    setIdSalle(id);
+  };
+
+  const updateSalleHandler = (salle: Salle) => {
+    setSelectedSalle(salle);
+    setUpdateSalleModal(true);
+  };
 
   return (
-    <div className=" flex flex-col">
+    <div className="flex flex-col">
       <AjouterUneNouvelleSalleModal
         onConfirm={handleConfirm}
         onClose={() => setModal(false)}
@@ -104,8 +97,11 @@ export const AdmininistrationSalles: React.FC = () => {
       <UpdateSalleModal
         onClose={() => setUpdateSalleModal(false)}
         modal={updateSalleModal}
-        id={selectedSalle || null}
-        onConfirm={() => console.log('onConfirm for: updating salle fetch')}
+        salle={selectedSalle}
+        onConfirm={() => {
+          setUpdateSalleModal(false);
+          getSallesFetch.executeFetch();
+        }}
       />
       <div className="flex w-full justify-end">
         <button
@@ -157,8 +153,7 @@ export const AdmininistrationSalles: React.FC = () => {
                 </button>
                 <button
                   onClick={() => {
-                    updateSalleHandler(salle.idSalle);
-                    console.log(salle.idSalle);
+                    updateSalleHandler(salle);
                   }}
                   className="text-gray-500"
                 >

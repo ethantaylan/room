@@ -29,12 +29,21 @@ export const ProfilDropdown: React.FC = () => {
 
   React.useEffect(() => {
     if (member?.isAdmin()) {
-      setDropdownItems([
-        ...dropdownItems,
-        { href: '/administration', title: 'Administration' }
-      ]);
+      const newMenu = dropdownItems;
+      newMenu.splice(1, 0, {
+        href: '/administration/gestion-des-salles',
+        title: 'Administration'
+      });
+
+     member && setDropdownItems(newMenu)
+      // setDropdownItems([
+      //   ...dropdownItems,
+      // { href: '/administration/gestion-des-salles', title: 'Administration' }
+      // ]);
     }
   }, [member]);
+
+console.log(member)
 
   return (
     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">

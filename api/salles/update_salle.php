@@ -2,7 +2,7 @@
 
 include('../api-template.php');
 
-$id = $json["id"];
+$id_salle = $json["idSalle"];
 $titre = $json["titre"];
 $description = $json["description"];
 $photo = $json["photo"];
@@ -14,7 +14,7 @@ $capacite = $json["capacite"];
 $categorie = $json["categorie"];
 
 // Update the salle in the database
-$sql = "UPDATE salles SET titre = '$titre', description = '$description', photo = '$photo', pays = '$pays', ville = '$ville', adresse = '$adresse', cp = $cp, capacite = $capacite, categorie = '$categorie' WHERE id = $id";
+$sql = "UPDATE salles SET titre = '$titre', description = '$description', photo = '$photo', pays = '$pays', ville = '$ville', adresse = '$adresse', cp = $cp, capacite = $capacite, categorie = '$categorie' WHERE id_salle = $id_salle";
 
 if ($conn->query($sql) === true) {
     echo "Salle updated successfully.";

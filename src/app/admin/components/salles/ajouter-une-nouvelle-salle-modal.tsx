@@ -1,9 +1,9 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 import { Input } from 'src/app/components/generic-components/input';
 import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
-import { Salle, SalleResponse } from 'src/app/models/salles';
-import { getSalles, postSalle } from 'src/app/services/salles';
+import { SalleResponse } from 'src/app/models/salles';
+import { postSalle } from 'src/app/services/salles';
 
 interface FormState {
   title: string;
@@ -81,12 +81,12 @@ export const AjouterUneNouvelleSalleModal: React.FC<
   ];
 
   const handleConfirm = async () => {
-    await postSalleFetch.executeFetch();
-    if (postSalleFetch.response) {
-      // Mettre à jour les salles
-      onConfirm();
-    }
+    postSalleFetch.executeFetch();
   };
+
+  React.useEffect(() => {
+    postSalleFetch.response && onConfirm();
+  }, [postSalleFetch.response]);
 
   return (
     <Modal

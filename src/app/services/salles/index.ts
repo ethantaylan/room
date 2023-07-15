@@ -49,28 +49,19 @@ export const getSalleById = (idSalle: number | null): AxiosRequestConfig => ({
   }
 });
 
-export const updateSalle = (
-  title?: string,
-  description?: string,
-  photo?: string,
-  pays?: string,
-  ville?: string,
-  adresse?: string,
-  cp?: number,
-  capacite?: number,
-  categorie?: string
-): AxiosRequestConfig => ({
+export const updateSalle = (body: {
+  idSalle?: number;
+  titre?: string;
+  description?: string;
+  photo?: string;
+  pays?: string;
+  ville?: string;
+  adresse?: string;
+  cp?: number;
+  capacite?: number;
+  categorie?: string;
+}): AxiosRequestConfig => ({
   url: 'http://localhost:8888/salles/update_salle.php',
-  method: 'UPDATE',
-  data: {
-    titre: title,
-    description,
-    photo,
-    pays,
-    ville,
-    adresse,
-    cp,
-    capacite,
-    categorie
-  }
+  method: 'PUT',
+  data: { ...body }
 });

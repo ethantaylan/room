@@ -1,13 +1,14 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 4.9.5
 -- https://www.phpmyadmin.net/
 --
--- Hôte : localhost:8889
--- Généré le : dim. 02 juil. 2023 à 09:32
--- Version du serveur : 5.7.39
--- Version de PHP : 7.4.33
+-- Host: localhost:3306
+-- Generation Time: Jul 16, 2023 at 09:52 PM
+-- Server version: 5.7.24
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -18,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `salles`
+-- Database: `salles`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `avis`
+-- Table structure for table `avis`
 --
 
 CREATE TABLE `avis` (
@@ -39,7 +40,7 @@ CREATE TABLE `avis` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `commandes`
+-- Table structure for table `commandes`
 --
 
 CREATE TABLE `commandes` (
@@ -50,7 +51,7 @@ CREATE TABLE `commandes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `commandes`
+-- Dumping data for table `commandes`
 --
 
 INSERT INTO `commandes` (`id_commande`, `id_membre`, `id_produit`, `date_enregistrement`) VALUES
@@ -61,33 +62,38 @@ INSERT INTO `commandes` (`id_commande`, `id_membre`, `id_produit`, `date_enregis
 -- --------------------------------------------------------
 
 --
--- Structure de la table `membres`
+-- Table structure for table `membres`
 --
 
 CREATE TABLE `membres` (
   `id_membre` int(3) NOT NULL,
-  `pseudo` varchar(20) DEFAULT NULL,
+  `pseudo` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
   `mdp` varchar(60) DEFAULT NULL,
   `nom` varchar(20) DEFAULT NULL,
   `prenom` varchar(20) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `statut` int(1) DEFAULT NULL,
+  `civilite` enum('m','f') DEFAULT NULL,
+  `statut` int(1) DEFAULT '1',
   `date_enregistrement` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `membres`
+-- Dumping data for table `membres`
 --
 
-INSERT INTO `membres` (`id_membre`, `pseudo`, `mdp`, `nom`, `prenom`, `email`, `statut`, `date_enregistrement`) VALUES
+INSERT INTO `membres` (`id_membre`, `pseudo`, `mdp`, `nom`, `prenom`, `email`, `civilite`, `statut`, `date_enregistrement`) VALUES
 (1, 'admin', 'admin', 'Thoyer', 'Marie', 'marie.thoyer@gmail.com', 'f', 2, '2016-06-06 14:45:00'),
 (2, 'joker', 'joker', 'Julien', 'Cottet', 'juju07@gmail.com', 'm', 1, '2016-06-06 20:30:00'),
-(3, 'camelus', 'camelus', 'Miller', 'Guillaume', 'guillaume-miller@gmail.com', 'm', 1, '2016-06-01 09:30:00');
+(3, 'camelus', 'camelus', 'Miller', 'Guillaume', 'guillaume-miller@gmail.com', 'm', 1, '2016-06-01 09:30:00'),
+(10, 'test', 'test', 'test', 'test', 'test', NULL, 1, '2023-07-16 11:48:05'),
+(11, 'test', 'test', 'test', 'test', 'test', NULL, 1, '2023-07-16 11:48:22'),
+(12, '', '', '', '', '', NULL, 1, '2023-07-16 11:57:40'),
+(13, 'test2', 'test', 'test', 'John', 'test@gmail.com', NULL, 1, '2023-07-16 12:43:11');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `produits`
+-- Table structure for table `produits`
 --
 
 CREATE TABLE `produits` (
@@ -100,7 +106,7 @@ CREATE TABLE `produits` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `produits`
+-- Dumping data for table `produits`
 --
 
 INSERT INTO `produits` (`id_produit`, `date_arrivee`, `date_depart`, `prix`, `etat`, `id_salle`) VALUES
@@ -111,7 +117,7 @@ INSERT INTO `produits` (`id_produit`, `date_arrivee`, `date_depart`, `prix`, `et
 -- --------------------------------------------------------
 
 --
--- Structure de la table `salles`
+-- Table structure for table `salles`
 --
 
 CREATE TABLE `salles` (
@@ -128,7 +134,7 @@ CREATE TABLE `salles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Déchargement des données de la table `salles`
+-- Dumping data for table `salles`
 --
 
 INSERT INTO `salles` (`id_salle`, `titre`, `description`, `photo`, `pays`, `ville`, `adresse`, `cp`, `capacite`, `categorie`) VALUES
@@ -137,11 +143,11 @@ INSERT INTO `salles` (`id_salle`, `titre`, `description`, `photo`, `pays`, `vill
 (3, 'Picasso', 'Cette salle vous permettra de travailler au calme', 'https://images.pexels.com/photos/8761540/pexels-photo-8761540.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', 'France', 'Paris', '28 quai claude bernard lyon', 69007, 2, 'bureau');
 
 --
--- Index pour les tables déchargées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `avis`
+-- Indexes for table `avis`
 --
 ALTER TABLE `avis`
   ADD PRIMARY KEY (`id_avis`),
@@ -149,93 +155,87 @@ ALTER TABLE `avis`
   ADD KEY `id_salle` (`id_salle`);
 
 --
--- Index pour la table `commandes`
+-- Indexes for table `commandes`
 --
 ALTER TABLE `commandes`
   ADD PRIMARY KEY (`id_commande`),
   ADD KEY `id_membre` (`id_membre`);
 
 --
--- Index pour la table `membres`
+-- Indexes for table `membres`
 --
 ALTER TABLE `membres`
   ADD PRIMARY KEY (`id_membre`);
 
 --
--- Index pour la table `produits`
+-- Indexes for table `produits`
 --
 ALTER TABLE `produits`
   ADD PRIMARY KEY (`id_produit`),
   ADD KEY `id_salle` (`id_salle`);
 
 --
--- Index pour la table `salles`
+-- Indexes for table `salles`
 --
 ALTER TABLE `salles`
   ADD PRIMARY KEY (`id_salle`);
 
 --
--- AUTO_INCREMENT pour les tables déchargées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `avis`
+-- AUTO_INCREMENT for table `avis`
 --
 ALTER TABLE `avis`
-  MODIFY `id_avis` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_avis` int(3) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT pour la table `commandes`
+-- AUTO_INCREMENT for table `commandes`
 --
 ALTER TABLE `commandes`
   MODIFY `id_commande` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT pour la table `membres`
+-- AUTO_INCREMENT for table `membres`
 --
 ALTER TABLE `membres`
-  MODIFY `id_membre` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_membre` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT pour la table `produits`
+-- AUTO_INCREMENT for table `produits`
 --
 ALTER TABLE `produits`
   MODIFY `id_produit` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
--- AUTO_INCREMENT pour la table `salles`
+-- AUTO_INCREMENT for table `salles`
 --
 ALTER TABLE `salles`
-  MODIFY `id_salle` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_salle` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `avis`
+-- Constraints for table `avis`
 --
 ALTER TABLE `avis`
   ADD CONSTRAINT `avis_ibfk_1` FOREIGN KEY (`id_membre`) REFERENCES `membres` (`id_membre`),
   ADD CONSTRAINT `avis_ibfk_2` FOREIGN KEY (`id_salle`) REFERENCES `salles` (`id_salle`);
 
 --
--- Contraintes pour la table `commandes`
+-- Constraints for table `commandes`
 --
 ALTER TABLE `commandes`
   ADD CONSTRAINT `commandes_ibfk_1` FOREIGN KEY (`id_membre`) REFERENCES `membres` (`id_membre`);
 
 --
--- Contraintes pour la table `produits`
+-- Constraints for table `produits`
 --
 ALTER TABLE `produits`
   ADD CONSTRAINT `produits_ibfk_1` FOREIGN KEY (`id_salle`) REFERENCES `salles` (`id_salle`);
-
---
--- Contraintes pour la table `salles`
---
-ALTER TABLE `salles`
-  ADD CONSTRAINT `salles_ibfk_1` FOREIGN KEY (`id_salle`) REFERENCES `produits` (`id_produit`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

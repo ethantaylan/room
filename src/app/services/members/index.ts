@@ -1,4 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
+import { UserData } from 'src/app/components/auth/register';
 
 export const getMembers = (): AxiosRequestConfig => ({
   url: 'http://localhost:8888/membres/membres.php',
@@ -13,25 +14,23 @@ export const getMemberByEmail = (email: string): AxiosRequestConfig => ({
   }
 });
 
-export const postMembre = (
-  pseudo: string,
-  mdp: string,
-  nom: string,
-  prenom: string,
-  email: string,
-  civilite: string,
-  statut: number,
-  dateEnregistrement: string
-): AxiosRequestConfig => ({
+export const postMembre = ({
+  pseudo,
+  mdp,
+  lastName,
+  firstName,
+  email,
+  statut,
+  dateEnregistrement
+}: UserData): AxiosRequestConfig => ({
   url: 'http://localhost:8888/membres/post_membre.php',
   method: 'POST',
   data: {
     pseudo: pseudo,
     mdp: mdp,
-    nom: nom,
-    prenom: prenom,
+    nom: lastName,
+    prenom: firstName,
     email: email,
-    civilite: civilite,
     statut: statut,
     date_enregistrement: dateEnregistrement
   }

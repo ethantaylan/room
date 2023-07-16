@@ -1,7 +1,6 @@
 export interface MemberResponse {
   id_membre: number;
   pseudo: string;
-  civilite: string;
   date_enregistrement: string;
   email: string;
   mdp: string;
@@ -13,7 +12,6 @@ export interface MemberResponse {
 export class Member {
   idMembre: number;
   pseudo: string;
-  civilite: string;
   dateEnregistrement: string;
   email: string;
   mdp: string;
@@ -24,7 +22,6 @@ export class Member {
   constructor({
     id_membre,
     pseudo,
-    civilite,
     date_enregistrement,
     email,
     mdp,
@@ -34,7 +31,6 @@ export class Member {
   }: MemberResponse) {
     this.idMembre = id_membre;
     this.pseudo = pseudo;
-    this.civilite = civilite;
     this.dateEnregistrement = date_enregistrement;
     this.email = email;
     this.mdp = mdp;

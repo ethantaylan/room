@@ -7,7 +7,6 @@ import { login } from 'src/app/services/auth';
 import swal from 'sweetalert';
 import { Connect } from './connect';
 import { Register } from './register';
-import { RegisterFieldProps } from './register-field';
 
 export interface ModalProps {
   isModal: boolean;
@@ -19,13 +18,6 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
 
   const [username, setUsername] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
-
-  // REGISTER STATES
-  const [firstName, setFirstName] = React.useState<string>('');
-  const [lastName, setLastName] = React.useState<string>('');
-  const [email, setEmail] = React.useState<string>('');
-  const [pseudo, setPseudo] = React.useState<string>('');
-  const [mdp, setMdp] = React.useState<string>('');
 
   const [register, setRegister] = React.useState<boolean>(false);
 
@@ -85,25 +77,6 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
 
-  const firstnameRef = useRef<HTMLInputElement>(null);
-  const lastnameRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const pseudoRef = useRef<HTMLInputElement>(null);
-  const civiliteRef = useRef<HTMLInputElement>(null);
-  const mdpRef = useRef<HTMLInputElement>(null);
-
-  const RegisterFields: RegisterFieldProps[] = [
-    {
-      ref: firstnameRef,
-      placerholder: 'John',
-      onChange: () => setFirstName(firstnameRef.current?.value || '')
-    }
-  ];
-
-  React.useEffect(() => {
-    console.log(firstnameRef?.current?.value);
-  }, [firstnameRef?.current?.value])
-  
   return (
     <Transition.Root show={isModal} as={Fragment}>
       <Dialog
@@ -135,22 +108,14 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                <div className="flex min-h-full flex-1 flex-col justify-center p-12 lg:px-8">
                   <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
                       {register ? 'Inscription' : 'Connectez-vous'}
                     </h2>
                   </div>
                   {register ? (
-                    <Register
-                      firstnameRef={firstnameRef}
-                      lastnameRef={lastnameRef}
-                      emailRef={emailRef}
-                      pseudoRef={pseudoRef}
-                      civiliteRef={civiliteRef}
-                      mdpRef={mdpRef}
-                      registerFields={RegisterFields}
-                    />
+                    <Register onClick={() => setRegister(false)} />
                   ) : (
                     <Connect
                       onUsernameChange={handleUsernameChange}

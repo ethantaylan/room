@@ -28,7 +28,6 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 
   React.useEffect(() => {
-    console.log(ready)
     member && setIsReady(true);
   }, [member]);
 

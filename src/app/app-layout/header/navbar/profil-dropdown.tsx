@@ -14,7 +14,7 @@ export const ProfilDropdown: React.FC = () => {
   const [dropdownItems, setDropdownItems] = React.useState<ItemsProps[]>([
     { href: '/profil', title: 'Profil' },
     { href: '/vos-reservations', title: 'Vos réservations' },
-    { title: 'Se déconnecter' }
+    { title: 'Se déconnecter', onDisconnect: () => handleDisconnect() }
   ]);
   const [authModal, setAuthModal] = React.useState<boolean>(false);
 
@@ -49,8 +49,8 @@ export const ProfilDropdown: React.FC = () => {
       <Menu as="div" className="relative ml-3">
         {member?.idMembre ? (
           <div className="flex items-center justify-center">
-            <Dropdown onDisconnect={handleDisconnect} items={dropdownItems}>
-              <div className="rounded-full bg-indigo-200 p-1 font-bold text-indigo-400">
+            <Dropdown items={dropdownItems}>
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-200 font-bold text-indigo-400">
                 {formattedAvatar}
               </div>
             </Dropdown>

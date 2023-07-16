@@ -90,7 +90,6 @@ export const UpdateSalleModal: React.FC<AjouterUneNouvelleSalleModalProps> = ({
   }, [modal]);
 
   React.useEffect(() => {
-    console.log('updateSalleFetch.response', updateSalleFetch.response);
     updateSalleFetch.response && onConfirm();
   }, [updateSalleFetch.response]);
 

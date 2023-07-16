@@ -71,7 +71,6 @@ CREATE TABLE `membres` (
   `nom` varchar(20) DEFAULT NULL,
   `prenom` varchar(20) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
-  `civilite` enum('m','f') DEFAULT NULL,
   `statut` int(1) DEFAULT NULL,
   `date_enregistrement` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -80,7 +79,7 @@ CREATE TABLE `membres` (
 -- Déchargement des données de la table `membres`
 --
 
-INSERT INTO `membres` (`id_membre`, `pseudo`, `mdp`, `nom`, `prenom`, `email`, `civilite`, `statut`, `date_enregistrement`) VALUES
+INSERT INTO `membres` (`id_membre`, `pseudo`, `mdp`, `nom`, `prenom`, `email`, `statut`, `date_enregistrement`) VALUES
 (1, 'admin', 'admin', 'Thoyer', 'Marie', 'marie.thoyer@gmail.com', 'f', 2, '2016-06-06 14:45:00'),
 (2, 'joker', 'joker', 'Julien', 'Cottet', 'juju07@gmail.com', 'm', 1, '2016-06-06 20:30:00'),
 (3, 'camelus', 'camelus', 'Miller', 'Guillaume', 'guillaume-miller@gmail.com', 'm', 1, '2016-06-01 09:30:00');

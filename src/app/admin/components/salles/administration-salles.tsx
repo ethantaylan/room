@@ -39,20 +39,6 @@ export const AdmininistrationSalles: React.FC = () => {
     false
   );
 
-  // const updateSalleFetch = useAxios<SalleResponse>(
-  //   updateSalle(selectedSalle || null),
-  //   false
-  // );
-
-  // const getSalleByIdFetch = useAxios<SalleResponse>(
-  //   getSalleById(selectedSalle),
-  //   false
-  // );
-
-  // React.useEffect(() => {
-  //   getSalleByIdFetch.executeFetch();
-  // }, []);
-
   React.useEffect(() => {
     if (getSallesFetch.response) {
       setSalles(

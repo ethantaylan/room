@@ -6,7 +6,8 @@ import { MemberResponse } from 'src/app/models/members';
 import { login } from 'src/app/services/auth';
 import swal from 'sweetalert';
 import { Connect } from './connect';
-import { Register, UserInformations } from './register';
+import { Register } from './register';
+import { RegisterFieldProps } from './register-field';
 
 export interface ModalProps {
   isModal: boolean;
@@ -18,6 +19,14 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
 
   const [username, setUsername] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
+
+  // REGISTER STATES
+  const [firstName, setFirstName] = React.useState<string>('');
+  const [lastName, setLastName] = React.useState<string>('');
+  const [email, setEmail] = React.useState<string>('');
+  const [pseudo, setPseudo] = React.useState<string>('');
+  const [mdp, setMdp] = React.useState<string>('');
+
   const [register, setRegister] = React.useState<boolean>(false);
 
   const dispatch = useGlobalDispatch();
@@ -75,6 +84,7 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
 
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
   const firstnameRef = useRef<HTMLInputElement>(null);
   const lastnameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -82,17 +92,18 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
   const civiliteRef = useRef<HTMLInputElement>(null);
   const mdpRef = useRef<HTMLInputElement>(null);
 
-  const userInformations: UserInformations = {
-    firstnameRef: firstnameRef.current?.value || '',
-    lastnameRef: lastnameRef,
-    emailRef: emailRef,
-    pseudoRef: pseudoRef,
-    civiliteRef: civiliteRef,
-    mdpRef: mdpRef
-  };
+  const RegisterFields: RegisterFieldProps[] = [
+    {
+      ref: firstnameRef,
+      placerholder: 'John',
+      onChange: () => setFirstName(firstnameRef.current?.value || '')
+    }
+  ];
 
-  console.log(userInformations.pseudoRef);
-
+  React.useEffect(() => {
+    console.log(firstnameRef?.current?.value);
+  }, [firstnameRef?.current?.value])
+  
   return (
     <Transition.Root show={isModal} as={Fragment}>
       <Dialog
@@ -131,7 +142,15 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
                     </h2>
                   </div>
                   {register ? (
-                    <Register userInformations={userInformations} />
+                    <Register
+                      firstnameRef={firstnameRef}
+                      lastnameRef={lastnameRef}
+                      emailRef={emailRef}
+                      pseudoRef={pseudoRef}
+                      civiliteRef={civiliteRef}
+                      mdpRef={mdpRef}
+                      registerFields={RegisterFields}
+                    />
                   ) : (
                     <Connect
                       onUsernameChange={handleUsernameChange}

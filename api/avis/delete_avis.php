@@ -12,7 +12,7 @@ header("Access-Control-Allow-Methods: DELETE");
 $servername = "localhost";
 $username = "root";
 $password = "root";
-$dbname = "salles";
+$dbname = "room";
 
 error_reporting(E_ALL);
 
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "DELETE") {
         $id_avis = $requestData['id_avis'];
 
         $sql = "DELETE FROM avis WHERE id_avis = $id_avis";
-        
+
         if ($conn->query($sql) === TRUE) {
             // Return a success message
             echo json_encode(array("message" => "Avis deleted successfully"), 204);

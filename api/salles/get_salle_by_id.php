@@ -7,7 +7,7 @@ header("Access-Control-Allow-Methods: POST, GET");
 $servername = "localhost";
 $username = "root";
 $password = "root";
-$dbname = "salles";
+$dbname = "room";
 
 error_reporting(E_ALL);
 
@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
         $sql = "SELECT * FROM salles WHERE id_salle = $id_salle";
         $result = $conn->query($sql);
-        
+
         if ($result->num_rows > 0) {
             $salle = $result->fetch_assoc();
 

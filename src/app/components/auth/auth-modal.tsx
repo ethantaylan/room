@@ -115,7 +115,13 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
                     </h2>
                   </div>
                   {register ? (
-                    <Register onClick={() => setRegister(false)} />
+                    <Register
+                      onClick={() => setRegister(false)}
+                      onRegister={() => {
+                        setRegister(false);
+                        onClose();
+                      }}
+                    />
                   ) : (
                     <Connect
                       onUsernameChange={handleUsernameChange}

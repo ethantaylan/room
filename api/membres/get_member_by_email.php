@@ -12,7 +12,7 @@ header("Access-Control-Allow-Methods: DELETE");
 $servername = "localhost";
 $username = "root";
 $password = "root";
-$dbname = "salles";
+$dbname = "room";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -48,5 +48,3 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
 // Fermeture de la connexion à la base de données
 $conn->close();
-
-?>

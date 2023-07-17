@@ -12,6 +12,7 @@ import {
   AdministrationRoutes,
   administrationRoutes
 } from './admin/components/administration-navbar';
+import { Profil } from './pages/profil';
 
 export const App: React.FC = () => {
   return (
@@ -24,6 +25,7 @@ export const App: React.FC = () => {
             <Route path="/les-salles" element={<LesSalles />} />
             <Route path="/qui-sommes-nous" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/profil" element={<Profil />} />
             <Route path="*" element={<NotFound />} />
 
             {/* Routes that require admin access */}

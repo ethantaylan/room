@@ -3,7 +3,7 @@
 header("Access-Control-Allow-Origin: *");
 
 // Allow the specific headers required for the request
-header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Headers: *");
 
 // Allow the specific HTTP methods required for the request
 header("Access-Control-Allow-Methods: *");
@@ -12,7 +12,7 @@ header("Access-Control-Allow-Methods: *");
 $servername = "localhost";
 $username = "root";
 $password = "root";
-$dbname = "salles";
+$dbname = "room";
 
 error_reporting(E_ALL);
 

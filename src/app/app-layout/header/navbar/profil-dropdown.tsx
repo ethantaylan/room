@@ -21,8 +21,8 @@ export const ProfilDropdown: React.FC = () => {
   const { member } = useGlobalContext();
 
   const formattedAvatar = `${member?.prenom
-    .charAt(0)
-    .toUpperCase()}${member?.nom.charAt(0).toUpperCase()}`;
+    ?.charAt(0)
+    .toUpperCase()}${member?.nom?.charAt(0).toUpperCase()}`;
 
   React.useEffect(() => {
     if (member?.isAdmin()) {

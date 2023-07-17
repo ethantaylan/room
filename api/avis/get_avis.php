@@ -12,7 +12,7 @@ header("Access-Control-Allow-Methods: POST, GET");
 $servername = "localhost";
 $username = "root";
 $password = "root";
-$dbname = "salles";
+$dbname = "room";
 
 error_reporting(E_ALL);
 
@@ -40,8 +40,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         // Display the results in JSON format
         echo json_encode($avis);
     } else {
-        echo json_encode([]);        
+        echo json_encode([]);
     }
-} 
+}
 // Close the database connection
 $conn->close();

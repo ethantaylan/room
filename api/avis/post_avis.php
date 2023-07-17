@@ -12,7 +12,7 @@ header("Access-Control-Allow-Methods: POST, GET");
 $servername = "localhost";
 $username = "root";
 $password = "root";
-$dbname = "salles";
+$dbname = "room";
 
 error_reporting(E_ALL);
 

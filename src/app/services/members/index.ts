@@ -35,3 +35,11 @@ export const postMembre = ({
     date_enregistrement: dateEnregistrement
   }
 });
+
+export const deleteMemberById = (idMembre: number): AxiosRequestConfig => ({
+  url: 'http://localhost:8888/membres/delete_membre.php',
+  method: 'DELETE',
+  data: {
+    id_membre: idMembre
+  }
+});

@@ -12,7 +12,7 @@ header("Access-Control-Allow-Methods: POST, GET");
 $servername = "localhost";
 $username = "root";
 $password = "root";
-$dbname = "salles";
+$dbname = "room";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -41,5 +41,3 @@ if ($result->num_rows > 0) {
 
 // Close the database connection
 $conn->close();
-
-?>

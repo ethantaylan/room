@@ -16,9 +16,10 @@ export interface UserData {
 
 export interface RegisterProps {
   onClick: () => void;
+  onRegister: () => void;
 }
 
-export const Register: React.FC<RegisterProps> = ({ onClick }) => {
+export const Register: React.FC<RegisterProps> = ({ onClick, onRegister }) => {
   const date = new Date();
 
   const annee = date.getFullYear();
@@ -141,8 +142,18 @@ export const Register: React.FC<RegisterProps> = ({ onClick }) => {
       return;
     }
 
+    if (!passwordRegex.test(userData.mdp)) {
+      swal(
+        'Le mot de passe doit contenir au moins 8 caractères, un symbole et un chiffre !',
+        '',
+        'error'
+      );
+      return;
+    }
+
     // Effectuer l'inscription si les mots de passe correspondent
     executeFetch();
+    onRegister();
   };
 
   // After executeFetch is called, handle the response and status
@@ -157,6 +168,7 @@ export const Register: React.FC<RegisterProps> = ({ onClick }) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ-]+(?: [A-Za-zÀ-ÖØ-öø-ÿ-]+)*$/;
   const pseudoRegex = /^[A-Za-z0-9]+$/;
+  const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
 
   return (
     <div className="mt-6">

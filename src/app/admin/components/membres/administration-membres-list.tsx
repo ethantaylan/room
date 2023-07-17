@@ -1,16 +1,23 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
+import { Register } from 'src/app/components/auth/register';
 import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { Member, MemberResponse } from 'src/app/models/members';
-import { deleteMemberById, getMembers } from 'src/app/services/members';
+import {
+  deleteMemberById,
+  getMembers,
+  postMembre
+} from 'src/app/services/members';
 import Swal from 'sweetalert2';
 
 export const MembresList: React.FC = () => {
-  const getMembersFetch = useAxios<MemberResponse[]>(getMembers(), true);
   const [members, setMembers] = React.useState<Member[]>([]);
-
   const [idMembre, setIdMembre] = React.useState<number>(0);
+
+  const getMembersFetch = useAxios<MemberResponse[]>(getMembers(), true);
+
+  const deleteMembreFetch = useAxios(deleteMemberById(idMembre), false);
 
   React.useEffect(() => {
     if (getMembersFetch.response)
@@ -22,11 +29,15 @@ export const MembresList: React.FC = () => {
     }
   }, [getMembersFetch.response]);
 
-  const deleteMembreFetch = useAxios(deleteMemberById(idMembre), false);
+  React.useEffect(() => {
+    deleteMembreFetch.response && getMembersFetch.executeFetch();
+  }, [deleteMembreFetch.response]);
+
+  React.useEffect(() => {
+    idMembre && deleteMembreFetch.executeFetch();
+  }, [idMembre]);
 
   const handleDeleteMembre = (id: number, pseudo: string) => {
-    setIdMembre(id);
-
     Swal.fire({
       title: `<div class="font-normal text-xl">Êtes-vous sure de retirer le membre <br /> <span class="font-bold">${pseudo}</span></div>`,
       showCancelButton: true,
@@ -39,17 +50,27 @@ export const MembresList: React.FC = () => {
       }
     }).then(result => {
       if (result.isConfirmed) {
-        idMembre && deleteMembreFetch.executeFetch();
-        Swal.fire("", '', 'success');
+        setIdMembre(id);
+        Swal.fire('', '', 'success');
       } else if (result.isDenied) {
         Swal.fire('Changes are not saved', '', 'info');
       }
     });
   };
 
+  const [registerModal, setRegisterModal] = React.useState<boolean>(false);
+
   return (
-    <>
-      <ul className="w-2/4 divide-y divide-gray-100">
+    <React.Fragment>
+      <ul className="divide-y divide-gray-100">
+        <div className="flex w-full justify-end">
+          <button
+            onClick={() => setRegisterModal(true)}
+            className="mb-5 rounded border px-5 py-2 hover:bg-slate-100"
+          >
+            + Ajouter un nouveau membre
+          </button>
+        </div>
         {members.map(member => (
           <li
             key={member.email}
@@ -89,7 +110,18 @@ export const MembresList: React.FC = () => {
             )}
           </li>
         ))}
+        <Modal
+          title={"Ajout d'un nouveau membre"}
+          description={''}
+          isModal={registerModal}
+          onClose={() => setRegisterModal(false)}
+        >
+          <Register
+            onRegister={() => setRegisterModal(false)}
+            forAdminPage={true}
+          />
+        </Modal>
       </ul>
-    </>
+    </React.Fragment>
   );
 };

@@ -121,6 +121,7 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
                         setRegister(false);
                         onClose();
                       }}
+                      forAdminPage={false}
                     />
                   ) : (
                     <Connect

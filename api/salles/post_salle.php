@@ -20,7 +20,7 @@ VALUES ('$titre', '$description', '$photo', '$pays', '$ville', '$adresse', $cp, 
 if ($conn->query($sql) === true) {
     echo "New salle added successfully.";
 } else {
-    echo "Error adding avis: " . $conn->error;
+    echo "Error adding salle: " . $conn->error;
 }
 
 $conn->close();

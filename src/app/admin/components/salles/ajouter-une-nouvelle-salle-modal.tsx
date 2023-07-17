@@ -13,13 +13,15 @@ interface FormState {
   ville: string;
   adresse: string;
   cp: number;
-  capacite: number;
   categorie: string;
+  capacite: number;
 }
 
 interface InputField {
   label: string;
   name: keyof FormState;
+  isSelect?: boolean;
+  isSlider?: boolean;
 }
 
 export interface AjouterUneNouvelleSalleModalProps {
@@ -39,11 +41,12 @@ export const AjouterUneNouvelleSalleModal: React.FC<
     ville: '',
     adresse: '',
     cp: 0,
-    capacite: 0,
-    categorie: ''
+    categorie: 'Réunion',
+    capacite: 0
   };
 
   const [formState, setFormState] = React.useState<FormState>(initialState);
+  const [capacite, setCapacite] = React.useState<number>(0);
 
   const postSalleFetch = useAxios<SalleResponse>(
     postSalle(
@@ -54,18 +57,25 @@ export const AjouterUneNouvelleSalleModal: React.FC<
       formState.ville,
       formState.adresse,
       formState.cp,
-      formState.capacite,
+      capacite,
       formState.categorie
     ),
     false
   );
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
     setFormState(prevState => ({
       ...prevState,
       [name]: value
     }));
+  };
+
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const valueAsNumber = parseInt(e.target.value, 10);
+    setCapacite(valueAsNumber);
   };
 
   const inputFields: InputField[] = [
@@ -76,8 +86,8 @@ export const AjouterUneNouvelleSalleModal: React.FC<
     { label: 'Ville', name: 'ville' },
     { label: 'Adresse', name: 'adresse' },
     { label: 'CP', name: 'cp' },
-    { label: 'Capacité', name: 'capacite' },
-    { label: 'Catégorie', name: 'categorie' }
+    { label: 'Capacité', name: 'capacite', isSlider: true },
+    { label: 'Catégorie', name: 'categorie', isSelect: true }
   ];
 
   const handleConfirm = async () => {
@@ -88,6 +98,9 @@ export const AjouterUneNouvelleSalleModal: React.FC<
     postSalleFetch.response && onConfirm();
   }, [postSalleFetch.response]);
 
+  console.log(formState.categorie)
+
+
   return (
     <Modal
       title="Nouvelle salle"
@@ -96,14 +109,53 @@ export const AjouterUneNouvelleSalleModal: React.FC<
       onClose={onClose}
       onConfirm={handleConfirm}
     >
-      {inputFields.map(field => (
-        <Input
-          key={field.name}
-          label={field.label}
-          name={field.name}
-          onChange={handleChange}
-        />
-      ))}
+      {inputFields.map(field =>
+        field.isSlider ? (
+          <div
+            className="mt-3 flex w-full"
+            key={field.name}
+          >
+            <label className="me-5 w-60 text-right">Capacité</label>
+            <div className='w-full pt-2 flex flex-col'>
+              <input
+                name={field.name}
+                min={0}
+                max={200}
+                onChange={handleSliderChange}
+                id="default-range"
+                type="range"
+                value={capacite}
+                className="dark:bg-slant-200 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
+              />
+              <p className='text-center'>{capacite}</p>
+            </div>
+          </div>
+        ) : field.isSelect ? (
+          <div
+            className="mt-5 flex w-full items-center justify-center"
+            key={field.name}
+          >
+            <label className="me-5 w-60 text-right">Catégorie</label>
+            <select
+              name={field.name}
+              onChange={handleChange}
+              className="w-full bg-indigo-100 rounded py-1.5 px-2"
+              value={formState.categorie}
+            >
+              <option value="réunion">Réunion</option>
+              <option value="bureau">Bureau</option>
+              <option value="formation">Formation</option>
+            </select>
+          </div>
+        ) : (
+          <Input
+            key={field.name}
+            label={field.label}
+            name={field.name}
+            onChange={handleChange}
+          />
+        )
+      )}
     </Modal>
   );
 };

@@ -15,11 +15,16 @@ export interface UserData {
 }
 
 export interface RegisterProps {
-  onClick: () => void;
+  onClick?: () => void;
   onRegister: () => void;
+  forAdminPage: boolean;
 }
 
-export const Register: React.FC<RegisterProps> = ({ onClick, onRegister }) => {
+export const Register: React.FC<RegisterProps> = ({
+  onClick,
+  onRegister,
+  forAdminPage
+}) => {
   const date = new Date();
 
   const annee = date.getFullYear();
@@ -161,7 +166,7 @@ export const Register: React.FC<RegisterProps> = ({ onClick, onRegister }) => {
     if (status === 404) {
       swal("Une erreur est survenue lors de l'inscription.", '', 'error');
     } else if (status === 200) {
-      swal('Vous êtes inscrit :)', '', 'success');
+      swal('', '', 'success');
     }
   }, [status]);
 
@@ -183,19 +188,21 @@ export const Register: React.FC<RegisterProps> = ({ onClick, onRegister }) => {
             label={field.label}
           />
         ))}
-        <div className="flex flex-col items-center justify-center">
+        <div className="mb-3 flex flex-col items-center justify-center">
           <span
             onClick={handleRegister}
             className="mt-5 w-full cursor-pointer rounded-md bg-indigo-600 px-5 py-1.5 text-center font-semibold text-white hover:bg-indigo-700"
           >
-            S'inscrire
+            {forAdminPage ? 'Ajouter' : "S'inscrire"}
           </span>
-          <span
-            onClick={onClick}
-            className="mt-5 cursor-pointer px-5 py-1 text-sm font-semibold text-slate-600 hover:text-slate-800"
-          >
-            Se connecter
-          </span>
+          {!forAdminPage && (
+            <span
+              onClick={onClick}
+              className="mt-5 cursor-pointer px-5 py-1 text-sm font-semibold text-slate-600 hover:text-slate-800"
+            >
+              Se connecter
+            </span>
+          )}
         </div>
       </dl>
     </div>

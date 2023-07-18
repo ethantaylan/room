@@ -10,7 +10,7 @@ export interface UserData {
   email: string;
   pseudo: string;
   mdp: string;
-  statut?: 1 | 2;
+  statut?: 1 | 2 | null;
   dateEnregistrement?: string;
 }
 
@@ -42,7 +42,7 @@ export const Register: React.FC<RegisterProps> = ({
     email: '',
     pseudo: '',
     mdp: '',
-    statut: 1,
+    statut: null,
     dateEnregistrement: dateEnregistrement
   });
 
@@ -54,7 +54,8 @@ export const Register: React.FC<RegisterProps> = ({
     emailRef: useRef<HTMLInputElement>(null),
     pseudoRef: useRef<HTMLInputElement>(null),
     mdpRef: useRef<HTMLInputElement>(null),
-    confirmPasswordRef: useRef<HTMLInputElement>(null)
+    confirmPasswordRef: useRef<HTMLInputElement>(null),
+    statusRef: useRef<HTMLInputElement>(null)
   };
 
   const handleInputChange =
@@ -112,6 +113,13 @@ export const Register: React.FC<RegisterProps> = ({
       label: 'Confirmez le mot de passe'
     }
   ];
+
+  const handleStatusChange = () => {
+    setUserData(prevData => {
+      const newStatut = prevData.statut === 1 ? 2 : 1;
+      return { ...prevData, statut: newStatut };
+    });
+  };
 
   const { executeFetch, status } = useAxios<UserData>(
     postMembre(userData),
@@ -188,6 +196,21 @@ export const Register: React.FC<RegisterProps> = ({
             label={field.label}
           />
         ))}
+        <form className="px-6 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+          <dt className="flex items-center text-sm font-medium leading-6 text-gray-900">
+            Statut
+          </dt>
+          <dd className="mt-1 flex items-center rounded p-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+            <input
+              ref={inputRefs.statusRef}
+              onChange={handleStatusChange}
+              type="checkbox"
+              name="statut"
+            />
+            <span className="ms-2">Administrateur</span>
+          </dd>
+        </form>
+
         <div className="mb-3 flex flex-col items-center justify-center">
           <span
             onClick={handleRegister}

@@ -7,7 +7,6 @@ import { Member, MemberResponse } from 'src/app/models/members';
 import {
   deleteMemberById,
   getMembers,
-  postMembre
 } from 'src/app/services/members';
 import Swal from 'sweetalert2';
 
@@ -96,18 +95,12 @@ export const MembresList: React.FC = () => {
                 </p>
               </div>
             </div>
-            {member.isAdmin() ? (
-              ''
-            ) : (
-              <span
-                onClick={() =>
-                  handleDeleteMembre(member.idMembre, member.pseudo)
-                }
-                className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-red-100 text-red-600 hover:bg-red-200"
-              >
-                <TrashIcon className="h-5" />
-              </span>
-            )}
+            <span
+              onClick={() => handleDeleteMembre(member.idMembre, member.pseudo)}
+              className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-red-100 text-red-600 hover:bg-red-200"
+            >
+              <TrashIcon className="h-5" />
+            </span>
           </li>
         ))}
         <Modal
@@ -115,9 +108,13 @@ export const MembresList: React.FC = () => {
           description={''}
           isModal={registerModal}
           onClose={() => setRegisterModal(false)}
+          withButtons={false}
         >
           <Register
-            onRegister={() => setRegisterModal(false)}
+            onRegister={() => {
+              setRegisterModal(false);
+              // getMembersFetch.executeFetch();
+            }}
             forAdminPage={true}
           />
         </Modal>

@@ -1,20 +1,29 @@
 import React from 'react';
-import { useAxios } from '../hooks/use-axios';
-import { Salle, SalleResponse } from '../models/salles';
-import { getSalles } from '../services/salles/index';
 import { NavLink } from 'react-router-dom';
+import { supabase } from '../config';
+import { Salle } from '../models/salles';
 
 export const Salles: React.FC = () => {
   const [salles, setSalles] = React.useState<Salle[]>([]);
 
-  const getSallesFetch = useAxios<SalleResponse[]>(getSalles());
-
+  const getSallesSupabase = async () => {
+    const { data: salles, error } = await supabase.from('salles').select('*');
+    if (salles) {
+      setSalles(salles);
+    }
+  };
   React.useEffect(() => {
-    getSallesFetch.response &&
-      setSalles(
-        getSallesFetch.response.map((s: SalleResponse) => new Salle(s))
-      );
-  }, [getSallesFetch.response]);
+    getSallesSupabase();
+  }, []);
+
+  // const getSallesFetch = useAxios<SalleResponse[]>(getSalles());
+
+  // React.useEffect(() => {
+  //   getSallesFetch.response &&
+  //     setSalles(
+  //       getSallesFetch.response.map((s: SalleResponse) => new Salle(s))
+  //     );
+  // }, [getSallesFetch.response]);
 
   return (
     <div className="bg-white">

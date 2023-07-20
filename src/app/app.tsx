@@ -1,18 +1,18 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { Home } from './pages/home';
-import { LesSalles } from './pages/les-salles';
-import { AboutUs } from './pages/about-us';
-import { Contact } from './pages/contact';
-import { NotFound } from './pages/notFound';
-import { GlobalContextProvider } from './context/context';
-import { AuthProvider } from './provider/auth';
 import { Administration } from './admin/administration';
-import { Guard } from './guard/guard';
 import {
   AdministrationRoutes,
   administrationRoutes
 } from './admin/components/administration-navbar';
+import { GlobalContextProvider } from './context/context';
+import { Guard } from './guard/guard';
+import { AboutUs } from './pages/about-us';
+import { Contact } from './pages/contact';
+import { Home } from './pages/home';
+import { LesSalles } from './pages/les-salles';
+import { NotFound } from './pages/notFound';
 import { Profil } from './pages/profil';
+import { AuthProvider } from './provider/auth';
 
 export const App: React.FC = () => {
   return (

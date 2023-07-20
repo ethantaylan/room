@@ -1,42 +1,39 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import { Register } from 'src/app/components/auth/register';
 import { Modal } from 'src/app/components/generic-components/modal';
-import { useAxios } from 'src/app/hooks/use-axios';
 import { Member, MemberResponse } from 'src/app/models/members';
 import {
-  deleteMemberById,
-  getMembers,
-} from 'src/app/services/members';
+  deleteMemberSupabase,
+  getMembresSupabase
+} from 'src/app/services/supabase/membres';
 import Swal from 'sweetalert2';
 
-export const MembresList: React.FC = () => {
+export const AdministrationMembresList: React.FC = () => {
   const [members, setMembers] = React.useState<Member[]>([]);
   const [idMembre, setIdMembre] = React.useState<number>(0);
-
-  const getMembersFetch = useAxios<MemberResponse[]>(getMembers(), true);
-
-  const deleteMembreFetch = useAxios(deleteMemberById(idMembre), false);
+  const [registerModal, setRegisterModal] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    if (getMembersFetch.response)
-      setMembers(
-        getMembersFetch.response?.map((m: MemberResponse) => new Member(m))
-      );
-    else {
-      setMembers([]);
-    }
-  }, [getMembersFetch.response]);
-
-  React.useEffect(() => {
-    deleteMembreFetch.response && getMembersFetch.executeFetch();
-  }, [deleteMembreFetch.response]);
-
-  React.useEffect(() => {
-    idMembre && deleteMembreFetch.executeFetch();
+    const fetchMembers = async () => {
+      const members = await getMembresSupabase();
+      if (members) setMembers(members);
+    };
+    fetchMembers();
   }, [idMembre]);
 
-  const handleDeleteMembre = (id: number, pseudo: string) => {
+  React.useEffect(() => {
+    const deleteMember = async () => {
+      if (idMembre !== 0) {
+        await deleteMemberSupabase(idMembre);
+
+        const updatedMembers = await getMembresSupabase();
+        if (updatedMembers) setMembers(updatedMembers);
+      }
+    };
+    deleteMember();
+  }, [idMembre]);
+
+  const handleDeleteMember = async (id: number, pseudo: string) => {
     Swal.fire({
       title: `<div class="font-normal text-xl">Êtes-vous sure de retirer le membre <br /> <span class="font-bold">${pseudo}</span></div>`,
       showCancelButton: true,
@@ -51,13 +48,12 @@ export const MembresList: React.FC = () => {
       if (result.isConfirmed) {
         setIdMembre(id);
         Swal.fire('', '', 'success');
+        console.log(id);
       } else if (result.isDenied) {
         Swal.fire('Changes are not saved', '', 'info');
       }
     });
   };
-
-  const [registerModal, setRegisterModal] = React.useState<boolean>(false);
 
   return (
     <React.Fragment>
@@ -70,9 +66,9 @@ export const MembresList: React.FC = () => {
             + Ajouter un nouveau membre
           </button>
         </div>
-        {members.map(member => (
+        {members.map((member, index: number) => (
           <li
-            key={member.email}
+            key={index}
             className="flex  items-center justify-between gap-x-6 py-5"
           >
             <div className="flex items-center gap-x-4">
@@ -96,28 +92,13 @@ export const MembresList: React.FC = () => {
               </div>
             </div>
             <span
-              onClick={() => handleDeleteMembre(member.idMembre, member.pseudo)}
+              onClick={() => handleDeleteMember(member.idMembre, member.pseudo)}
               className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-red-100 text-red-600 hover:bg-red-200"
             >
               <TrashIcon className="h-5" />
             </span>
           </li>
         ))}
-        <Modal
-          title={"Ajout d'un nouveau membre"}
-          description={''}
-          isModal={registerModal}
-          onClose={() => setRegisterModal(false)}
-          withButtons={false}
-        >
-          <Register
-            onRegister={() => {
-              setRegisterModal(false);
-              // getMembersFetch.executeFetch();
-            }}
-            forAdminPage={true}
-          />
-        </Modal>
       </ul>
     </React.Fragment>
   );

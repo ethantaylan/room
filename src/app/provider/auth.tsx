@@ -1,49 +1,28 @@
 import React, { PropsWithChildren } from 'react';
-import { useGlobalContext, useGlobalDispatch } from '../context/context';
-import { useAxios } from '../hooks/use-axios';
-import { MemberResponse } from '../models/members';
-import { getMemberByEmail } from '../services/members';
+import { supabase } from '../config';
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [email, setEmail] = React.useState<string>();
   const [ready, setIsReady] = React.useState<boolean>(false);
+  const [user, setUser] = React.useState<[]>([]);
 
-  const { member } = useGlobalContext();
+  const getUser = async () => {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    console.log(user);
 
-  const dispatch = useGlobalDispatch();
-  const getMemberByEmailFetch = useAxios<MemberResponse>(
-    getMemberByEmail(email || ''),
-    false
-  );
+    user && setIsReady(true);
+    setUser(user)
+  };
 
-  React.useEffect(() => {
-    if (getMemberByEmailFetch.response) {
-      dispatch({
-        type: 'CONNECTED',
-        payload: getMemberByEmailFetch.response
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getMemberByEmailFetch.response]);
-
+  const getSessions = async () => {
+    const { data } = await supabase.auth.getSession();
+  };
 
   React.useEffect(() => {
-    member && setIsReady(true);
-  }, [member]);
-
-  React.useEffect(() => {
-    const storedUser = localStorage.getItem('connectedUser');
-    setEmail(storedUser || '');
+    getUser();
+    user && getSessions();
   }, []);
-
-  React.useEffect(() => {
-    if (email) {
-      getMemberByEmailFetch.executeFetch();
-    } else {
-      setIsReady(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [email]);
 
   return ready ? children : <></>;
 };

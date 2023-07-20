@@ -34,9 +34,9 @@ export const ProfilDropdown: React.FC = () => {
   }, [member]);
 
   const handleDisconnect = () => {
-    localStorage.removeItem('connectedUser');
+    localStorage.removeItem('sb-qtihtykvrjjjkztgiddt-auth-token');
 
-    if (!!localStorage.getItem('connectedUser') === false) {
+    if (!!localStorage.getItem('sb-qtihtykvrjjjkztgiddt-auth-token') === false) {
       swal('Vous avez été déconnecté', '', 'success');
       location.reload();
     } else {

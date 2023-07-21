@@ -9,10 +9,12 @@ import { Member } from '../models/members';
 
 export interface GlobalContext {
   member: Member | null;
+  isConnected: boolean | null;
 }
 
 const initialState: GlobalContext = {
   member: null,
+  isConnected: null
 };
 
 const reducer = (state: GlobalContext, action: any): GlobalContext => {
@@ -20,12 +22,14 @@ const reducer = (state: GlobalContext, action: any): GlobalContext => {
     case 'CONNECTED':
       return {
         ...state,
-        member: new Member(action.payload),
+        member: action.payload,
+        isConnected: true
       };
     case 'DISCONNECTED':
       return {
         ...state,
         member: null,
+        isConnected: false
       };
     default:
       return state;
@@ -44,7 +48,7 @@ export const GlobalContextProvider: React.FC<PropsWithChildren> = ({
   children
 }) => {
   const [state, dispatch] = useReducer(reducer, {
-    ...initialState,
+    ...initialState
   });
 
   return (

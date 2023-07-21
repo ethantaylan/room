@@ -91,7 +91,9 @@ export const AdministrationMembresList: React.FC = () => {
               </div>
             </div>
             <span
-              onClick={() => handleDeleteMember(member.idMembre, member.pseudo)}
+              onClick={() =>
+                handleDeleteMember(member.id_membre, member.pseudo)
+              }
               className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-red-100 text-red-600 hover:bg-red-200"
             >
               <TrashIcon className="h-5" />

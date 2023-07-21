@@ -45,7 +45,7 @@ export const Profil: React.FC = () => {
                   htmlFor="about"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Date d'enregistrement: {member?.dateEnregistrement}
+                  Date d'enregistrement: {member?.date_enregistrement}
                 </label>
               </div>
             </div>

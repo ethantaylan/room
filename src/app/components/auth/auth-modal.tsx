@@ -1,9 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react';
-import { Auth } from '@supabase/auth-ui-react';
-import { ThemeSupa } from '@supabase/auth-ui-shared';
 import React, { Fragment, useRef } from 'react';
-import { supabase } from 'src/app/config';
-import { useGlobalContext } from 'src/app/context/context';
+import { Connect } from './connect';
+import { Register } from './register/register';
 
 export interface ModalProps {
   isModal: boolean;
@@ -13,18 +11,7 @@ export interface ModalProps {
 export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
   const cancelButtonRef = useRef(null);
 
-  const { member } = useGlobalContext();
-
-  React.useEffect(() => {
-    if (member) {
-      const connectedUser = localStorage.getItem(
-        'sb-qtihtykvrjjjkztgiddt-auth-token'
-      );
-      if (connectedUser !== member.email) {
-        localStorage.setItem('connectedUser', member.email);
-      }
-    }
-  }, [member]);
+  const [register, setRegister] = React.useState<boolean>(false);
 
   return (
     <Transition.Root show={isModal} as={Fragment}>
@@ -58,7 +45,7 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white p-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-                <Auth
+                {/* <Auth
                   redirectTo="/"
                   supabaseClient={supabase}
                   socialLayout="horizontal"
@@ -97,7 +84,29 @@ export const AuthModal: React.FC<ModalProps> = ({ isModal, onClose }) => {
                       }
                     }
                   }}
-                />
+                /> */}
+                <div className="flex min-h-full flex-1 flex-col justify-center p-12 lg:px-8">
+                  <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                    <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+                      {register ? 'Inscription' : 'Connectez-vous'}
+                    </h2>
+                  </div>
+                  {register ? (
+                    <Register
+                      onClick={() => setRegister(false)}
+                      onRegister={() => {
+                        setRegister(false);
+                        onClose();
+                      }}
+                      forAdminPage={false}
+                    />
+                  ) : (
+                    <Connect
+                      onRegister={() => setRegister(true)}
+                      onClose={onClose}
+                    />
+                  )}
+                </div>
               </Dialog.Panel>
             </Transition.Child>
           </div>

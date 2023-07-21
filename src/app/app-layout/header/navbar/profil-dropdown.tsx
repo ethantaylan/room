@@ -1,13 +1,12 @@
-import React from 'react';
 import { Menu, Transition } from '@headlessui/react';
-import { NavLink } from 'react-router-dom';
-import { AuthModal } from 'src/app/components/auth/auth-modal';
-import { useGlobalContext } from 'src/app/context/context';
 import { UserIcon } from '@heroicons/react/24/solid';
+import React from 'react';
+import { AuthModal } from 'src/app/components/auth/auth-modal';
 import {
   Dropdown,
   ItemsProps
 } from 'src/app/components/generic-components/dropdown';
+import { useGlobalContext } from 'src/app/context/context';
 import swal from 'sweetalert';
 
 export const ProfilDropdown: React.FC = () => {
@@ -36,7 +35,9 @@ export const ProfilDropdown: React.FC = () => {
   const handleDisconnect = () => {
     localStorage.removeItem('sb-qtihtykvrjjjkztgiddt-auth-token');
 
-    if (!!localStorage.getItem('sb-qtihtykvrjjjkztgiddt-auth-token') === false) {
+    if (
+      !!localStorage.getItem('sb-qtihtykvrjjjkztgiddt-auth-token') === false
+    ) {
       swal('Vous avez été déconnecté', '', 'success');
       location.reload();
     } else {
@@ -47,7 +48,7 @@ export const ProfilDropdown: React.FC = () => {
   return (
     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
       <Menu as="div" className="relative ml-3">
-        {member?.idMembre ? (
+        {member?.id_membre ? (
           <div className="flex items-center justify-center">
             <Dropdown items={dropdownItems}>
               <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-200 font-bold text-indigo-400">

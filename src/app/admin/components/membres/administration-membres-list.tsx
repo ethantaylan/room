@@ -48,7 +48,6 @@ export const AdministrationMembresList: React.FC = () => {
       if (result.isConfirmed) {
         setIdMembre(id);
         Swal.fire('', '', 'success');
-        console.log(id);
       } else if (result.isDenied) {
         Swal.fire('Changes are not saved', '', 'info');
       }

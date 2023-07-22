@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { RegisterField, RegisterFieldProps } from './register-field';
 import { useAxios } from 'src/app/hooks/use-axios';
+import { signUp } from 'src/app/services/auth';
 import { postMembre } from 'src/app/services/members';
 import swal from 'sweetalert';
+import { RegisterField, RegisterFieldProps } from './register-field';
 
 export interface UserData {
   firstName: string;
@@ -45,7 +46,6 @@ export const Register: React.FC<RegisterProps> = ({
     statut: null,
     dateEnregistrement: dateEnregistrement
   });
-
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const inputRefs = {
@@ -57,6 +57,8 @@ export const Register: React.FC<RegisterProps> = ({
     confirmPasswordRef: useRef<HTMLInputElement>(null),
     statusRef: useRef<HTMLInputElement>(null)
   };
+
+  const signUpFetch = useAxios(signUp(userData.email, userData.mdp, userData), false);
 
   const handleInputChange =
     (key: keyof UserData) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,44 +130,45 @@ export const Register: React.FC<RegisterProps> = ({
 
   const handleRegister = () => {
     // Validate email format
-    if (!emailRegex.test(userData.email)) {
-      swal('Veuillez saisir une adresse email valide !', '', 'error');
-      return;
-    }
+    // if (!emailRegex.test(userData.email)) {
+    //   swal('Veuillez saisir une adresse email valide !', '', 'error');
+    //   return;
+    // }
 
-    if (userData.mdp !== confirmPassword) {
-      swal('Les mots de passe ne correspondent pas !', '', 'error');
-      return;
-    }
+    // if (userData.mdp !== confirmPassword) {
+    //   swal('Les mots de passe ne correspondent pas !', '', 'error');
+    //   return;
+    // }
 
-    if (
-      !nameRegex.test(userData.firstName) ||
-      !nameRegex.test(userData.lastName)
-    ) {
-      swal('Veuillez saisir un prénom et un nom valides !', '', 'error');
-      return;
-    }
+    // if (
+    //   !nameRegex.test(userData.firstName) ||
+    //   !nameRegex.test(userData.lastName)
+    // ) {
+    //   swal('Veuillez saisir un prénom et un nom valides !', '', 'error');
+    //   return;
+    // }
 
-    if (!pseudoRegex.test(userData.pseudo)) {
-      swal(
-        'Le pseudo ne peut contenir que des lettres et des chiffres !',
-        '',
-        'error'
-      );
-      return;
-    }
+    // if (!pseudoRegex.test(userData.pseudo)) {
+    //   swal(
+    //     'Le pseudo ne peut contenir que des lettres et des chiffres !',
+    //     '',
+    //     'error'
+    //   );
+    //   return;
+    // }
 
-    if (!passwordRegex.test(userData.mdp)) {
-      swal(
-        'Le mot de passe doit contenir au moins 8 caractères, un symbole et un chiffre !',
-        '',
-        'error'
-      );
-      return;
-    }
+    // if (!passwordRegex.test(userData.mdp)) {
+    //   swal(
+    //     'Le mot de passe doit contenir au moins 8 caractères, un symbole et un chiffre !',
+    //     '',
+    //     'error'
+    //   );
+    //   return;
+    // }
 
     // Effectuer l'inscription si les mots de passe correspondent
     executeFetch();
+    signUpFetch.executeFetch();
     onRegister();
   };
 

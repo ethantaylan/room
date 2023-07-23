@@ -20,16 +20,17 @@ export const signIn = (
   username: string,
   password: string
 ): AxiosRequestConfig => ({
-  url: `https://${import.meta.env.VITE_AUTH0_DOMAIN}/authorize`,
+  url: `https://${import.meta.env.VITE_AUTH0_DOMAIN}/oauth/token`,
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
   },
   data: {
     client_id: import.meta.env.VITE_AUTH0_CLIENT_ID,
-    email: username,
+    username: username,
     password: password,
-    connection: 'room-auth'
+    connection: 'Username-Password-Authentication',
+    grant_type: 'password'
   }
 });
 
@@ -47,21 +48,43 @@ export const signUpWithDB = (
     grant_type: 'password',
     email: email,
     password: password,
-    connection: 'room-auth',
+    connection: 'Username-Password-Authentication',
     user_metadata: userData
   }
 });
 
-// export const signUp = (
-//   email: string,
-//   password: string,
-//   userData: object
-// ): AxiosRequestConfig => ({
-//   method: 'POST',
-//   url: 'https://qtihtykvrjjjkztgiddt.supabase.co/rest/v1/auth',
-//   headers: {
-//     apikey: import.meta.env.VITE_SUPABASE_APIKEY,
-//     'Content-Type': 'application/json'
-//   },
-//   data: { pseudo: email, mdp: password, user_data: userData }
-// });
+export const connectedUser = (accessToken: string): AxiosRequestConfig => ({
+  url: `https://${import.meta.env.VITE_AUTH0_DOMAIN}/userinfo`,
+  method: 'GET',
+  data: { scope: 'email profile' },
+  headers: {
+    Authorization: `Bearer ${accessToken}`
+  }
+});
+
+export const signInSupabase = (): AxiosRequestConfig => ({
+  url: 'https://qtihtykvrjjjkztgiddt.supabase.co/rest/v1/membres',
+  method: 'GET',
+  headers: {
+    apikey: import.meta.env.VITE_SUPABASE_APIKEY
+  }
+});
+
+export const authenticateUser = (
+  username: string,
+  password: string
+): AxiosRequestConfig => ({
+  url: `https://qtihtykvrjjjkztgiddt.supabase.co/rest/v1/membres`,
+  method: 'GET',
+  params: {
+    pseudo: `eq.${username}`,
+    select: '*'
+  },
+  headers: {
+    apikey: import.meta.env.VITE_SUPABASE_APIKEY
+  },
+  data: {
+    pseudo: username,
+    mdp: password
+  }
+});

@@ -1,15 +1,12 @@
-import React from 'react';
+import { useAuth0 } from '@auth0/auth0-react';
 import { Menu, Transition } from '@headlessui/react';
+import { UserIcon } from '@heroicons/react/20/solid';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { AuthModal } from 'src/app/components/auth/auth-modal';
-import { useGlobalContext } from 'src/app/context/context';
-import { UserIcon } from '@heroicons/react/24/solid';
 import {
   Dropdown,
   ItemsProps
 } from 'src/app/components/generic-components/dropdown';
-import swal from 'sweetalert';
-import { useAuth0 } from '@auth0/auth0-react';
 
 export const ProfilDropdown: React.FC = () => {
   const [dropdownItems, setDropdownItems] = React.useState<ItemsProps[]>([
@@ -23,7 +20,7 @@ export const ProfilDropdown: React.FC = () => {
 
   // const { member } = useGlobalContext();
 
-  const { user, isAuthenticated,  } = useAuth0();
+  const { user, isAuthenticated } = useAuth0();
 
   const formattedAvatar = `${user?.name
     ?.charAt(0)
@@ -61,7 +58,7 @@ export const ProfilDropdown: React.FC = () => {
             </Dropdown>
           </div>
         ) : (
-          <NavLink className="p-1" to="/login">
+          <NavLink to="/login" className="p-1">
             <UserIcon className="w-5 text-slate-400 hover:text-slate-500" />
           </NavLink>
         )}

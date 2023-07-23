@@ -98,9 +98,6 @@ export const AjouterUneNouvelleSalleModal: React.FC<
     postSalleFetch.response && onConfirm();
   }, [postSalleFetch.response]);
 
-  console.log(formState.categorie)
-
-
   return (
     <Modal
       title="Nouvelle salle"

@@ -1,20 +1,64 @@
 import React from 'react';
-import { AppLayout } from '../app-layout/app-layout';
 import { NavLink } from 'react-router-dom';
+import { AppLayout } from '../app-layout/app-layout';
+import { useGlobalContext, useGlobalDispatch } from '../context/context';
 import { useAxios } from '../hooks/use-axios';
-import { signIn } from '../services/auth';
-import { LoginButton } from '../components/auth/auth0/login-button';
+import { authenticateUser } from '../services/auth';
+import { Member } from '../models/members';
 
 export const Login: React.FC = () => {
   const [username, setUsername] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
 
-  const { response, executeFetch } = useAxios(
-    signIn(username, password),
-    false
+  const dispatch = useGlobalDispatch();
+
+  const { member } = useGlobalContext()
+
+  // const { user } = useAuth0()
+
+  // const { response, executeFetch, error } = useAxios<any>(
+  //   signIn(username, password),
+  //   false
+  // );
+
+  // const getUserDataFetch = useAxios(connectedUser(response?.access_token))
+
+  const { response, executeFetch } = useAxios<Member[]>(
+    authenticateUser(username, password)
   );
 
-  console.log(username, password);
+  console.log(member);
+
+  React.useEffect(() => {
+    if (response) {
+      // Check if the response contains the member data
+      if (response?.length === 1) {
+        dispatch({
+          type: 'CONNECTED',
+          payload: response?.[0] // Assuming the first element in the response array contains the member data
+        });
+      } else {
+        // Handle the case where the authentication failed (member not found)
+        console.log('Authentication failed: Member not found.');
+      }
+    }
+  }, [response, dispatch]);
+
+
+  // React.useEffect(() => {
+  //   if (error) {
+  //     Swal.fire("Erreur lors de l'authentification", '', 'error');
+  //   }
+
+  //   response && Swal.fire('Authentification réussie', '', 'success');
+  //   response && navigate('/');
+  //   localStorage.setItem('auth0 user', response?.access_token);
+
+  //   response && getUserDataFetch.executeFetch()
+
+  //   getUserDataFetch.response && console.log(getUserDataFetch.response)
+
+  // }, [response]);
 
   return (
     <AppLayout withFooter={false}>
@@ -99,7 +143,6 @@ export const Login: React.FC = () => {
           </div>
         </form>
       </div>
-      <LoginButton />
     </AppLayout>
   );
 };

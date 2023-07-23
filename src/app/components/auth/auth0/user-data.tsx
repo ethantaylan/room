@@ -1,4 +1,4 @@
-import { useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const UserData = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
@@ -6,9 +6,6 @@ export const UserData = () => {
   if (isLoading) {
     return <div>Loading ...</div>;
   }
-
-  
-
 
   return (
     isAuthenticated && (

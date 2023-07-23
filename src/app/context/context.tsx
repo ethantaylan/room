@@ -38,8 +38,6 @@ export const DispatchContext = createContext<Dispatch<any> | undefined>(
   undefined
 );
 
-// ...
-
 export const GlobalContextProvider: React.FC<PropsWithChildren> = ({
   children
 }) => {

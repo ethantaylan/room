@@ -4,10 +4,7 @@ import { Register } from 'src/app/components/auth/register';
 import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { Member, MemberResponse } from 'src/app/models/members';
-import {
-  deleteMemberById,
-  getMembers,
-} from 'src/app/services/members';
+import { deleteMemberById, getMembers } from 'src/app/services/members';
 import Swal from 'sweetalert2';
 
 export const MembresList: React.FC = () => {

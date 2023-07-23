@@ -1,9 +1,14 @@
 import React, { useRef, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useAxios } from 'src/app/hooks/use-axios';
-import { signUp } from 'src/app/services/auth';
+import { signUpWithDB } from 'src/app/services/auth';
 import { postMembre } from 'src/app/services/members';
 import swal from 'sweetalert';
-import { RegisterField, RegisterFieldProps } from './register-field';
+import { AppLayout } from '../app-layout/app-layout';
+import {
+  RegisterField,
+  RegisterFieldProps
+} from '../components/auth/register-field';
 
 export interface UserData {
   firstName: string;
@@ -11,19 +16,17 @@ export interface UserData {
   email: string;
   pseudo: string;
   mdp: string;
-  statut?: 1 | 2 | null;
+  statut?: 'membre' | 'admin';
   dateEnregistrement?: string;
 }
 
 export interface RegisterProps {
   onClick?: () => void;
-  onRegister: () => void;
   forAdminPage: boolean;
 }
 
 export const Register: React.FC<RegisterProps> = ({
   onClick,
-  onRegister,
   forAdminPage
 }) => {
   const date = new Date();
@@ -43,7 +46,7 @@ export const Register: React.FC<RegisterProps> = ({
     email: '',
     pseudo: '',
     mdp: '',
-    statut: null,
+    statut: 'membre',
     dateEnregistrement: dateEnregistrement
   });
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -58,7 +61,10 @@ export const Register: React.FC<RegisterProps> = ({
     statusRef: useRef<HTMLInputElement>(null)
   };
 
-  const signUpFetch = useAxios(signUp(userData.email, userData.mdp, userData), false);
+  const signUpWithDBFetch = useAxios(
+    signUpWithDB(userData.email, userData.mdp, userData),
+    false
+  );
 
   const handleInputChange =
     (key: keyof UserData) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,7 +124,7 @@ export const Register: React.FC<RegisterProps> = ({
 
   const handleStatusChange = () => {
     setUserData(prevData => {
-      const newStatut = prevData.statut === 1 ? 2 : 1;
+      const newStatut = prevData.statut === 'membre' ? 'admin' : 'membre';
       return { ...prevData, statut: newStatut };
     });
   };
@@ -168,8 +174,7 @@ export const Register: React.FC<RegisterProps> = ({
 
     // Effectuer l'inscription si les mots de passe correspondent
     executeFetch();
-    signUpFetch.executeFetch();
-    onRegister();
+    signUpWithDBFetch.executeFetch();
   };
 
   // After executeFetch is called, handle the response and status
@@ -187,50 +192,59 @@ export const Register: React.FC<RegisterProps> = ({
   const passwordRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
 
   return (
-    <div className="mt-6">
-      <dl>
-        {RegisterFields.map((field, index) => (
-          <RegisterField
-            key={index}
-            ref={field.ref}
-            onChange={field.onChange}
-            placeholder={field.placeholder}
-            inputType={field.inputType}
-            label={field.label}
-          />
-        ))}
-        <form className="px-6 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-          <dt className="flex items-center text-sm font-medium leading-6 text-gray-900">
-            Statut
-          </dt>
-          <dd className="mt-1 flex items-center rounded p-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            <input
-              ref={inputRefs.statusRef}
-              onChange={handleStatusChange}
-              type="checkbox"
-              name="statut"
-            />
-            <span className="ms-2">Administrateur</span>
-          </dd>
-        </form>
+    <AppLayout withFooter={false}>
+      <div className="mt-20 flex w-full flex-col items-center justify-center">
+        <dl className="w-6/12">
+          {/* <h1 className="text-2xl font-bold">INSCRIPTION</h1> */}
 
-        <div className="mb-3 flex flex-col items-center justify-center">
-          <span
-            onClick={handleRegister}
-            className="mt-5 w-full cursor-pointer rounded-md bg-indigo-600 px-5 py-1.5 text-center font-semibold text-white hover:bg-indigo-700"
-          >
-            {forAdminPage ? 'Ajouter' : "S'inscrire"}
-          </span>
-          {!forAdminPage && (
+          {RegisterFields.map((field, index) => (
+            <RegisterField
+              key={index}
+              ref={field.ref}
+              onChange={field.onChange}
+              placeholder={field.placeholder}
+              inputType={field.inputType}
+              label={field.label}
+            />
+          ))}
+          <form className="px-6 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+            {forAdminPage && (
+              <React.Fragment>
+                <dt className="flex items-center text-sm font-medium leading-6 text-gray-900">
+                  Statut
+                </dt>
+                <dd className="mt-1 flex items-center rounded p-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                  <input
+                    ref={inputRefs.statusRef}
+                    onChange={handleStatusChange}
+                    type="checkbox"
+                    name="statut"
+                  />
+                  <span className="ms-2">Administrateur</span>
+                </dd>
+              </React.Fragment>
+            )}
+          </form>
+
+          <div className="mb-3 flex flex-col items-center justify-center">
             <span
-              onClick={onClick}
-              className="mt-5 cursor-pointer px-5 py-1 text-sm font-semibold text-slate-600 hover:text-slate-800"
+              onClick={handleRegister}
+              className="mt-5 w-full cursor-pointer rounded-md bg-indigo-600 px-5 py-1.5 text-center font-semibold text-white hover:bg-indigo-700"
             >
-              Se connecter
+              {forAdminPage ? 'Ajouter' : "S'inscrire"}
             </span>
-          )}
-        </div>
-      </dl>
-    </div>
+            {!forAdminPage && (
+              <NavLink
+                onClick={onClick}
+                className="mt-5 cursor-pointer px-5 py-1 text-sm font-semibold text-slate-600 hover:text-slate-800"
+                to="/login"
+              >
+                Se connecter
+              </NavLink>
+            )}
+          </div>
+        </dl>
+      </div>
+    </AppLayout>
   );
 };

@@ -1,9 +1,9 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
-import { Register } from 'src/app/components/auth/register';
 import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { Member, MemberResponse } from 'src/app/models/members';
+import { Register } from 'src/app/pages/register';
 import { deleteMemberById, getMembers } from 'src/app/services/members';
 import Swal from 'sweetalert2';
 
@@ -107,13 +107,7 @@ export const MembresList: React.FC = () => {
           onClose={() => setRegisterModal(false)}
           withButtons={false}
         >
-          <Register
-            onRegister={() => {
-              setRegisterModal(false);
-              // getMembersFetch.executeFetch();
-            }}
-            forAdminPage={true}
-          />
+          <Register forAdminPage={true} />
         </Modal>
       </ul>
     </React.Fragment>

@@ -1,3 +1,4 @@
+import { Auth0Provider } from '@auth0/auth0-react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Administration } from './admin/administration';
 import {
@@ -10,17 +11,13 @@ import { AboutUs } from './pages/about-us';
 import { Contact } from './pages/contact';
 import { Home } from './pages/home';
 import { LesSalles } from './pages/les-salles';
+import { Login } from './pages/login';
 import { NotFound } from './pages/notFound';
 import { Profil } from './pages/profil';
 import { AuthProvider } from './provider/auth';
-import { Login } from './pages/login';
-import { Auth0Provider, useAuth0 } from '@auth0/auth0-react';
-import auth0 from '@auth0/auth0-react'
+import { Register } from './pages/register';
 
 export const App: React.FC = () => {
-
-
-
   return (
     <BrowserRouter>
       <Auth0Provider
@@ -40,6 +37,10 @@ export const App: React.FC = () => {
               <Route path="/contact" element={<Contact />} />
               <Route path="/profil" element={<Profil />} />
               <Route path="/login" element={<Login />} />
+              <Route
+                path="/register"
+                element={<Register forAdminPage={false} />}
+              />
 
               <Route path="*" element={<NotFound />} />
 

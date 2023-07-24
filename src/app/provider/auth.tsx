@@ -11,7 +11,7 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const { member } = useGlobalContext();
 
   const dispatch = useGlobalDispatch();
-  const getMemberByEmailFetch = useAxios<MemberResponse>(
+  const getMemberByEmailFetch = useAxios<MemberResponse[]>(
     getMemberByEmail(email || ''),
     false
   );
@@ -20,12 +20,11 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     if (getMemberByEmailFetch.response) {
       dispatch({
         type: 'CONNECTED',
-        payload: getMemberByEmailFetch.response
+        payload: getMemberByEmailFetch.response?.[0]
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getMemberByEmailFetch.response]);
-
 
   React.useEffect(() => {
     member && setIsReady(true);
@@ -45,5 +44,6 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email]);
 
+  // eslint-disable-next-line react/jsx-no-useless-fragment
   return ready ? children : <></>;
 };

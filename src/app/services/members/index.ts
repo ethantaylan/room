@@ -1,5 +1,5 @@
 import { AxiosRequestConfig } from 'axios';
-import { UserData } from 'src/app/components/auth/register';
+import { UserData } from 'src/app/pages/register';
 
 export const getMembers = (): AxiosRequestConfig => ({
   url: 'https://qtihtykvrjjjkztgiddt.supabase.co/rest/v1/membres',
@@ -16,8 +16,9 @@ export const getMemberByEmail = (email: string): AxiosRequestConfig => ({
     apikey: import.meta.env.VITE_SUPABASE_APIKEY
   },
   params: {
-    email
-  }
+    email: `eq.${email}`,
+    select: '*'
+  },
 });
 
 export const postMembre = ({

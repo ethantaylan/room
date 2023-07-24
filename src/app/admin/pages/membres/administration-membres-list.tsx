@@ -1,5 +1,6 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { Member, MemberResponse } from 'src/app/models/members';
@@ -60,12 +61,12 @@ export const MembresList: React.FC = () => {
     <React.Fragment>
       <ul className="divide-y divide-gray-100">
         <div className="flex w-full justify-end">
-          <button
-            onClick={() => setRegisterModal(true)}
+          <NavLink
+            to={'/administration/ajouter-un-nouveau-membre'}
             className="mb-5 rounded border px-5 py-2 hover:bg-slate-100"
           >
             + Ajouter un nouveau membre
-          </button>
+          </NavLink>
         </div>
         {members.map(member => (
           <li

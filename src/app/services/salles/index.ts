@@ -42,6 +42,10 @@ export const deleteSalleById = (
 ): AxiosRequestConfig => ({
   url: 'https://qtihtykvrjjjkztgiddt.supabase.co/rest/v1/salles',
   method: 'DELETE',
+  params: {
+    id_salle: `eq.${idSalle}`,
+    select: '*'
+  },
   headers: {
     apikey: import.meta.env.VITE_SUPABASE_APIKEY
   },

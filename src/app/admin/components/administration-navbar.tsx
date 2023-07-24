@@ -2,10 +2,10 @@ import React, { PropsWithChildren } from 'react';
 import { NavLink } from 'react-router-dom';
 import { GestionDesAvis } from 'src/app/admin/pages/gestion-des-avis';
 import { GestionDesCommandes } from 'src/app/admin/pages/gestion-des-commandes';
-import { GestionDesMembres } from 'src/app/admin/pages/gestion-des-membres';
 import { GestionDesProduits } from 'src/app/admin/pages/gestion-des-produits';
 import { GestionDesSalles } from 'src/app/admin/pages/gestion-des-salles';
 import { GestionDesStatistiques } from 'src/app/admin/pages/gestion-des-statistiques';
+import { GestionDesMembres } from 'src/app/admin/pages/membres/gestion-des-membres';
 
 export interface AdministrationRoutes {
   title: string;
@@ -51,12 +51,12 @@ export const AdministrationNavbar: React.FC<PropsWithChildren> = ({
 }) => {
   return (
     <>
-      <h1 className="mt-5 text-center text-lg font-bold">Administration</h1>
+      <h1 className="my-5 text-center text-lg font-bold">Administration</h1>
       <div className="mt-5 h-auto w-full rounded-md border p-5 text-black">
         {children}
 
-        <div className="flex w-full flex-col">
-          <ul className="flex w-full justify-around">
+        <div className="flex flex-col">
+          <ul className="flex justify-around">
             {administrationRoutes.map(
               (route: AdministrationRoutes, index: number) => (
                 <li

@@ -1,10 +1,11 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { AppLayout } from '../app-layout/app-layout';
 import { useGlobalContext, useGlobalDispatch } from '../context/context';
 import { useAxios } from '../hooks/use-axios';
-import { authenticateUser } from '../services/auth';
 import { Member } from '../models/members';
+import { authenticateUser, connectedUser } from '../services/auth';
 
 export const Login: React.FC = () => {
   const [username, setUsername] = React.useState<string>('');
@@ -12,53 +13,42 @@ export const Login: React.FC = () => {
 
   const dispatch = useGlobalDispatch();
 
-  const { member } = useGlobalContext()
-
-  // const { user } = useAuth0()
-
-  // const { response, executeFetch, error } = useAxios<any>(
-  //   signIn(username, password),
-  //   false
-  // );
-
-  // const getUserDataFetch = useAxios(connectedUser(response?.access_token))
+  const { member } = useGlobalContext();
 
   const { response, executeFetch } = useAxios<Member[]>(
-    authenticateUser(username, password)
+    authenticateUser(username, password),
+    false
   );
 
-  console.log(member);
-
   React.useEffect(() => {
-    if (response) {
-      // Check if the response contains the member data
+    const connectedUser = localStorage.getItem('connectedUser');
+
+    if (response || connectedUser) {
       if (response?.length === 1) {
         dispatch({
           type: 'CONNECTED',
-          payload: response?.[0] // Assuming the first element in the response array contains the member data
+          payload: response?.[0]
         });
+        Swal.fire('', '', 'success');
       } else {
-        // Handle the case where the authentication failed (member not found)
-        console.log('Authentication failed: Member not found.');
+        response?.length === 0 &&
+          Swal.fire("Erreur lors de l'authentification", '', 'error');
       }
     }
-  }, [response, dispatch]);
+  }, [response, connectedUser]);
 
+  const handleSignIn = (event: React.ChangeEvent<HTMLButtonElement>) => {
+    event.preventDefault();
 
-  // React.useEffect(() => {
-  //   if (error) {
-  //     Swal.fire("Erreur lors de l'authentification", '', 'error');
-  //   }
+    executeFetch();
+    response?.length === 1 && navigate('/');
+  };
 
-  //   response && Swal.fire('Authentification réussie', '', 'success');
-  //   response && navigate('/');
-  //   localStorage.setItem('auth0 user', response?.access_token);
+  React.useEffect(() => {
+    localStorage.setItem('connectedUser', member?.email || '');
+  }, [member]);
 
-  //   response && getUserDataFetch.executeFetch()
-
-  //   getUserDataFetch.response && console.log(getUserDataFetch.response)
-
-  // }, [response]);
+  const navigate = useNavigate();
 
   return (
     <AppLayout withFooter={false}>
@@ -126,10 +116,7 @@ export const Login: React.FC = () => {
 
           <div>
             <button
-              onClick={event => {
-                event.preventDefault();
-                executeFetch();
-              }}
+              onClick={(_: any) => handleSignIn(_)}
               className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Se connecter

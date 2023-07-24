@@ -16,6 +16,8 @@ import { NotFound } from './pages/notFound';
 import { Profil } from './pages/profil';
 import { AuthProvider } from './provider/auth';
 import { Register } from './pages/register';
+import { AJouterUnNouveauMembre } from './admin/pages/membres/ajouter-un-nouveau-membres';
+import { AppLayout } from './app-layout/app-layout';
 
 export const App: React.FC = () => {
   return (
@@ -39,7 +41,11 @@ export const App: React.FC = () => {
               <Route path="/login" element={<Login />} />
               <Route
                 path="/register"
-                element={<Register forAdminPage={false} />}
+                element={
+                  <AppLayout>
+                    <Register forAdminPage={false} />
+                  </AppLayout>
+                }
               />
 
               <Route path="*" element={<NotFound />} />
@@ -50,6 +56,14 @@ export const App: React.FC = () => {
                 element={
                   <Guard>
                     <Administration />
+                  </Guard>
+                }
+              />
+              <Route
+                path="/administration/ajouter-un-nouveau-membre"
+                element={
+                  <Guard>
+                    <AJouterUnNouveauMembre />
                   </Guard>
                 }
               />

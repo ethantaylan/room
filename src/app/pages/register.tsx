@@ -2,9 +2,7 @@ import React, { useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { signUpWithDB } from 'src/app/services/auth';
-import { postMembre } from 'src/app/services/members';
 import swal from 'sweetalert';
-import { AppLayout } from '../app-layout/app-layout';
 import {
   RegisterField,
   RegisterFieldProps
@@ -129,11 +127,6 @@ export const Register: React.FC<RegisterProps> = ({
     });
   };
 
-  const { executeFetch, status, response } = useAxios<UserData>(
-    postMembre(userData),
-    false
-  );
-
   const handleRegister = () => {
     if (!emailRegex.test(userData.email)) {
       swal('Veuillez saisir une adresse email valide !', '', 'error');
@@ -171,19 +164,8 @@ export const Register: React.FC<RegisterProps> = ({
       return;
     }
 
-    executeFetch();
     signUpWithDBFetch.executeFetch();
   };
-
-  // After executeFetch is called, handle the response and status
-  React.useEffect(() => {
-    if (status !== 201) {
-      response &&
-        swal("Une erreur est survenue lors de l'inscription.", '', 'error');
-    } else if (status === 201) {
-      swal('', '', 'success');
-    }
-  }, [status]);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const nameRegex = /^[A-Za-zÀ-ÖØ-öø-ÿ-]+(?: [A-Za-zÀ-ÖØ-öø-ÿ-]+)*$/;

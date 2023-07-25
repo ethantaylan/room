@@ -54,19 +54,8 @@ export const deleteSalleById = (
   }
 });
 
-export const getSalleById = (idSalle: number | null): AxiosRequestConfig => ({
-  url: 'https://qtihtykvrjjjkztgiddt.supabase.co/rest/v1/salles',
-  method: 'GET',
-  headers: {
-    apikey: import.meta.env.VITE_SUPABASE_APIKEY
-  },
-  data: {
-    id_salle: idSalle
-  }
-});
-
 export const updateSalle = (body: {
-  idSalle?: number;
+  id_salle?: number;
   titre?: string;
   description?: string;
   photo?: string;
@@ -82,5 +71,9 @@ export const updateSalle = (body: {
   data: { ...body },
   headers: {
     apikey: import.meta.env.VITE_SUPABASE_APIKEY
+  },
+  params: {
+    id_salle: `eq.${body.id_salle}`,
+    select: '*'
   }
 });

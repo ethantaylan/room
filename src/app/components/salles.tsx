@@ -8,7 +8,7 @@ import { SalleView } from './les-salles/salle-view';
 export const Salles: React.FC = () => {
   const [salles, setSalles] = React.useState<Salle[]>([]);
   const [modal, setModal] = React.useState<boolean>(false);
-  const [selectedSalle, setSelectedSalle] = React.useState<Salle | null>(null);
+  const [salleId, setSalleId] = React.useState<number | null>(null);
 
   const getSallesFetch = useAxios<SalleResponse[]>(getSalles());
 
@@ -19,8 +19,9 @@ export const Salles: React.FC = () => {
       );
   }, [getSallesFetch.response]);
 
-  const handleShowSalle = (salle: Salle) => {
-    setSelectedSalle(salle);
+  const handleShowSalle = (id: number) => {
+    setSalleId(id);
+    setModal(true);
   };
 
   return (
@@ -28,11 +29,7 @@ export const Salles: React.FC = () => {
       <div className="mx-auto max-w-xl px-4 sm:px-6 lg:max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-2 xl:gap-x-8">
           {salles.map((salle: Salle, index: number) => (
-            <div
-              onClick={() => handleShowSalle(salle)}
-              key={index}
-              className="group relative"
-            >
+            <div key={index} className="group relative">
               <div className="aspect-h-1 aspect-w-1 lg:aspect-none w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:h-80">
                 <img
                   src={salle.photo || ''}
@@ -44,18 +41,20 @@ export const Salles: React.FC = () => {
                 <div className="w-full">
                   <div className="flex w-full justify-between">
                     <h3 className="text-sm text-gray-700">
-                      {/* MODAL TO SHOW THE PRODUCT HERE */}
-
-                      {selectedSalle && (
+                      {salleId === salle.idSalle && (
                         <SalleView
-                          modal={true}
+                          modal={modal}
                           onClose={() => setModal(false)}
                           salle={salle}
                         />
                       )}
 
                       <NavLink to={'/les-salles'}>
-                        <span aria-hidden="true" className="absolute inset-0" />
+                        <span
+                          aria-hidden="true"
+                          onClick={() => handleShowSalle(salle.idSalle)}
+                          className="absolute inset-0"
+                        />
                         {salle.titre}
                       </NavLink>
                     </h3>

@@ -16,40 +16,23 @@ export const login = (
   }
 });
 
-export const signIn = (
-  username: string,
-  password: string
-): AxiosRequestConfig => ({
-  url: `https://${import.meta.env.VITE_AUTH0_DOMAIN}/oauth/token`,
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  data: {
-    client_id: import.meta.env.VITE_AUTH0_CLIENT_ID,
-    username: username,
-    password: password,
-    connection: 'Username-Password-Authentication',
-    grant_type: 'password'
-  }
-});
-
 export const signUpWithDB = (
-  email: string,
+  username: string,
   password: string,
   userData: object
 ): AxiosRequestConfig => ({
-  url: `https://${import.meta.env.VITE_AUTH0_DOMAIN}/dbconnections/signup`,
-  method: 'POST',
+  url: `https://qtihtykvrjjjkztgiddt.supabase.co/rest/v1/membres`,
+  method: 'GET',
+  params: {
+    pseudo: `eq.${username}`,
+    select: '*'
+  },
+  headers: {
+    apikey: import.meta.env.VITE_SUPABASE_APIKEY
+  },
   data: {
-    client_id: import.meta.env.VITE_AUTH0_CLIENT_ID,
-    client_secret: import.meta.env.VITE_AUTH0_CLIENT_SECRET,
-    audience: 'https://dev-20cf07b3bhdhpvv1.us.auth0.com/api/v2/',
-    grant_type: 'password',
-    email: email,
-    password: password,
-    connection: 'Username-Password-Authentication',
-    user_metadata: userData
+    pseudo: username,
+    mdp: password
   }
 });
 

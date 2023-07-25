@@ -3,7 +3,7 @@ import { Input } from 'src/app/components/generic-components/input';
 import { Modal } from 'src/app/components/generic-components/modal';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { SalleResponse } from 'src/app/models/salles';
-import { getSalles, postSalle } from 'src/app/services/salles';
+import { postSalle } from 'src/app/services/salles';
 
 interface FormState {
   title: string;
@@ -92,12 +92,6 @@ export const AjouterUneNouvelleSalleModal: React.FC<
   const handleConfirm = () => {
     postSalleFetch.executeFetch();
   };
-
-  React.useEffect(() => {
-    console.log('test');
-  }, [postSalleFetch.response]);
-
-  const { response, executeFetch } = useAxios(getSalles(), false);
 
   return (
     <Modal

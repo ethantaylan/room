@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react';
 import { Menu, Transition } from '@headlessui/react';
 import { UserIcon } from '@heroicons/react/20/solid';
 import React from 'react';
@@ -13,7 +12,7 @@ import Swal from 'sweetalert2';
 export const ProfilDropdown: React.FC = () => {
   const [dropdownItems, setDropdownItems] = React.useState<ItemsProps[]>([
     { href: '/profil', title: 'Profil' },
-    { href: '/vos-reservations', title: 'Vos réservations' },
+    { href: '/reservations', title: 'Vos réservations' },
     {
       title: 'Se déconnecter',
       onDisconnect: () => handleDisconnect()
@@ -45,8 +44,6 @@ export const ProfilDropdown: React.FC = () => {
       Swal.fire('Erreur lors de la déconnexion', '', 'error');
     }
   };
-
-  console.log(member?.isAdmin())
 
   return (
     <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">

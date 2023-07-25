@@ -18,7 +18,7 @@ export const getMemberByEmail = (email: string): AxiosRequestConfig => ({
   params: {
     email: `eq.${email}`,
     select: '*'
-  },
+  }
 });
 
 export const postMembre = ({
@@ -52,7 +52,8 @@ export const deleteMemberById = (idMembre: number): AxiosRequestConfig => ({
   headers: {
     apikey: import.meta.env.VITE_SUPABASE_APIKEY
   },
-  data: {
-    id_membre: idMembre
+  params: {
+    id_membre: `eq.${idMembre}`,
+    select: '*'
   }
 });

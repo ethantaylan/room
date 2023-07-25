@@ -16,7 +16,7 @@ export const Login: React.FC = () => {
   const { member } = useGlobalContext();
 
   const { response, executeFetch } = useAxios<Member[]>(
-    authenticateUser(username, password),
+    authenticateUser(username.toLowerCase(), password),
     false
   );
 

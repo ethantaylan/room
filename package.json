@@ -1,5 +1,5 @@
 {
-  "name": "ROOM | e-commerce",
+  "name": "ROOM",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -10,19 +10,17 @@
   },
   "private": true,
   "dependencies": {
-    "@auth0/auth0-react": "^2.2.0",
-    "@headlessui/react": "^1.7.15",
-    "@heroicons/react": "^2.0.18",
-    "@supabase/supabase-js": "^2.27.0",
-    "axios": "^1.4.0",
-    "lodash": "^4.17.21",
+    "@headlessui/react": "1.7.15",
+    "@heroicons/react": "2.0.18",
+    "@supabase/supabase-js": "2.27.0",
+    "axios": "1.4.0",
+    "lodash": "4.17.21",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.11.2",
     "react-tailwindcss-datepicker": "^1.6.5",
-    "sweetalert": "^2.1.2",
-    "sweetalert2": "^11.7.18",
-    "uuid": "^9.0.0"
+    "sweetalert": "2.1.2",
+    "sweetalert2": "11.6.13"
   },
   "devDependencies": {
     "@nx/cypress": "16.4.0",
@@ -44,7 +42,7 @@
     "@vitest/coverage-c8": "0.31.0",
     "@vitest/ui": "0.31.0",
     "autoprefixer": "^10.4.14",
-    "cypress": "12.11.0",
+    "cypress": "^4.2.0",
     "daisyui": "^3.1.7",
     "eslint": "~8.15.0",
     "eslint-config-prettier": "8.1.0",
@@ -60,7 +58,7 @@
     "prettier-plugin-tailwindcss": "^0.2.7",
     "tailwindcss": "^3.3.1",
     "typescript": "5.1.3",
-    "vite": "4.3.4",
+    "vite": "^4.4.7",
     "vite-plugin-eslint": "^1.8.1",
     "vite-tsconfig-paths": "4.2.0",
     "vitest": "0.31.0"

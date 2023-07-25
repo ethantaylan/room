@@ -10,9 +10,9 @@ export interface MemberResponse {
 }
 
 export class Member {
-  idMembre: number;
+  id_membre: number;
   pseudo: string;
-  dateEnregistrement: string;
+  date_enregistrement: string;
   email: string;
   mdp: string;
   nom: string;
@@ -29,9 +29,9 @@ export class Member {
     prenom,
     statut
   }: MemberResponse) {
-    this.idMembre = id_membre;
+    this.id_membre = id_membre;
     this.pseudo = pseudo;
-    this.dateEnregistrement = date_enregistrement;
+    this.date_enregistrement = date_enregistrement;
     this.email = email;
     this.mdp = mdp;
     this.nom = nom;

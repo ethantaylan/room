@@ -9,8 +9,8 @@ import {
 } from '@heroicons/react/20/solid';
 import { Select } from '../generic-components/select';
 import { RangeSlider } from './range-slider';
-import { DatePicker } from './date-picker';
 import { NavLink } from 'react-router-dom';
+import { DatepickerComponent } from './date-picker';
 
 const sortOptions = [
   { name: 'Populaires', href: '#', current: true },
@@ -319,7 +319,6 @@ export const CategoryFilters: React.FC<CategoryFiltersProps> = ({
                 ))}
                 <Select className="border-b border-gray-200 py-6" />
                 <RangeSlider className="py-6" />
-                <label className="flex py-2">Période</label> <DatePicker />
               </form>
               {/* Product grid */}
               <div className="lg:col-span-3">{children}</div>

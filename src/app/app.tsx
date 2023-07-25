@@ -1,3 +1,4 @@
+import { Auth0Provider } from '@auth0/auth0-react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Administration } from './admin/administration';
 import {
@@ -10,9 +11,14 @@ import { AboutUs } from './pages/about-us';
 import { Contact } from './pages/contact';
 import { Home } from './pages/home';
 import { LesSalles } from './pages/les-salles';
+import { Login } from './pages/login';
 import { NotFound } from './pages/notFound';
 import { Profil } from './pages/profil';
 import { AuthProvider } from './provider/auth';
+import { Register } from './pages/register';
+import { AJouterUnNouveauMembre } from './admin/pages/membres/ajouter-un-nouveau-membres';
+import { AppLayout } from './app-layout/app-layout';
+import { Reservations } from './pages/reservations';
 
 export const App: React.FC = () => {
   return (
@@ -26,6 +32,17 @@ export const App: React.FC = () => {
             <Route path="/qui-sommes-nous" element={<AboutUs />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/profil" element={<Profil />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/reservations" element={<Reservations />} />
+            <Route
+              path="/register"
+              element={
+                <AppLayout>
+                  <Register forAdminPage={false} />
+                </AppLayout>
+              }
+            />
+
             <Route path="*" element={<NotFound />} />
 
             {/* Routes that require admin access */}
@@ -34,6 +51,14 @@ export const App: React.FC = () => {
               element={
                 <Guard>
                   <Administration />
+                </Guard>
+              }
+            />
+            <Route
+              path="/administration/ajouter-un-nouveau-membre"
+              element={
+                <Guard>
+                  <AJouterUnNouveauMembre />
                 </Guard>
               }
             />

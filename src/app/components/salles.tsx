@@ -2,9 +2,12 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { supabase } from '../config';
 import { Salle } from '../models/salles';
+import { SalleView } from './les-salles/salle-view';
 
 export const Salles: React.FC = () => {
   const [salles, setSalles] = React.useState<Salle[]>([]);
+  const [modal, setModal] = React.useState<boolean>(false);
+  const [salleId, setSalleId] = React.useState<number | null>(null);
 
   const getSallesSupabase = async () => {
     const { data: salles, error } = await supabase.from('salles').select('*');
@@ -16,14 +19,10 @@ export const Salles: React.FC = () => {
     getSallesSupabase();
   }, []);
 
-  // const getSallesFetch = useAxios<SalleResponse[]>(getSalles());
-
-  // React.useEffect(() => {
-  //   getSallesFetch.response &&
-  //     setSalles(
-  //       getSallesFetch.response.map((s: SalleResponse) => new Salle(s))
-  //     );
-  // }, [getSallesFetch.response]);
+  const handleShowSalle = (id: number) => {
+    setSalleId(id);
+    setModal(true);
+  };
 
   return (
     <div className="bg-white">
@@ -42,10 +41,20 @@ export const Salles: React.FC = () => {
                 <div className="w-full">
                   <div className="flex w-full justify-between">
                     <h3 className="text-sm text-gray-700">
-                      {/* MODAL TO SHOW THE PRODUCT HERE */}
+                      {salleId === salle.idSalle && (
+                        <SalleView
+                          modal={modal}
+                          onClose={() => setModal(false)}
+                          salle={salle}
+                        />
+                      )}
 
                       <NavLink to={'/les-salles'}>
-                        <span aria-hidden="true" className="absolute inset-0" />
+                        <span
+                          aria-hidden="true"
+                          onClick={() => handleShowSalle(salle.idSalle)}
+                          className="absolute inset-0"
+                        />
                         {salle.titre}
                       </NavLink>
                     </h3>

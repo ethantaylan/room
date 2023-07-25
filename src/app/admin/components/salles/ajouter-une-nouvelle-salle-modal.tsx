@@ -25,14 +25,13 @@ interface InputField {
 }
 
 export interface AjouterUneNouvelleSalleModalProps {
-  onConfirm: () => void;
   onClose: () => void;
   modal: boolean;
 }
 
 export const AjouterUneNouvelleSalleModal: React.FC<
   AjouterUneNouvelleSalleModalProps
-> = ({ onConfirm, onClose, modal }) => {
+> = ({ onClose, modal }) => {
   const initialState: FormState = {
     title: '',
     description: '',
@@ -90,16 +89,9 @@ export const AjouterUneNouvelleSalleModal: React.FC<
     { label: 'Catégorie', name: 'categorie', isSelect: true }
   ];
 
-  const handleConfirm = async () => {
+  const handleConfirm = () => {
     postSalleFetch.executeFetch();
   };
-
-  React.useEffect(() => {
-    postSalleFetch.response && onConfirm();
-  }, [postSalleFetch.response]);
-
-  console.log(formState.categorie)
-
 
   return (
     <Modal
@@ -111,12 +103,9 @@ export const AjouterUneNouvelleSalleModal: React.FC<
     >
       {inputFields.map(field =>
         field.isSlider ? (
-          <div
-            className="mt-3 flex w-full"
-            key={field.name}
-          >
+          <div className="mt-3 flex w-full" key={field.name}>
             <label className="me-5 w-60 text-right">Capacité</label>
-            <div className='w-full pt-2 flex flex-col'>
+            <div className="flex w-full flex-col pt-2">
               <input
                 name={field.name}
                 min={0}
@@ -127,7 +116,7 @@ export const AjouterUneNouvelleSalleModal: React.FC<
                 value={capacite}
                 className="dark:bg-slant-200 h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-200"
               />
-              <p className='text-center'>{capacite}</p>
+              <p className="text-center">{capacite}</p>
             </div>
           </div>
         ) : field.isSelect ? (
@@ -139,7 +128,7 @@ export const AjouterUneNouvelleSalleModal: React.FC<
             <select
               name={field.name}
               onChange={handleChange}
-              className="w-full bg-indigo-100 rounded py-1.5 px-2"
+              className="w-full rounded bg-indigo-100 px-2 py-1.5"
               value={formState.categorie}
             >
               <option value="réunion">Réunion</option>

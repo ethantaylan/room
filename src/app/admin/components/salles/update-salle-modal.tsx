@@ -61,7 +61,7 @@ export const UpdateSalleModal: React.FC<AjouterUneNouvelleSalleModalProps> = ({
 
   const [formState, setFormState] = React.useState<FormState>(initialState);
   const updateSalleFetch = useAxios(
-    updateSalle({ idSalle: salle?.idSalle, ...formState }),
+    updateSalle({ id_salle: salle?.idSalle, ...formState }),
     false
   );
 

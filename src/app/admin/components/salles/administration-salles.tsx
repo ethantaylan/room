@@ -5,6 +5,7 @@ import { Salle, SalleResponse } from 'src/app/models/salles';
 import { deleteSalleById, getSalles } from 'src/app/services/salles';
 import { AjouterUneNouvelleSalleModal } from './ajouter-une-nouvelle-salle-modal';
 import { UpdateSalleModal } from './update-salle-modal';
+import Swal from 'sweetalert2';
 
 export interface Row {
   header: string;
@@ -47,25 +48,25 @@ export const AdmininistrationSalles: React.FC = () => {
     }
   }, [getSallesFetch.response]);
 
-  React.useEffect(() => {
-    idSalle && deleteSalleFetch.executeFetch();
-  }, [idSalle]);
-
-  React.useEffect(() => {
-    deleteSalleFetch.response && getSallesFetch.executeFetch();
-  }, [deleteSalleFetch.response]);
-
   const capitalize = (str: string) => {
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
 
-  const handleConfirm = () => {
-    getSallesFetch.executeFetch();
-    setModal(false);
-  };
-
-  const deleteSalleHandler = (id: number) => {
-    setIdSalle(id);
+  const deleteSalleHandler = (id: number, salle: string) => {
+    Swal.fire({
+      title: `Suppression de la salle: ${salle}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Annuler',
+      confirmButtonText: 'Oui'
+    }).then(result => {
+      if (result.isConfirmed) {
+        setIdSalle(id);
+        Swal.fire('', `La salle: ${salle} a été supprimé`, 'success');
+      }
+    });
   };
 
   const updateSalleHandler = (salle: Salle) => {
@@ -76,7 +77,6 @@ export const AdmininistrationSalles: React.FC = () => {
   return (
     <div className="flex flex-col">
       <AjouterUneNouvelleSalleModal
-        onConfirm={handleConfirm}
         onClose={() => setModal(false)}
         modal={modal}
       />
@@ -132,7 +132,7 @@ export const AdmininistrationSalles: React.FC = () => {
               <td className="border p-3">{salle.categorie}</td>
               <td className="border p-3">
                 <button
-                  onClick={() => deleteSalleHandler(salle.idSalle)}
+                  onClick={() => deleteSalleHandler(salle.idSalle, salle.titre)}
                   className="me-3 text-red-500"
                 >
                   <TrashIcon className="h-5" />

@@ -2,7 +2,6 @@ import React from 'react';
 import { supabase } from 'src/app/config';
 import { useGlobalContext, useGlobalDispatch } from 'src/app/context/context';
 import Swal from 'sweetalert2';
-import { UserData } from './register/register';
 
 export interface ConnectProps {
   onClose: () => void;

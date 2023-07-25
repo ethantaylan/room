@@ -1,32 +1,19 @@
 import React, { useRef, useState } from 'react';
-<<<<<<<< HEAD:src/app/pages/register.tsx
 import { NavLink } from 'react-router-dom';
 import { useAxios } from 'src/app/hooks/use-axios';
 import { signUpWithDB } from 'src/app/services/auth';
 import swal from 'sweetalert';
-import {
-  RegisterField,
-  RegisterFieldProps
-} from '../components/auth/register-field';
-========
-import swal from 'sweetalert';
 import { RegisterField, RegisterFieldProps } from './register-fields';
-import { supabase } from 'src/app/config';
->>>>>>>> b8b096411a0be30737ddd307b77794f872bb98b4:src/app/components/auth/register/register.tsx
+
 
 export interface UserData {
-  prenom: string;
-  nom: string;
+  firstName: string;
+  lastName: string;
   email: string;
   pseudo: string;
   mdp: string;
-<<<<<<<< HEAD:src/app/pages/register.tsx
   statut?: 'membre' | 'admin';
   dateEnregistrement?: string;
-========
-  statut?: 1 | 2;
-  date_enregistrement?: string;
->>>>>>>> b8b096411a0be30737ddd307b77794f872bb98b4:src/app/components/auth/register/register.tsx
 }
 
 export interface RegisterProps {
@@ -50,18 +37,13 @@ export const Register: React.FC<RegisterProps> = ({
   const dateEnregistrement = `${annee}-${mois}-${jour} ${heures}:${minutes}:${secondes}`;
 
   const [userData, setUserData] = useState<UserData>({
-    prenom: '',
-    nom: '',
+    firstName: '',
+    lastName: '',
     email: '',
     pseudo: '',
     mdp: '',
-<<<<<<<< HEAD:src/app/pages/register.tsx
     statut: 'membre',
     dateEnregistrement: dateEnregistrement
-========
-    statut: 1,
-    date_enregistrement: dateEnregistrement
->>>>>>>> b8b096411a0be30737ddd307b77794f872bb98b4:src/app/components/auth/register/register.tsx
   });
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -71,7 +53,8 @@ export const Register: React.FC<RegisterProps> = ({
     emailRef: useRef<HTMLInputElement>(null),
     pseudoRef: useRef<HTMLInputElement>(null),
     mdpRef: useRef<HTMLInputElement>(null),
-    confirmPasswordRef: useRef<HTMLInputElement>(null)
+    confirmPasswordRef: useRef<HTMLInputElement>(null),
+    statusRef: useRef<HTMLInputElement>(null)
   };
 
   const signUpWithDBFetch = useAxios(
@@ -94,14 +77,14 @@ export const Register: React.FC<RegisterProps> = ({
     {
       ref: inputRefs.firstNameRef,
       placeholder: 'John',
-      onChange: handleInputChange('prenom'),
+      onChange: handleInputChange('firstName'),
       inputType: 'text',
       label: 'Prénom'
     },
     {
       ref: inputRefs.lastNameRef,
       placeholder: 'Doe',
-      onChange: handleInputChange('nom'),
+      onChange: handleInputChange('lastName'),
       inputType: 'text',
       label: 'Nom'
     },
@@ -135,7 +118,6 @@ export const Register: React.FC<RegisterProps> = ({
     }
   ];
 
-<<<<<<<< HEAD:src/app/pages/register.tsx
   const handleStatusChange = () => {
     setUserData(prevData => {
       const newStatut = prevData.statut === 'membre' ? 'admin' : 'membre';
@@ -144,10 +126,6 @@ export const Register: React.FC<RegisterProps> = ({
   };
 
   const handleRegister = () => {
-========
-  const handleRegister = async () => {
-    // Validate email format
->>>>>>>> b8b096411a0be30737ddd307b77794f872bb98b4:src/app/components/auth/register/register.tsx
     if (!emailRegex.test(userData.email)) {
       swal('Veuillez saisir une adresse email valide !', '', 'error');
       return;
@@ -158,7 +136,10 @@ export const Register: React.FC<RegisterProps> = ({
       return;
     }
 
-    if (!nameRegex.test(userData.prenom) || !nameRegex.test(userData.nom)) {
+    if (
+      !nameRegex.test(userData.firstName) ||
+      !nameRegex.test(userData.lastName)
+    ) {
       swal('Veuillez saisir un prénom et un nom valides !', '', 'error');
       return;
     }
@@ -181,15 +162,7 @@ export const Register: React.FC<RegisterProps> = ({
       return;
     }
 
-<<<<<<<< HEAD:src/app/pages/register.tsx
     signUpWithDBFetch.executeFetch();
-========
-    const { data } = await supabase
-      .from('membres')
-      .insert(userData)
-      .select();
-    console.log(data);
->>>>>>>> b8b096411a0be30737ddd307b77794f872bb98b4:src/app/components/auth/register/register.tsx
   };
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -212,7 +185,6 @@ export const Register: React.FC<RegisterProps> = ({
             label={field.label}
           />
         ))}
-<<<<<<<< HEAD:src/app/pages/register.tsx
         <form className="px-6 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           {forAdminPage && (
             <React.Fragment>
@@ -232,8 +204,6 @@ export const Register: React.FC<RegisterProps> = ({
           )}
         </form>
 
-========
->>>>>>>> b8b096411a0be30737ddd307b77794f872bb98b4:src/app/components/auth/register/register.tsx
         <div className="mb-3 flex flex-col items-center justify-center">
           <span
             onClick={handleRegister}

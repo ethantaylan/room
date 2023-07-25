@@ -1,5 +1,6 @@
 import { TrashIcon } from '@heroicons/react/24/outline';
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { Member } from 'src/app/models/members';
 import {
   deleteMemberSupabase,
